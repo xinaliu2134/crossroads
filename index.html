@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crossroads · 岔路口</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Source+Serif+Pro:wght@600;700;900&display=swap" rel="stylesheet">
+
+<!-- ==== Microsoft Clarity (replace YOUR_CLARITY_ID with your project ID from clarity.microsoft.com) ==== -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "YOUR_CLARITY_ID");
+</script>
+<style>
+  :root {
+    --cream: #faf7f2; --cream-2: #f3ede2; --ink: #1a1612; --ink-soft: #2a2520;
+    --muted: #78706a; --accent: #b45309; --accent-soft: #fef3c7; --line: #e8e1d4;
+  }
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body { font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; background: var(--cream); color: var(--ink); }
+  .font-display { font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-weight: 700; letter-spacing: -0.02em; }
+  .font-display-heavy { font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-weight: 900; letter-spacing: -0.03em; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .fade-in { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .btn-primary { background: var(--ink); color: var(--cream); padding: 14px 28px; border-radius: 999px; font-weight: 500; font-size: 15px; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(26,22,18,0.4); }
+  .btn-secondary { background: transparent; color: var(--ink); padding: 14px 28px; border-radius: 999px; font-weight: 500; font-size: 15px; border: 1px solid var(--ink); transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-secondary:hover { background: var(--ink); color: var(--cream); }
+  .card { background: white; border: 1px solid var(--line); border-radius: 18px; transition: all 0.25s ease; }
+  .card-hoverable:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -16px rgba(26,22,18,0.15); border-color: var(--ink); }
+  .gradient-text { background: linear-gradient(135deg, #b45309 0%, #92400e 50%, #1a1612 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .grain { position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: radial-gradient(#1a1612 1px, transparent 1px); background-size: 4px 4px; }
+  .progress-bar { transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+  .score-bar { transition: all 1.1s cubic-bezier(0.22, 1, 0.36, 1); }
+  .option-btn { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; width: 100%; text-align: left; transition: all 0.2s ease; display: flex; align-items: center; gap: 14px; }
+  .option-btn:hover { border-color: var(--ink); transform: translateX(2px); }
+  .option-btn.selected { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .option-btn .dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line); flex-shrink: 0; transition: all 0.2s ease; }
+  .option-btn:hover .dot { border-color: var(--ink); }
+  .option-btn.selected .dot { background: var(--cream); border-color: var(--cream); }
+  .stat-num { font-variant-numeric: tabular-nums; }
+  .hero-bg { background: radial-gradient(ellipse at top, rgba(180,83,9,0.08), transparent 60%), var(--ink); }
+  details summary { list-style: none; cursor: pointer; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .arrow { transform: rotate(45deg); }
+  .arrow { transition: transform 0.25s ease; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Serif Pro', serif; font-weight: 700; color: white; font-size: 16px; flex-shrink: 0; }
+  .link-underline { background-image: linear-gradient(to right, currentColor 0%, currentColor 100%); background-position: 0 100%; background-repeat: no-repeat; background-size: 0% 1.5px; transition: background-size 0.3s; }
+  .link-underline:hover { background-size: 100% 1.5px; }
+  @keyframes pulse-soft { 0%,100% { box-shadow: 0 0 0 0 rgba(180,83,9,0.4); } 50% { box-shadow: 0 0 0 8px rgba(180,83,9,0); } }
+  .pulse-dot { animation: pulse-soft 2s infinite; }
+  .nav-link { color: var(--muted); font-size: 14px; transition: color 0.2s; }
+  .nav-link:hover { color: var(--ink); }
+  .lang-toggle { display: inline-flex; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: white; }
+  .lang-toggle button { padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--muted); transition: all 0.2s; }
+  .lang-toggle button.active { background: var(--ink); color: var(--cream); }
+  .check { color: var(--accent); }
+  .divider-dot { color: var(--line); }
+
+  /* ==== LOGIN GATE ==== */
+  body.locked > nav, body.locked > #app, body.locked > footer { display: none !important; }
+  body:not(.locked) > #login-overlay { display: none; }
+  .login-overlay {
+    position: fixed; inset: 0; background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; z-index: 100;
+    background-image: radial-gradient(#e5d9c8 0.8px, transparent 0.8px);
+    background-size: 24px 24px;
+  }
+  .login-card {
+    max-width: 420px; width: 100%; text-align: center;
+    padding: 44px 36px; background: white;
+    border: 1px solid var(--line); border-radius: 24px;
+    box-shadow: 0 30px 60px -25px rgba(26,22,18,0.18);
+  }
+  .login-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 32px; }
+  .login-title { font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-weight: 900; font-size: 30px; letter-spacing: -0.02em; margin-bottom: 6px; color: var(--ink); }
+  .login-sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; letter-spacing: 0.05em; }
+  .login-input { width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 15px; font-family: inherit; background: #fdfaf6; margin-bottom: 12px; transition: all 0.2s; box-sizing: border-box; color: var(--ink); }
+  .login-input:focus { outline: none; border-color: var(--ink); background: white; }
+  .login-input::placeholder { color: #a8a09a; }
+  .login-btn { width: 100%; padding: 14px; background: var(--ink); color: var(--cream); border: none; border-radius: 12px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; margin-top: 8px; }
+  .login-btn:hover { background: #000; transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(26,22,18,0.4); }
+  .login-error { color: #dc2626; font-size: 13px; margin-top: 14px; min-height: 18px; }
+  .login-foot { color: var(--muted); font-size: 12px; margin-top: 26px; line-height: 1.7; }
+</style>
+</head>
+<body class="locked">
+<script>
+  // Immediate auth check to prevent flash of locked content
+  try {
+    if (localStorage.getItem('cr-auth') === '1' || sessionStorage.getItem('cr-auth') === '1') {
+      document.body.classList.remove('locked');
+    }
+  } catch (e) {}
+</script>
+
+<div id="login-overlay" class="login-overlay">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4 V14 M16 14 L8 28 M16 14 L24 28" stroke="#1a1612" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="14" r="2" fill="#b45309"/>
+      </svg>
+      <span style="font-family: 'Source Serif Pro', serif; font-weight: 700; font-size: 18px;">岔路口 · Crossroads</span>
+    </div>
+    <div class="login-title">邀请预览</div>
+    <div class="login-sub">INVITE PREVIEW · PRIVATE BETA</div>
+    <form onsubmit="tryLogin(event)">
+      <input id="login-user" class="login-input" type="text" placeholder="Username / 用户名" autocomplete="off" autofocus>
+      <input id="login-pass" class="login-input" type="password" placeholder="Password / 密码" autocomplete="off">
+      <button type="submit" class="login-btn">Enter / 进入 →</button>
+    </form>
+    <div id="login-error" class="login-error"></div>
+    <div class="login-foot">公开发布前的私密预览版<br/>For invited reviewers only</div>
+  </div>
+</div>
+
+<nav class="sticky top-0 z-50 backdrop-blur-md bg-[rgba(250,247,242,0.85)] border-b border-[var(--line)]">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-3 flex items-center justify-between">
+    <button onclick="go('landing')" class="flex items-center gap-2.5">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4 V14 M16 14 L8 28 M16 14 L24 28" stroke="#1a1612" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="14" r="2" fill="#b45309"/>
+      </svg>
+      <span class="font-display text-lg" id="brand-zh">岔路口</span>
+      <span class="text-xs text-[var(--muted)] hidden md:inline" id="brand-en">Crossroads</span>
+    </button>
+    <div class="flex items-center gap-2 md:gap-5">
+      <button onclick="scrollToId('decisions')" class="nav-link hidden md:inline" id="nav-decisions"></button>
+      <button onclick="scrollToId('how')" class="nav-link hidden md:inline" id="nav-how"></button>
+      <button onclick="scrollToId('pricing')" class="nav-link hidden md:inline" id="nav-pricing"></button>
+      <div class="lang-toggle">
+        <button onclick="setLang('zh')" id="lang-zh">中</button>
+        <button onclick="setLang('en')" id="lang-en">EN</button>
+      </div>
+      <button onclick="scrollToId('decisions')" class="btn-primary" style="padding: 9px 20px; font-size: 14px;" id="nav-cta"></button>
+    </div>
+  </div>
+</nav>
+
+<div id="app"></div>
+
+<script>
+// ============================================================
+// LOGIN GATE (Note: client-side only — not real security)
+// ============================================================
+function tryLogin(e) {
+  if (e) e.preventDefault();
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value.trim();
+  if (u === 'XLK2026' && p === 'XLK2026') {
+    try {
+      sessionStorage.setItem('cr-auth', '1');
+      localStorage.setItem('cr-auth', '1');
+    } catch (err) {}
+    document.body.classList.remove('locked');
+  } else {
+    const err = document.getElementById('login-error');
+    err.textContent = '用户名或密码错误 / Invalid credentials';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-pass').focus();
+  }
+}
+
+// ============================================================
+// BILINGUAL HELPER
+// L([zh, en]) picks based on state.lang. Plain strings pass through.
+// ============================================================
+function L(v) {
+  if (Array.isArray(v) && v.length === 2) return state.lang === 'en' ? v[1] : v[0];
+  return v;
+}
+
+// ============================================================
+// UI STRINGS
+// ============================================================
+const UI = {
+  // nav
+  navDecisions: ['10 个测评', 'The 10 Decisions'],
+  navHow: ['怎么用', 'How it works'],
+  navPricing: ['价格', 'Pricing'],
+  navCta: ['免费开始', 'Start free'],
+  back: ['返回图书馆', 'Back to library'],
+
+  // hero
+  heroBadge: ['研究预览版 · 已有 12,847 人在使用', 'Research preview · 12,847 people deciding'],
+  heroTitle1: ['选择比努力，', 'Choices, not effort,'],
+  heroTitle2: ['更决定你的一生。', 'decide your life.'],
+  heroSub: [
+    '10 个人生岔路口测评。<br/>不告诉你你是谁，告诉你下一步该往哪走——给你两条路的 1/3/5 年轨迹画像，和 30 天可执行的行动清单。',
+    '10 life-decision assessments.<br/>Not who you are — where to go next. Compare 1/3/5-year trajectories of both paths, plus a 30-day action plan.'
+  ],
+  heroCtaPrimary: ['免费开始第一个测评', 'Take your first assessment'],
+  heroCtaSecondary: ['先看怎么用', 'See how it works'],
+  statN1: ['完成测评人数', 'Assessments completed'],
+  statN2: ['表示做了关键决定', 'Made a clearer call'],
+  statN3: ['人均测评数', 'Avg per user'],
+
+  // problem
+  problemEyebrow: ['你不是一个人', 'You are not alone'],
+  problemTitle: ['你是不是也在这些时刻，<br/>反复内耗？', 'Have you been stuck<br/>in moments like these?'],
+  problemFooter: [
+    '一辈子最重要的 5–10 个选择，<br/>决定了你 80% 的人生轨迹。<br/>但学校没教过怎么做这些选择。',
+    'The 5–10 biggest choices in your life<br/>shape 80% of where you end up.<br/>School never taught you how to make them.'
+  ],
+
+  // differentiation
+  diffEyebrow: ['不是又一个性格测试', 'Not another personality test'],
+  diffTitle1: ['MBTI 告诉你「你是谁」，', 'MBTI tells you who you are.'],
+  diffTitle2: ['岔路口告诉你「该往哪走」。', 'Crossroads tells you where to go.'],
+  diffLeftHeader: ['传统性格测试', 'Traditional personality tests'],
+  diffLeftSub: ['MBTI · 大五 · 星座', 'MBTI · Big Five · Zodiac'],
+  diffLeftItems: [
+    ['输出一个静态标签（ENFP / 摩羯座 / Strengths）', '测完不知道下一步做什么', '每次测都一样的结果，和你的处境无关', '朋友圈晒标签，然后呢？'],
+    ['Outputs a static label (ENFP / Capricorn / Strengths)', 'No clue what to do after', 'Same result regardless of your situation', 'Post the label on social — then what?'],
+  ],
+  diffRightHeader: ['岔路口', 'Crossroads'],
+  diffRightSub: ['人生决策图书馆', 'The life-decision library'],
+  diffRightItems: [
+    ['给你两条路的 1/3/5 年轨迹画像', '30 天可以执行的具体行动清单', '结合你的真实处境（钱、家人、时机）', '6 个月后回访：那时你过得怎么样'],
+    ['1/3/5-year trajectory of both paths', 'A concrete 30-day action plan', 'Tailored to your real situation — money, family, timing', '6-month follow-up: how are you doing now?'],
+  ],
+  diffQuote: ['「我不需要再被贴一个标签了。我需要有人帮我把眼前这个决策想透。」', '"I don\'t need another label. I need someone to think this through with me."'],
+
+  // how
+  howEyebrow: ['怎么用', 'How it works'],
+  howTitle: ['5 分钟，做一件<br/>比内耗更有效的事', '5 minutes — more useful<br/>than another sleepless night'],
+  howSteps: [
+    [['01', '选择你面对的岔路口', '10 个真实的人生决策场景：从职业、感情到生育、买房。每个都被认真对待。'],
+     ['02', '回答 8 道结构化提问', '从动机、资源、风险、时机切入。不问星座，不问血型——问你真实的处境。'],
+     ['03', '拿到决策依据，不是标签', '两条路的轨迹画像 + 你最该补的 3 个盲点 + 未来 30 天可以做的事。']],
+    [['01', 'Pick your crossroads', '10 real life decisions — career, love, family, money. Each taken seriously.'],
+     ['02', 'Answer 8 structured questions', 'Motivation, resources, risk, timing. Not your zodiac sign — your actual situation.'],
+     ['03', 'Get decision intel, not a label', 'Two trajectory maps + 3 blind spots to fix + a 30-day plan.']],
+  ],
+
+  // decisions section
+  decEyebrow: ['10 个测评 · 每周新增 2 个', '10 assessments · 2 new each week'],
+  decTitle: ['选一个最让你失眠的，<br/>现在开始', 'Pick the one keeping you up.<br/>Start now.'],
+  decSub: ['完全免费 · 无需注册 · 5 分钟做完', 'Free · No signup · 5 minutes'],
+  decCard: ['8 题 · 5 分钟', '8 questions · 5 min'],
+  decStart: ['立即开始 →', 'Start →'],
+  decMore: ['更多专题开发中：要不要养宠物、要不要回应前老板、考公还是去企业……', 'Coming soon: getting a pet, replying to an ex-boss, civil service vs private sector...'],
+
+  // preview
+  previewEyebrow: ['这是你做完后会看到的', 'Here is what you will see'],
+  previewTitle: ['一份不像测评结果的<br/>决策报告', 'A decision report —<br/>not a quiz result'],
+  previewYourDir: ['你的方向', 'Your direction'],
+  previewCta: ['这只是预览。', 'Just a preview. '],
+  previewCtaLink: ['做一次你自己的', 'Take your own'],
+  previewLean: ['偏「打工」', 'Toward Job'],
+  previewMid: ['中间路径', 'Middle path'],
+  previewHigh: ['偏「创业」', 'Toward Startup'],
+  previewTag: ['中间路径最适合你', 'The middle path fits you best'],
+  previewHead: ['你不是「创业 or 打工」的二选一', 'You are not "startup vs job" — you are something else'],
+  previewDesc: ['你的特质适合边界模糊的角色：企业里的 0 到 1、独立顾问、Fractional 高管、副业起步。', 'Your traits fit blurry-edge roles: 0-to-1 inside a company, independent consulting, fractional exec, side projects.'],
+  previewPathA: ['创业 · 你的方向', 'Startup · your direction'],
+  previewPathB: ['找工作', 'Get a job'],
+  previewA1: ['1 年后：', '1 yr:'],
+  previewA1d: ['收入下降 30–70%，频繁怀疑自己', 'Income drops 30–70%, frequent self-doubt'],
+  previewA2: ['3 年后：', '3 yrs:'],
+  previewA2d: ['若跑通，团队和现金流稳定', 'If it works, you have a team and cash flow'],
+  previewA3: ['5 年后：', '5 yrs:'],
+  previewA3d: ['带着完全不同视角的人', 'A person with a completely different lens'],
+  previewB1d: ['稳定收入，建立护城河', 'Stable income, building expertise'],
+  previewB2d: ['走向管理或资深 IC', 'Manager or senior IC track'],
+  previewB3d: ['有名片，但创业窗口收窄', 'Strong reputation, but founder window narrows'],
+  previewNext: ['下一步建议', 'Next steps'],
+  previewStep1: ['找一份创业型工作：早期公司 / 新业务团队', 'Find a founder-track job: early-stage company or new business unit'],
+  previewStep2: ['副业起步，每周 8–10 小时，赚到第一块钱', 'Start a side project, 8–10 hrs/week, until first dollar'],
+  previewStep3: ['做 Fractional / 独立顾问换灵活度', 'Try fractional or independent consulting for flexibility'],
+
+  // testimonials
+  testEyebrow: ['用户说', 'What people say'],
+  testTitle: ['做完之后，<br/>他们终于不用再问朋友了', 'After this,<br/>they stopped polling their friends'],
+  testTook: ['测的是', 'Took'],
+
+  // pricing
+  priceEyebrow: ['从一次免费测评开始', 'Start with a free assessment'],
+  priceTitle: ['先体验，再决定<br/>要不要长期用', 'Try it.<br/>Decide if you want more.'],
+  priceFreeTag: ['免费', 'Free'],
+  priceFreePrice: ['¥0', '$0'],
+  priceFreeUnit: ['/ 永久', '/ forever'],
+  priceFreeSub: ['先用着，喜欢再升级', 'Use it free. Upgrade if you love it.'],
+  priceFreeFeatures: [
+    ['10 个核心人生决策测评', '两条路的 1/3/5 年轨迹画像', '5 步行动建议清单', '本地浏览器结果保存'],
+    ['10 core life-decision assessments', '1/3/5-year trajectory of both paths', '5-step action plan', 'Local browser save']
+  ],
+  priceFreeCta: ['免费开始', 'Start free'],
+  pricePopular: ['最受欢迎', 'Most popular'],
+  priceProTag: ['专业版', 'Pro'],
+  priceProPrice: ['¥39', '$6'],
+  priceProUnit: ['/ 月，年付 ¥299', '/ month · $49 / yr'],
+  priceProSub: ['为认真做选择的人准备', 'For serious decision-makers'],
+  priceProFeatures: [
+    ['免费版全部功能', 'AI 个性化深度分析（自由输入你的具体情况）', '决策日记 + 6 个月回访提醒', '邀请伴侣 / 朋友一起测同一决策', '专业版每年赠送 1 次 1 对 1 决策导师', '解锁未来所有新增决策专题'],
+    ['Everything in Free', 'AI-personalized deep analysis (input your real situation)', 'Decision journal + 6-month follow-up', 'Invite partner / friend to take the same one', '1 free 1-on-1 with a decision coach per year', 'All future assessments unlocked']
+  ],
+  priceProCta: ['先免费试用 14 天', 'Try free for 14 days'],
+  priceNote: ['不满意 14 天内无理由退款 · 数据加密 · 不向第三方分享', '14-day money-back · Encrypted · Never shared'],
+
+  // faq
+  faqEyebrow: ['FAQ', 'FAQ'],
+  faqTitle: ['你可能还在想这些', 'You might be wondering'],
+  faqs: [
+    [['这个测评准吗？', '我们不卖「准」——我们卖「视角」。一个静态测评无法预测你的人生。但它能帮你把脑子里反复打转的几个因素拆开看，让你的决策不再只靠情绪。这是它最大的价值。'],
+     ['和 MBTI / 16P 有什么本质不同？', 'MBTI 输出的是「你是什么类型的人」（一个标签），我们输出的是「你下一步应该往哪走」（一个决策依据）。前者是关于过去和身份，后者是关于未来和行动。'],
+     ['我的数据安全吗？', '免费版的答题数据只存在你的浏览器本地，我们不上传不存储。专业版加密存储，仅用于你的个人回看，不向任何第三方分享。'],
+     ['一定要付费吗？', '不需要。10 个核心测评全部永久免费，已经能解决 90% 的需求。专业版是为那些想做更深入分析、需要长期决策追踪的用户准备的。'],
+     ['反复测会得到不同结果吗？', '会，而且这是个特性不是 bug。你今天和半年后是不一样的人，你的处境也变了。我们鼓励你每 6 个月回来重测一次。'],
+     ['我能把结果分享给伴侣 / 朋友吗？', '可以。免费版支持打印结果。专业版支持邀请伴侣同步答题（比如一起测「要不要二胎」），看看你们的画像差异在哪。']],
+    [['Is this accurate?', 'We don\'t sell "accuracy" — we sell "perspective." No static assessment can predict your life. But it can untangle the factors swirling in your head so your decisions are not driven by emotion alone. That\'s the real value.'],
+     ['How is this different from MBTI / 16Personalities?', 'MBTI tells you what type of person you are (a label). We tell you where to go next (decision intelligence). The first is about identity. The second is about action.'],
+     ['Is my data safe?', 'Free-tier answers stay in your browser locally — we don\'t upload or store them. Pro is encrypted, used only for your personal review, never shared with third parties.'],
+     ['Do I have to pay?', 'No. All 10 core assessments are permanently free, and they solve 90% of needs. Pro is for users who want deeper AI analysis and long-term decision tracking.'],
+     ['Will retaking give different results?', 'Yes — and that\'s a feature, not a bug. You today and you in 6 months are different people in different situations. We encourage retaking every 6 months.'],
+     ['Can I share results with a partner / friend?', 'Yes. Free supports printing. Pro lets you invite a partner to take the same assessment in sync (e.g., "Second child") so you can see where your profiles diverge.']],
+  ],
+
+  // final cta
+  finalTitle: ['你最近，<br/>在为哪个选择失眠？', 'What choice<br/>has been keeping you up?'],
+  finalSub: ['停止 3 点钟的反复刷手机。<br/>花 5 分钟，认真做一次。', 'Stop scrolling at 3am.<br/>Spend 5 minutes deciding for real.'],
+  finalCta: ['免费开始第一个测评', 'Take your first assessment'],
+  finalFoot: ['无需注册 · 完全免费 · 5 分钟', 'No signup · Free · 5 min'],
+
+  // footer
+  footerTagline: ['人生决策图书馆。<br/>不告诉你你是谁，告诉你下一步该往哪走。', 'The life-decision library.<br/>Not who you are — where to go next.'],
+  footerAbout: ['关于我们', 'About'],
+  footerBlog: ['博客 · 决策研究', 'Blog · Decision research'],
+  footerPrivacy: ['隐私政策', 'Privacy'],
+  footerContact: ['联系：hello@crossroads.app', 'Contact: hello@crossroads.app'],
+  footerCopy: ['© 2026 岔路口 Crossroads · 研究预览版', '© 2026 Crossroads · Research preview'],
+  footerSlogan: ['用心做选择 · 不被选择推着走', 'Choose deliberately. Don\'t drift.'],
+
+  // intro
+  introHeadsUp: ['提醒：', 'Heads up:'],
+  introQ: ['道题', 'Questions'],
+  introMin: ['分钟', 'Minutes'],
+  introPaths: ['条路径', 'Paths'],
+  introStart: ['开始测评', 'Start assessment'],
+
+  // quiz
+  quizQ: ['第', 'Q'],
+  quizOf: ['/', 'of'],
+  quizPrev: ['上一题', 'Previous'],
+  quizNext: ['下一题', 'Next'],
+  quizFinish: ['查看结果', 'See results'],
+
+  // result
+  resLeanLow: ['偏', 'Toward'],
+  resLeanMid: ['中间', 'Middle'],
+  resYourScore: ['你的总分', 'Your score'],
+  resTrajTitle: ['两条路的 1/3/5 年轨迹画像', '1/3/5-year trajectories of both paths'],
+  resTrajSub: ['不是预测——是基于大量人的常见路径勾勒。', 'Not predictions — sketches based on common patterns from many people.'],
+  resYourDir: ['你的方向', 'Your direction'],
+  resYr1: ['1 年', '1 yr'],
+  resYr3: ['3 年', '3 yrs'],
+  resYr5: ['5 年', '5 yrs'],
+  resTopTilts: ['最影响你结果的 3 个回答', 'Top 3 answers that shaped your result'],
+  resTilt: ['偏', 'Toward'],
+  resNextTitle: ['下一步建议 · 30 天行动清单', 'Next steps · Your 30-day plan'],
+  resUpsellEyebrow: ['想更深一步？', 'Want to go deeper?'],
+  resUpsellTitle: ['用 AI 个性化分析你的具体处境', 'Personalize this with AI'],
+  resUpsellDesc: ['告诉我们你的具体情况（金额、人名、时间），让 AI 给你一份真正针对你的决策报告。专业版每月 ¥39，14 天免费试用。', 'Tell us the specifics — amounts, names, timing — and AI tailors the report to you. Pro is $6/month with a 14-day free trial.'],
+  resUpsellCta: ['解锁专业版 →', 'Unlock Pro →'],
+  resRetake: ['重新测一次', 'Retake'],
+  resOther: ['去测其他岔路口', 'Try another'],
+  resPrint: ['打印结果', 'Print'],
+  resRemindersTitle: ['几点提醒：', 'A few reminders:'],
+  resReminders: ['测评是一面镜子，不是判决书。你的得分会随生活阶段变化——中间路径不是妥协，对很多人来说是最优解。真正决定的，不是测评，而是你做完后采取了什么行动。', 'This is a mirror, not a verdict. Your score changes as you change — the middle path is not a compromise, often it\'s the best answer. What matters is not the test. It is what you do after.'],
+};
+
+// ============================================================
+// TESTIMONIALS
+// ============================================================
+const testimonials = [
+  { n: ['林', 'L'], name: ['林女士', 'Linda'], age: '34', dec: ['要不要二胎', 'Second child'], q: ['看完两条 5 年后的轨迹画像，我和先生第一次心平气和地谈完了这件事。最后我们选择了不要。', 'Reading the 5-year trajectories of both paths, my husband and I had our first calm conversation about it. We decided no.'], color: '#e11d48' },
+  { n: ['J', 'J'], name: ['阿杰', 'Jay'], age: '28', dec: ['跳槽 vs 留下', 'Change jobs'], q: ['最影响你结果的 3 个回答——这一栏一下让我看清自己一直回避的真问题：不是公司不好，是我没准备好承担更多。', 'The "top 3 answers that shaped your result" section made me see what I was avoiding: it\'s not the company — I wasn\'t ready for more.'], color: '#0891b2' },
+  { n: ['M', 'M'], name: ['M', 'M'], age: '31', dec: ['留京 vs 回家', 'Big city vs home'], q: ['我以为我在做工作选择，做完才发现我在逃避一段关系。这是我做过最戳的"测评"。', 'I thought I was making a career choice. Turned out I was avoiding a relationship. Most piercing assessment I\'ve taken.'], color: '#059669' },
+  { n: ['W', 'W'], name: ['Wendy', 'Wendy'], age: '26', dec: ['读研 vs 工作', 'Grad school vs job'], q: ['本来打算读研。做完意识到我只是怕找工作。决定先工作 2 年再说。', 'I planned to go to grad school. After this I realized I was just scared of job hunting. Going to work first.'], color: '#4f46e5' },
+  { n: ['陈', 'D'], name: ['陈先生', 'David'], age: '37', dec: ['创业 vs 找工作', 'Startup vs job'], q: ['38 岁，我以为该 all in 创业。这个测评说我应该先打地基。后来确实是这样。', 'At 38 I thought I should go all-in on a startup. This said: lay the groundwork first. Turned out to be right.'], color: '#b45309' },
+  { n: ['S', 'S'], name: ['Sara', 'Sara'], age: '29', dec: ['和前任复合', 'Get back with ex'], q: ['它没替我决定，但它让我看清了：我想要的是熟悉感，不是 ta。', 'It didn\'t decide for me. But it made me see clearly: I wanted the familiarity, not him.'], color: '#7c3aed' },
+];
+
+const problemQuotes = [
+  [['凌晨 3 点了，我还在反复刷招聘软件。', '32 岁 · 产品经理'], ['It\'s 3am and I\'m still refreshing job listings.', '32 · Product Manager']],
+  [['和他分手 6 个月了，每次喝多还是会想要不要再试一次。', '29 岁 · 设计师'], ['We broke up 6 months ago. Every time I drink, I wonder if we should try again.', '29 · Designer']],
+  [['父母又催了，可我心里完全没准备好结婚。', '28 岁 · 工程师'], ['My parents asked again. I\'m not even close to ready.', '28 · Engineer']],
+  [['GRE 已经背了 1 个月，但我根本不知道自己想读什么。', '24 岁 · 应届'], ['I\'ve been studying GRE for a month. I have no idea what I actually want to study.', '24 · New grad']],
+  [['老婆想要二胎，我已经累得不行了，不敢说。', '36 岁 · 销售总监'], ['She wants a second kid. I\'m exhausted. I can\'t bring it up.', '36 · Sales Director']],
+  [['北京已经待了 8 年了，每个春节都想留在老家。', '33 岁 · 内容运营'], ['Eight years in Beijing. Every Lunar New Year I want to stay home.', '33 · Content Lead']],
+];
+
+// ============================================================
+// TESTS DATA (Tests 1-3 fully bilingual; tests 4-10 Chinese only — to be translated)
+// ============================================================
+const tests = {
+
+startup: {
+  id: 'startup',
+  title: ['创业还是找工作', 'Startup or Job'],
+  pathA: ['创业', 'Startup'], pathB: ['找工作', 'Job'], color: 'amber',
+  oneLiner: ['你身上有创业者底色，还是更适合稳健成长？', 'Do you have founder DNA, or are you built for steady growth?'],
+  subtitle: ['从风险承受、自驱力、想法成熟度，看你现在更适合哪条路。', 'Risk tolerance, drive, idea maturity — see which path fits you now.'],
+  caveat: ['凭直觉答题最准。没有正确答案，只有现在的你。', 'Answer on instinct. No right answers — just where you are today.'],
+  questions: [
+    { q: ['一份稳定月薪 2 万，对比一个项目 30% 概率赚 10 万 / 70% 亏损，你选？', 'Stable salary vs a project with 30% chance of 5x return / 70% loss — which?'],
+      opts: [[['毫不犹豫选 2 万', 'Salary, no hesitation'], -2], [['选稳定，但留意机会', 'Salary, but eyeing chances'], -1], [['看项目而定', 'Depends on the project'], 0], [['倾向赌项目', 'Lean toward the project'], 1], [['果断选项目', 'Take the bet'], 2]] },
+    { q: ['如果明天起没人给你安排工作，第一反应？', 'If no one assigned you work tomorrow, your first reaction?'],
+      opts: [[['迷茫焦虑', 'Lost and anxious'], -2], [['按原计划继续', 'Stick to the plan'], -1], [['兴奋中带不安', 'Excited but uneasy'], 0], [['很爽但需适应', 'Great, but needs adjustment'], 1], [['终于自由了', 'Finally free'], 2]] },
+    { q: ['零收入时，存款能撑多久？', 'With zero income, how long can your savings last?'],
+      opts: [[['1 个月内', 'Under a month'], -2], [['1–3 个月', '1–3 months'], -1], [['3–6 个月', '3–6 months'], 0], [['6–12 个月', '6–12 months'], 1], [['12 个月以上', '12+ months'], 2]] },
+    { q: ['脑子里有具体想做的产品 / 服务吗？', 'Do you have a specific product or service idea?'],
+      opts: [[['没有，只是不喜欢现在的工作', 'No, just don\'t like my job'], -2], [['几个模糊方向', 'A few vague directions'], -1], [['有想法没验证', 'Have an idea, no validation'], 0], [['有明确想法且做过验证', 'Clear idea, validated'], 1], [['已有原型 / 早期用户', 'Have a prototype or early users'], 2]] },
+    { q: ['上次被拒后多久能再尝试？', 'After your last rejection, how long until you tried again?'],
+      opts: [[['好几周', 'Several weeks'], -2], [['一周', 'A week'], -1], [['几天', 'A few days'], 0], [['一两天', '1–2 days'], 1], [['当天就行动', 'Same day'], 2]] },
+    { q: ['哪种工作状态最舒服？', 'Which work mode feels best?'],
+      opts: [[['清晰流程里把事做到极致', 'Refine within clear process'], -2], [['团队里有挑战有支持', 'Challenge + support in a team'], -1], [['两者之间', 'In between'], 0], [['自己定方向', 'Set my own direction'], 1], [['从 0 到 1 创造', 'Build from 0 to 1'], 2]] },
+    { q: ['身边有人能成为早期客户 / 合伙人 / 投资人吗？', 'Do you know people who could be early customers / cofounders / investors?'],
+      opts: [[['几乎没有', 'Almost none'], -2], [['一两个但需重建联系', '1–2, but need to rebuild ties'], -1], [['有几个可以聊', 'A few I can talk to'], 0], [['有马上能聊的小圈子', 'A small circle I can reach now'], 1], [['已有人主动找', 'People are reaching out to me'], 2]] },
+    { q: ['生活责任对收入断流的容忍度？', 'How well can your life handle a sudden income stop?'],
+      opts: [[['完全不能断', 'Not at all'], -2], [['最多撑 3 个月', 'Maybe 3 months'], -1], [['有弹性', 'Some flex'], 0], [['家人支持可撑较久', 'Family supports me, I can last'], 1], [['完全自由', 'Completely free'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['收入大概率下降 30–70%，每周工作 60–80 小时，频繁怀疑自己', 'Income likely drops 30–70%. 60–80hr weeks. Frequent self-doubt.'],
+         y3: ['若产品 / 模式跑通，开始有团队和现金流，否则进入第二次方向调整', 'If product or model works, you have a team and cash flow. Otherwise, second pivot.'],
+         y5: ['少数人有公司值得自豪，多数人回归雇佣但带着完全不同的视角', 'A few build something they\'re proud of. Most return to employment — with a different lens.'] },
+    B: { y1: ['稳定收入，跳槽 1 次可能涨薪 30–50%，建立专业护城河', 'Stable income. One job switch can mean 30–50% raise. Building expertise.'],
+         y3: ['从执行走向管理或资深 IC，存款积累，圈子稳定', 'Move from execution to management or senior IC. Savings grow. Stable network.'],
+         y5: ['在行业里有名片，平台为你打开机会，但创业窗口随年龄收窄', 'You\'re known in your industry. The platform opens doors — but the founder window narrows with age.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['强烈创业倾向', 'Strong founder signal'],
+      headline: ['你身上带着明显的创业者底色', 'You\'ve got founder DNA'],
+      desc: ['从风险承受到自驱力，你的画像都指向一条非主流路径。问题不是要不要创业，而是现在出发，还是再准备一点点。', 'From risk tolerance to self-drive, every signal points off the main road. The question isn\'t whether to start — it\'s now, or after a bit more prep.'],
+      steps: [
+        ['把想法做成一页 BP（问题/用户/方案/已有验证）', 'Distill your idea into a 1-page brief (problem / user / solution / validation)'],
+        ['找 10 个潜在用户做深访，目标是被打脸', 'Interview 10 potential users — goal is to get pushed back, not praised'],
+        ['盘点未来 12 个月资金来源', 'Map your funding for the next 12 months'],
+        ['找一个能说真话的创业陪练', 'Find a sparring partner who tells you the truth'],
+        ['设一个反悔点：6 个月没拿到某里程碑就回头', 'Set a kill criterion: if a key milestone isn\'t hit in 6 months, regroup'] ] },
+    { min: 3, tag: ['倾向创业，需要打地基', 'Founder-leaning, but needs groundwork'],
+      headline: ['你有创业的内核，但还缺关键拼图', 'You have the core, but missing key pieces'],
+      desc: ['性格和动机都到位，可能在财务、想法验证或人脉上没准备好。先补短板，比硬冲成功率高得多。', 'Temperament and motivation are there. Money, validation, or network may not be. Closing gaps beats charging in.'],
+      steps: [
+        ['列出 3 块短板：钱 / 想法 / 人脉，哪块最弱', 'List your 3 gaps: money / idea / network — which is weakest'],
+        ['用 3–6 个月主动补短板，而不是辞职再说', 'Spend 3–6 months closing them — don\'t quit first'],
+        ['副业验证想法，目标是第一个付费用户', 'Validate via side project — goal: first paying customer'],
+        ['给自己设定明确的出发日期', 'Set a clear launch date'],
+        ['和真正创业的朋友聊 5–10 次', 'Talk to 5–10 actual founders'] ] },
+    { min: -2, tag: ['中间路径最适合你', 'The middle path fits you best'],
+      headline: ['你不是「创业 or 打工」的二选一', 'You\'re not a binary of founder or employee'],
+      desc: ['你的特质适合边界模糊的角色：企业里的 0 到 1、独立顾问、Fractional 高管、副业起步。用低风险方式拿到创业体验。', 'You fit blurry-edge roles: 0-to-1 inside a company, independent consulting, fractional exec, side projects. Low-risk way to get founder reps.'],
+      steps: [
+        ['找一份创业型工作：早期公司 / 新业务团队', 'Find a founder-track job: early-stage co or new business unit'],
+        ['副业起步，每周 8–10 小时，赚到第一块钱', 'Start a side project, 8–10 hrs/week, until first dollar'],
+        ['做 Fractional / 独立顾问换灵活度', 'Try fractional or independent consulting for flexibility'],
+        ['加入一个真正在做事的圈子', 'Join a community of doers, not talkers'],
+        ['6 个月后回看：越做越兴奋还是越累', 'Check back in 6 months: more energized, or more tired?'] ] },
+    { min: -8, tag: ['更适合企业内创业', 'Better suited for intrapreneurship'],
+      headline: ['你的能力在有支持的环境里会更快放大', 'Your skills compound faster with support around you'],
+      desc: ['优势在专业深度、协作和稳定输出。在公司里找创业型角色，拿到上行空间又不放弃保障。', 'Your edge is depth, collaboration, and consistent output. Inside a company, find founder-style roles — upside without losing the safety net.'],
+      steps: [
+        ['争取新业务 / 0 到 1 角色', 'Push for a new-business or 0-to-1 role'],
+        ['把创始人心态带到打工里', 'Bring founder mindset to your day job'],
+        ['积累一项不可替代的专业能力', 'Build one irreplaceable specialty'],
+        ['想出来做时先用副业试水', 'Test the founder path via side projects first'],
+        ['找一个真正欣赏你的老板和团队', 'Find a boss and team who genuinely value you'] ] },
+    { min: -16, tag: ['明显适合找工作', 'Built for the employee path'],
+      headline: ['稳定平台 + 专业深耕，是你回报最高的路径', 'A solid platform + deep expertise — that\'s your highest-return path'],
+      desc: ['这不是保守——很多优秀的人是在大平台上做出了改变世界的产品。', 'This isn\'t conservative — many remarkable people changed the world from inside great platforms.'],
+      steps: [
+        ['重点不是要不要打工，而是去哪 + 做什么', 'The question isn\'t whether to work — it\'s where and on what'],
+        ['选文化匹配、能让你持续成长的公司', 'Choose a company whose culture fits and where you can keep growing'],
+        ['在专业上深耕到 top 10%', 'Get to top 10% in your craft'],
+        ['小副业拓展边界，但不必逼自己创业', 'Small side projects to expand — no need to force a startup'],
+        ['不满当前工作时先换公司，再考虑换赛道', 'When unhappy, change companies first, change tracks second'] ] },
+  ]
+},
+
+gradschool: {
+  id: 'gradschool',
+  title: ['读研还是直接工作', 'Grad School or Work'],
+  pathA: ['读研', 'Grad school'], pathB: ['工作', 'Work'], color: 'indigo',
+  oneLiner: ['你是真的需要这个学位，还是只是想缓一缓？', 'Do you actually need the degree, or are you just buying time?'],
+  subtitle: ['动机、职业匹配度、机会成本——看清你的真实出发点。', 'Motivation, career fit, opportunity cost — see your real starting point.'],
+  caveat: ['如果读研的主要动力是逃避就业，这个测评很可能会建议你先工作。', 'If your main reason is avoiding the job market, this will likely suggest working first.'],
+  questions: [
+    { q: ['你想读研的核心动力？', 'Your core motivation for grad school?'],
+      opts: [[['逃避就业压力', 'Avoid the job market'], -2], [['学历焦虑，看大家都读', 'Credential anxiety — everyone\'s doing it'], -1], [['不太确定，读了总没错', 'Not sure, can\'t hurt'], 0], [['对某个领域真的有兴趣', 'Real interest in a field'], 1], [['目标职业必须要研究生学历', 'Target career requires it'], 2]] },
+    { q: ['你目标行业里，硕士学历的边际价值？', 'In your target field, what\'s the marginal value of a master\'s?'],
+      opts: [[['几乎没差别', 'Almost none'], -2], [['略有帮助', 'Slight help'], -1], [['部分公司有要求', 'Some companies require it'], 0], [['大部分核心岗位需要', 'Most core roles require it'], 1], [['必须要，是硬门槛', 'Required — hard gate'], 2]] },
+    { q: ['读研的经济和机会成本你怎么承担？', 'How will you cover tuition and opportunity cost?'],
+      opts: [[['家庭压力大', 'Heavy family burden'], -2], [['需贷款 / 自力更生', 'Need loans / on my own'], -1], [['还能承担', 'Manageable'], 0], [['家里支持没问题', 'Family covers it'], 1], [['有资助 / 工资性 PhD', 'Funded / paid PhD'], 2]] },
+    { q: ['过去一年，你自主深入学习的状态？', 'Past year — your self-directed deep learning?'],
+      opts: [[['看到书就头疼', 'Books give me headaches'], -2], [['仅工作所需才学', 'Only what work demands'], -1], [['偶尔自学但坚持不住', 'Occasional, can\'t stick'], 0], [['深入学过 1–2 个方向', 'Went deep on 1–2 topics'], 1], [['持续的学术兴趣和产出', 'Sustained academic interest + output'], 2]] },
+    { q: ['对未来 2–3 年的规划清晰度？', 'How clear is your 2–3 year plan?'],
+      opts: [[['没规划，先读着看', 'No plan, just study'], -2], [['想读完再想', 'Figure it out after'], -1], [['大致方向', 'Rough direction'], 0], [['比较清晰', 'Fairly clear'], 1], [['非常明确且已和导师沟通', 'Very clear, already talked to advisors'], 2]] },
+    { q: ['你身边读完研的人，整体感受？', 'How do people around you feel about their grad school years?'],
+      opts: [[['普遍后悔', 'Mostly regret it'], -2], [['帮助一般', 'Mediocre payoff'], -1], [['有人受益有人后悔', 'Mixed'], 0], [['大部分觉得值', 'Most felt worth it'], 1], [['几乎都获得明显跃迁', 'Almost all leveled up'], 2]] },
+    { q: ['你的年龄 / 阶段？', 'Your age / stage?'],
+      opts: [[['30+', '30+'], -2], [['27–30', '27–30'], -1], [['24–27', '24–27'], 0], [['22–24', '22–24'], 1], [['应届', 'New grad'], 2]] },
+    { q: ['如果不读研，你的工作路径清晰度？', 'If not grad school, how clear is your work path?'],
+      opts: [[['已经有明确 offer', 'Already have an offer'], -2], [['有几个想去的公司', 'A few target companies'], -1], [['有方向但还在探索', 'Direction, still exploring'], 0], [['模糊想法', 'Vague ideas'], 1], [['完全没头绪', 'No idea'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['回到校园节奏，可能经历「我为什么回来」的低谷', 'Back to campus rhythm. Likely a "why did I come back" low point.'],
+         y3: ['毕业，但起薪未必显著高于本科同期，关键看方向和导师', 'Graduate. Starting salary may not exceed undergrad peers — depends on field and advisor.'],
+         y5: ['在特定专业领域有深度，平台和起点不同', 'Deep expertise in a specific field. Different platform, different starting line.'] },
+    B: { y1: ['直接进入职场，前 12 个月学习曲线最陡，开始攒钱', 'Enter the workforce. Steepest learning curve in year one. Start saving.'],
+         y3: ['已是中级岗位，跳槽 1–2 次薪资可能翻倍', 'Mid-level role. 1–2 job switches may double your pay.'],
+         y5: ['5 年实战经验，对自己想要什么远比 22 岁清楚，可再考虑读研', '5 years of real experience. Far clearer on what you want than at 22. Grad school can come later.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该读研', 'Go to grad school'], headline: ['读研对你是真实增值，不是缓兵之计', 'Grad school is real upside for you, not a delay tactic'],
+      desc: ['你有清晰的目标、对应行业的学历要求、和自主学习能力。该去读。', 'Clear goal, field that requires the degree, real learning capacity. Go.'],
+      steps: [
+        ['尽早联系目标导师', 'Reach out to target advisors early'],
+        ['把读研当职业准备期，不是延期就业', 'Treat it as career prep, not a delay'],
+        ['在读期间产出至少 1 个能拿出手的作品', 'Produce at least one showcase-able piece of work'],
+        ['主动建立学界之外的人脉', 'Build a network outside academia'],
+        ['规划毕业前 6 个月的就业', 'Plan job-hunting 6 months before graduation'] ] },
+    { min: 3, tag: ['偏向读研，但要看清原因', 'Lean grad school, but check your motive'],
+      headline: ['读研大概率有价值，但小心动机', 'Likely worth it — just verify your reason'],
+      desc: ['你有不错的学术状态和未来构想，但请确认你不是在用读研逃避不舒服的就业。', 'You have decent academic momentum, but make sure grad school isn\'t avoidance.'],
+      steps: [
+        ['写下「我为什么读研」', 'Write down "why am I doing this"'],
+        ['找 3 个目标领域的从业者聊读研价值', 'Talk to 3 working professionals about the degree\'s real value'],
+        ['优选导师 / 项目，而不是只看排名', 'Pick advisor/program over rankings'],
+        ['同时申请 1–2 份工作 offer 作对比', 'Also apply to 1–2 jobs as a counterfactual'],
+        ['决定后给自己一个目标达成检查表', 'Set a milestone checklist for your time there'] ] },
+    { min: -2, tag: ['中间地带，先工作 1–2 年再决定', 'Middle ground — work 1–2 years first'],
+      headline: ['现在读研的代价可能高于收益', 'Cost likely exceeds benefit right now'],
+      desc: ['你既不是非读不可，也没有足够清晰的动机。最优策略是先工作 1–2 年再评估。', 'Not required, not clearly motivated. Optimal: work 1–2 years, then re-evaluate.'],
+      steps: [
+        ['先工作，把两种体验都拿到', 'Work first, get both experiences'],
+        ['保留 GRE / 语言考试的火苗', 'Keep GRE/language test alive in the background'],
+        ['在职 1–2 年后再评估', 'Re-evaluate after 1–2 years'],
+        ['保持和学校的联系', 'Stay connected with academic contacts'],
+        ['不要在 22 岁就关闭未来读研的门', 'Don\'t shut the grad-school door at 22'] ] },
+    { min: -8, tag: ['建议先工作', 'Work first'], headline: ['直接工作更适合你', 'Going straight to work fits you better'],
+      desc: ['动机不够清晰，目标行业也不强制要硕士。先拿到真实反馈，再决定要不要回去。', 'Motivation isn\'t sharp, field doesn\'t require it. Get real feedback before deciding.'],
+      steps: [
+        ['专心找一份能让你快速成长的工作', 'Find a job that grows you fast'],
+        ['把读研焦虑换成职场学习能力', 'Replace credential anxiety with workplace learning'],
+        ['工作 2 年后再评估天花板', 'Reassess ceiling after 2 years'],
+        ['未来需要时公司可能资助', 'Future grad school may be sponsored'],
+        ['不要让别人都在读变成你的决策依据', 'Don\'t let peer pressure drive the call'] ] },
+    { min: -16, tag: ['别读，去工作', 'Skip it — go work'], headline: ['现在读研对你是负优化', 'Grad school is a net negative for you right now'],
+      desc: ['动机偏逃避、目标行业不需要硕士、自主学习状态不在线。这种情况下读研大概率消耗时间和金钱。', 'Avoidance-driven, field doesn\'t need it, no learning momentum. Likely a waste of time and money.'],
+      steps: [
+        ['直面对工作的恐惧，那才是真问题', 'Face the fear of working — that\'s the real issue'],
+        ['找一份门槛不高的工作起步', 'Take an accessible entry-level job'],
+        ['工作的成长远比想象的快', 'You grow faster at work than you think'],
+        ['业余时间深入具体兴趣', 'Dive into specific interests off-hours'],
+        ['5 年后如果真需要读研，那时方向更清楚', 'In 5 years, if you still need it, the direction will be clearer'] ] },
+  ]
+},
+
+jobhop: {
+  id: 'jobhop',
+  title: ['跳槽还是留下', 'Change Jobs or Stay'],
+  pathA: ['跳槽', 'Change'], pathB: ['留下', 'Stay'], color: 'cyan',
+  oneLiner: ['决定要不要跳，比决定跳去哪重要。', 'Deciding whether to move matters more than where to move.'],
+  subtitle: ['成长速度、天花板、机会成熟度——看你是该走了，还是该再等等。', 'Growth, ceiling, opportunity readiness — should you go, or wait a bit longer?'],
+  caveat: ['80% 的「想跳槽」其实是想换公司氛围，先区分这两件事。', '80% of "I want to switch" is really "I want a different vibe." Separate the two first.'],
+  questions: [
+    { q: ['当前工作让你成长的速度？', 'Your growth rate at the current job?'],
+      opts: [[['完全停滞', 'Completely stalled'], 2], [['很慢', 'Slow'], 1], [['一般', 'Average'], 0], [['不错', 'Decent'], -1], [['正快速跃迁', 'Leveling up fast'], -2]] },
+    { q: ['当前公司未来 2–3 年的天花板？', 'Your company\'s ceiling for you in the next 2–3 years?'],
+      opts: [[['已经摸到了', 'Already hit it'], 2], [['看得到边界', 'Edges visible'], 1], [['不确定', 'Unsure'], 0], [['还有空间', 'Still room'], -1], [['空间巨大', 'Huge runway'], -2]] },
+    { q: ['已有的外部机会清晰度？', 'How concrete are external opportunities?'],
+      opts: [[['完全没看', 'Haven\'t looked'], -2], [['偶尔看看', 'Occasional browsing'], -1], [['看了一些', 'Some looking'], 0], [['有具体接触', 'Specific conversations'], 1], [['已有 offer', 'Have offers'], 2]] },
+    { q: ['潜在新工作的薪资 / 职级差距？', 'Potential salary/title delta?'],
+      opts: [[['一样或更差', 'Same or worse'], -2], [['略好', 'Slightly better'], -1], [['持平 + 些许涨幅', 'Same + small bump'], 0], [['+30% 左右', '~+30%'], 1], [['+50% 或大跨越', '+50% or major leap'], 2]] },
+    { q: ['当前人际关系 / 工作氛围？', 'Current relationships / vibe?'],
+      opts: [[['很糟', 'Toxic'], 2], [['不太好', 'Not great'], 1], [['一般', 'OK'], 0], [['不错', 'Good'], -1], [['很喜欢现在的团队', 'Love this team'], -2]] },
+    { q: ['离开会丢失的隐性资产（项目 / 股权 / 信任）？', 'What hidden assets would you lose (projects / equity / trust)?'],
+      opts: [[['没什么', 'Nothing much'], 2], [['少量', 'Small'], 1], [['中等', 'Moderate'], 0], [['较多', 'A lot'], -1], [['巨大且不可复制', 'Massive, irreplaceable'], -2]] },
+    { q: ['你处于职业生涯哪个阶段？', 'Career stage?'],
+      opts: [[['25–30，需要快速试错', '25–30, need to test fast'], 1], [['30–35，需要积累方向', '30–35, need depth'], 0], [['35–40', '35–40'], -1], [['40+', '40+'], -1], [['刚毕业', 'Fresh grad'], -2]] },
+    { q: ['最近 3–6 个月的工作情绪？', 'Mood at work over the past 3–6 months?'],
+      opts: [[['周日恐惧', 'Sunday dread'], 2], [['没什么动力', 'No drive'], 1], [['平稳', 'Steady'], 0], [['有兴奋时刻', 'Some highs'], -1], [['整体享受', 'Generally enjoy it'], -2]] },
+  ],
+  trajectory: {
+    A: { y1: ['新环境，前 3 个月适应期，需要重新证明自己', 'New environment. First 3 months are adjustment. Have to prove yourself again.'],
+         y3: ['若选对了，薪资和能力都跃迁，圈子扩大', 'If chosen well, salary and skill both jump, network expands.'],
+         y5: ['回头看，跳对一次比留十年涨更多', 'Looking back, one good move beats ten years of staying.'] },
+    B: { y1: ['继续积累，享受熟悉带来的效率红利', 'Keep compounding. Familiarity is its own efficiency.'],
+         y3: ['若公司有空间可拿到核心角色，否则陷入鸡肋区', 'If the company has room, you get a core role. Otherwise, you stall in mid-territory.'],
+         y5: ['深度专家 or 被困中层，看公司这几年走向', 'Deep specialist, or trapped middle manager — depends on where the company goes.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该跳', 'Go'], headline: ['不是冲动，是该走了', 'Not impulsive — it\'s time'],
+      desc: ['成长停滞、天花板已见、外部有明确机会。继续留只是消耗。', 'Growth stalled, ceiling hit, real outside options. Staying is just decay.'],
+      steps: [
+        ['锁定 1–2 个最优 offer 认真谈', 'Lock in 1–2 top offers and negotiate seriously'],
+        ['走流程时不要拖，但也不要冲动签', 'Move quickly through the process, but don\'t rush the signature'],
+        ['离职前优雅交接', 'Hand off gracefully before leaving'],
+        ['前 90 天聚焦快速被信任', 'First 90 days: focus on earning trust fast'],
+        ['不要被旧公司反向 offer 迷惑', 'Don\'t fall for the counteroffer trap'] ] },
+    { min: 3, tag: ['倾向跳槽，但先做功课', 'Lean leave, but do the homework'],
+      headline: ['方向是对的，节奏要稳', 'Right direction, steady pace'],
+      desc: ['想走的信号很强，但外部机会还没到位。给自己 3–6 个月主动找。', 'Strong signal to leave, but no concrete options yet. Spend 3–6 months actively searching.'],
+      steps: [
+        ['更新简历，开始面试', 'Update resume, start interviewing'],
+        ['每周和 2–3 个目标行业的人聊', 'Talk to 2–3 people in target areas weekly'],
+        ['准备好「为什么离开」的故事', 'Craft your "why I\'m leaving" story'],
+        ['不要先辞职再找', 'Don\'t quit before you find'],
+        ['设 6 个月截止时间', 'Set a 6-month deadline'] ] },
+    { min: -2, tag: ['再观察一段', 'Wait and watch'], headline: ['现在跳风险大于收益', 'Risk outweighs reward right now'],
+      desc: ['你既不享受也没明确出路。这种情况下跳大概率换一个坑。', 'Not loving it, no clear exit. Jumping likely lands you in another hole.'],
+      steps: [
+        ['搞清楚不爽的是内容 / 人 / 公司 / 行业', 'Pinpoint the discomfort: work / people / company / industry'],
+        ['尝试内部转岗或调整角色', 'Try an internal move or role tweak'],
+        ['更新简历当市场体检', 'Update resume as a "market checkup"'],
+        ['改善生活其他方面', 'Improve other areas of life'],
+        ['6 个月后再评估', 'Re-evaluate in 6 months'] ] },
+    { min: -8, tag: ['更适合留下', 'Better to stay'], headline: ['现在的工作还在给你东西', 'Your current job still gives you a lot'],
+      desc: ['成长还在、关系不错、机会有限。除非有非常好的 offer，否则留下回报更高。', 'Growth continues, relationships are good, outside is limited. Unless an exceptional offer lands, staying pays more.'],
+      steps: [
+        ['认真争取下一个晋升', 'Fight for the next promotion'],
+        ['主动给自己定义新挑战', 'Define new challenges for yourself'],
+        ['不要因为「太久了」就跳', 'Don\'t leave just because "it\'s been a while"'],
+        ['存款 / 关系 / 项目沉淀好', 'Compound savings, relationships, projects'],
+        ['留更新简历的习惯', 'Keep the resume-update habit'] ] },
+    { min: -16, tag: ['留下，专心深耕', 'Stay and go deep'], headline: ['你现在在一个好位置上', 'You\'re sitting in a great spot'],
+      desc: ['成长、人际、机会都在线，且离开成本巨大。这种情况下跳是负优化。', 'Growth, relationships, opportunity all good. Cost of leaving is huge. Jumping would be a net loss.'],
+      steps: [
+        ['继续深耕，争取更核心角色', 'Keep deepening, push for more core roles'],
+        ['主动维护关键关系', 'Actively maintain key relationships'],
+        ['把想跳的冲动转化为发展行动', 'Turn the itch into proactive growth moves'],
+        ['关注行业但不轻易动', 'Watch the market, but don\'t move easily'],
+        ['现在的位置是少数人的稀缺资源', 'Your seat is rare — value it'] ] },
+  ]
+},
+
+// ----- Tests 4-10 below are still in Chinese only (to be translated in next steps) -----
+
+career: {
+  id: 'career',
+  title: ['转行还是深耕', 'Change Careers or Specialize'],
+  pathA: ['转行', 'Change'], pathB: ['深耕', 'Specialize'], color: 'teal',
+  oneLiner: ['想转行的人里，80% 其实是想换公司。', '80% of "I want to change careers" really means "I want to change companies."'],
+  subtitle: ['现有天花板、目标清晰度、可迁移能力——你是该重启，还是该再深一层。', 'Ceiling, target clarity, transferable skills — restart, or go deeper.'],
+  caveat: ['把「不爽现在」和「想要别的」区分开，再做决定。', 'Separate "unhappy now" from "want something else" before deciding.'],
+  questions: [
+    { q: ['你对现在行业 / 角色的情绪？', 'How do you feel about your current field/role?'],
+      opts: [[['深度疲惫', 'Deeply burned out'], 2], [['有倦怠', 'Some fatigue'], 1], [['一般', 'Neutral'], 0], [['还行', 'OK'], -1], [['有热情', 'Passionate'], -2]] },
+    { q: ['目标行业的清晰度？', 'How clear is your target industry?'],
+      opts: [[['完全不知道', 'No idea'], -2], [['几个模糊方向', 'A few vague directions'], -1], [['有 1–2 个想法', '1–2 ideas'], 0], [['锁定 1 个', 'Locked on one'], 1], [['非常明确并接触过从业者', 'Very clear, talked to insiders'], 2]] },
+    { q: ['现有技能的可迁移性？', 'How transferable are your current skills?'],
+      opts: [[['几乎不迁', 'Almost none'], -2], [['少量', 'Some'], -1], [['一般', 'Average'], 0], [['较多', 'A lot'], 1], [['核心能力完全可迁移', 'Core skills fully transferable'], 2]] },
+    { q: ['财务缓冲？', 'Financial buffer?'],
+      opts: [[['没有', 'None'], -2], [['1–3 个月', '1–3 months'], -1], [['3–6 个月', '3–6 months'], 0], [['6–12 个月', '6–12 months'], 1], [['12 个月以上', '12+ months'], 2]] },
+    { q: ['你的年龄 / 阶段？', 'Your age / stage?'],
+      opts: [[['45+', '45+'], -2], [['40–45', '40–45'], -1], [['35–40', '35–40'], 0], [['30–35', '30–35'], 1], [['< 30', '< 30'], 2]] },
+    { q: ['过去 1 年你为转行做了什么？', 'In the past year, what have you done toward switching?'],
+      opts: [[['什么也没做', 'Nothing'], -2], [['看了公众号', 'Read articles'], -1], [['学了一些课', 'Took some courses'], 0], [['完成具体项目 / 兼职', 'Concrete project or side gig'], 1], [['有目标行业初步成绩', 'Early results in target field'], 2]] },
+    { q: ['身边有目标行业人脉吗？', 'Do you have contacts in your target industry?'],
+      opts: [[['没有', 'None'], -2], [['几个不熟', 'A few weak ties'], -1], [['几个能聊', 'A few I can talk to'], 0], [['可以引荐', 'They can introduce me'], 1], [['有愿意带你的人', 'Someone willing to mentor'], 2]] },
+    { q: ['在现在领域再深耕 2 年的想象？', 'Imagine 2 more years deepening in your current field?'],
+      opts: [[['毫无空间', 'No room at all'], 2], [['看不到明显回报', 'No visible payoff'], 1], [['一般', 'OK'], 0], [['有具体增量', 'Concrete upside'], -1], [['会有质的跃迁', 'Major leap likely'], -2]] },
+  ],
+  trajectory: {
+    A: { y1: ['收入大概率下降 20–50%，从新人重新开始', 'Income likely drops 20–50%. Starting over as a newcomer.'],
+         y3: ['若选对了，新行业的人脉和能力开始有沉淀', 'If chosen well, network and skills start compounding in the new field.'],
+         y5: ['完成转型，过去经验成为独特优势', 'Transition complete. Past experience becomes a unique edge.'] },
+    B: { y1: ['继续积累，深度增加', 'Keep compounding. Depth grows.'],
+         y3: ['在原行业获得更高位置 / 收入', 'Higher position and pay in your current field.'],
+         y5: ['成为领域专家，但要警惕行业整体衰退', 'Become a recognized expert — but watch for industry-wide decline.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该转', 'Change'], headline: ['不是冲动，是该换轨道了', 'Not impulsive — it\'s time to switch tracks'],
+      desc: ['原行业天花板已见、目标清晰、可迁移能力强。', 'Ceiling hit, target clear, skills transferable.'],
+      steps: [['锁定具体目标公司 / 角色', 'Lock onto specific target companies / roles'], ['用 3–6 个月做 1 个目标行业作品', 'Spend 3–6 months building one portfolio piece in the target field'], ['接触目标行业 5–10 个人', 'Reach 5–10 people in the target industry'], ['准备好为什么转的故事', 'Craft your "why I\'m changing" story'], ['做好至少 6 个月过渡资金', 'Have at least 6 months of runway']] },
+    { min: 3, tag: ['可以转，但先打地基', 'Lean change, build foundation first'], headline: ['方向是对的，但准备还不够', 'Right direction, not enough prep'],
+      desc: ['动机和方向有了，但财务、人脉或验证不够。', 'Motivation and direction are there. Money, network, or validation aren\'t.'],
+      steps: [['列出转行 3 大短板', 'List your 3 biggest gaps'], ['同步做副业 / 兼职验证', 'Validate via side projects in parallel'], ['不要先辞职再转', 'Don\'t quit first'], ['完成 1 次测试性转行', 'Run one trial transition (contract / consulting)'], ['设明确的出发日期', 'Set a clear launch date']] },
+    { min: -2, tag: ['先换公司，未必要转行', 'Change company first — maybe not the field'], headline: ['你想要的可能不是新行业', 'You may not actually want a new industry'],
+      desc: ['不满可能来自公司或当前角色。', 'Your dissatisfaction may be about the company or role, not the industry.'],
+      steps: [['先尝试同行业不同公司', 'Try a different company in the same field first'], ['区分对行业 vs 对当前情况失望', 'Separate "industry disappointment" from "current situation"'], ['保留 2 年观察期', 'Keep a 2-year observation window'], ['业余时间试探目标行业', 'Test target industry on the side'], ['不被 35 岁危机推着冲动', 'Don\'t let mid-career panic rush you']] },
+    { min: -8, tag: ['建议深耕', 'Specialize'], headline: ['现在转行代价大于收益', 'Cost of changing now exceeds the benefit'],
+      desc: ['原行业还有空间、目标不清晰、年龄或财务不支持。', 'Field still has room. Target unclear. Age or finances don\'t support it.'],
+      steps: [['争取原行业更高位置', 'Push for a higher role in your current field'], ['建立行业内独特定位', 'Build a unique position within your industry'], ['把想转化为本行业做新事', 'Channel the urge into new work within your field'], ['跨界元素融入工作', 'Bring cross-disciplinary elements into your current work'], ['深度比宽度更值钱', 'Depth pays more than breadth']] },
+    { min: -16, tag: ['坚定深耕', 'Definitely specialize'], headline: ['你现在的位置就是别人想要的', 'Your current seat is what others reach for'],
+      desc: ['原行业有空间、自身有积累、转行准备不足。', 'Field has runway, you have capital, transition is underprepared.'],
+      steps: [['把转行从决策清单移除', 'Remove "change careers" from your decision list'], ['专注做到行业 top 10%', 'Focus on getting to top 10% in your industry'], ['跨界欲望转化为合作项目', 'Channel cross-industry curiosity into collaboration projects'], ['副业 / 学习满足好奇心', 'Use side projects or study to satisfy curiosity'], ['深耕是你最大的财富', 'Specialization is your greatest asset']] }
+  ]
+},
+
+city: {
+  id: 'city',
+  title: ['留大城市还是回老家', 'Big City or Hometown'],
+  pathA: ['留下', 'Stay'], pathB: ['回去', 'Go home'], color: 'emerald',
+  oneLiner: ['不是机会 vs 安稳——是两种生活在拉扯你。', 'Not opportunity vs security — two ways of life pulling on you.'],
+  subtitle: ['职业、家庭、伴侣、身份——看你想要的生活到底在哪。', 'Career, family, partner, identity — where the life you want actually is.'],
+  caveat: ['两条路都有真实的代价和收获。', 'Both paths have real costs and real rewards.'],
+  questions: [
+    { q: ['大城市目前给你的职业发展速度？', 'Your career growth rate in the big city?'],
+      opts: [[['停滞', 'Stalled'], -2], [['一般', 'Slow'], -1], [['正常', 'Normal'], 0], [['较快', 'Fast'], 1], [['加速期', 'Accelerating'], 2]] },
+    { q: ['你的行业在老家的机会？', 'Opportunities for your field back home?'],
+      opts: [[['几乎没有', 'Almost none'], 2], [['等级低很多', 'Much lower tier'], 1], [['一般', 'OK'], 0], [['不错', 'Decent'], -1], [['老家是行业聚集地', 'Hometown is the industry hub'], -2]] },
+    { q: ['家庭因素拉力？', 'Pull from family?'],
+      opts: [[['几乎没有', 'Almost none'], 2], [['偶尔需要', 'Occasional need'], 1], [['一般', 'Average'], 0], [['较强', 'Strong'], -1], [['必须回去的责任', 'Must-return obligation'], -2]] },
+    { q: ['当下大城市的财务压力？', 'Financial pressure in the big city?'],
+      opts: [[['很压抑', 'Suffocating'], -2], [['有压力', 'Tight'], -1], [['一般', 'OK'], 0], [['挺舒服', 'Comfortable'], 1], [['完全没问题', 'No issue'], 2]] },
+    { q: ['伴侣 / 未来伴侣的位置？', 'Your partner / future partner\'s location?'],
+      opts: [[['ta 想回老家', 'They want to go home'], -2], [['ta 倾向老家', 'They lean home'], -1], [['不确定 / 单身', 'Unsure / single'], 0], [['ta 倾向留下', 'They lean staying'], 1], [['ta 必须在大城市', 'They must be in the city'], 2]] },
+    { q: ['你对生活节奏的偏好？', 'Your preferred life pace?'],
+      opts: [[['受不了快节奏', 'Can\'t take the fast pace'], -2], [['有点疲惫', 'A bit tired'], -1], [['还能适应', 'Adaptable'], 0], [['享受', 'Enjoy it'], 1], [['离不开这种密度', 'Need this density'], 2]] },
+    { q: ['身份认同？', 'Identity — where do you feel most like yourself?'],
+      opts: [[['老家是我的根', 'Hometown is my root'], -2], [['倾向老家', 'Lean hometown'], -1], [['两边都可以', 'Either works'], 0], [['更像大城市的人', 'More of a city person'], 1], [['只有在大城市才是我', 'Only in the big city am I me'], 2]] },
+    { q: ['5 年后回望，你最害怕哪种「早知道」？', 'In 5 years, which "if only" scares you most?'],
+      opts: [[['早知道就回去陪父母', 'If only I had gone home for my parents'], -2], [['早知道少在城市硬撑', 'If only I had stopped white-knuckling it'], -1], [['不确定', 'Unsure'], 0], [['早知道再多坚持', 'If only I had stayed longer'], 1], [['早知道就追那个机会', 'If only I had chased that opportunity'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['继续高强度节奏，攒人脉和履历', 'Continued high-intensity pace. Building network and resume.'],
+         y3: ['事业可能进入收获期，但对父母的亏欠感加重', 'Career may hit harvest mode, but guilt toward parents grows.'],
+         y5: ['或许买房落户，或许疲惫想离开', 'Maybe you buy and settle. Maybe you\'re tired and want out.'] },
+    B: { y1: ['过渡期会有「小地方没意思」的低谷', 'Adjustment phase: occasional "small place feels dull" lows.'],
+         y3: ['生活成本骤降、和父母关系修复', 'Cost of living plummets. Parent relationship heals.'],
+         y5: ['工资可能停滞，但生活密度未必输给一线', 'Salary may stagnate, but life density isn\'t necessarily less than tier-1.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该留下', 'Stay'], headline: ['大城市还在给你高密度回报', 'The big city is still paying you dense returns'],
+      desc: ['职业、身份、生活都和大城市深度绑定。', 'Career, identity, lifestyle are all tied to the big city.'],
+      steps: [['考虑落户安排', 'Consider settling here permanently'], ['建立远程尽孝机制', 'Build a remote-care system for parents'], ['每 2 年回家长住 1 个月', 'Stay a month at home every 2 years'], ['存款规划留出未来弹性', 'Plan savings to preserve future flexibility'], ['主动管理压力和孤独感', 'Actively manage stress and loneliness']] },
+    { min: 3, tag: ['可以再留几年', 'Stay a few more years'], headline: ['现在不是回去的时机', 'Not the time to go back'],
+      desc: ['大城市还能给你东西。', 'The big city still has something to give you.'],
+      steps: [['设一个评估点', 'Set a clear evaluation milestone'], ['最大化大城市资源', 'Maximize big-city resources'], ['保持和家乡的紧密连接', 'Stay closely connected to home'], ['留好可能的回路', 'Keep your return path open'], ['不要一边留一边怨', 'Don\'t stay while resenting it']] },
+    { min: -2, tag: ['中间路径：远程 / 双城', 'Middle path: remote / dual-city'], headline: ['不必非此即彼', 'It doesn\'t have to be either-or'],
+      desc: ['考虑远程、双城、新一线等折中。', 'Consider remote work, dual-city life, or a smaller hub.'],
+      steps: [['寻找支持远程的工作', 'Find remote-friendly work'], ['探索老家或新一线', 'Explore hometown or a smaller hub'], ['和伴侣谈双城安排', 'Discuss dual-city with your partner'], ['试一段较长的回家居住', 'Try an extended stay at home'], ['不被非黑即白的叙事绑架', 'Don\'t get trapped by black-and-white narratives']] },
+    { min: -8, tag: ['该回去了', 'Time to go home'], headline: ['老家的拉力 > 大城市的推力', 'The pull home is stronger than the push of the city'],
+      desc: ['再撑只会让你越来越像被困的人。', 'Holding on will only make you feel more stuck.'],
+      steps: [['提前 6 个月规划', 'Plan 6 months ahead'], ['先尝试远程或调动', 'Try remote or a transfer first'], ['把大城市的资源整理好', 'Wrap up big-city assets cleanly'], ['降低对老家的期待', 'Lower expectations for going home'], ['给自己 1 年适应期', 'Give yourself a 1-year adjustment']] },
+    { min: -16, tag: ['尽快回去', 'Go home soon'], headline: ['继续在大城市是消耗', 'Staying in the big city is just depletion now'],
+      desc: ['所有指标都指向回家。', 'Every signal points home.'],
+      steps: [['不要用「再坚持一年」自我感动', 'Don\'t romanticize "just one more year"'], ['立刻启动回家计划', 'Start the move-home plan now'], ['做好工作 / 关系收尾', 'Close out work and relationships cleanly'], ['回去后不焦虑的过渡期', 'Allow yourself a non-anxious transition'], ['建立新的本地目标感', 'Build new local goals']] }
+  ]
+},
+
+buyrent: {
+  id: 'buyrent',
+  title: ['买房还是租房', 'Buy or Rent'],
+  pathA: ['买', 'Buy'], pathB: ['租', 'Rent'], color: 'orange',
+  oneLiner: ['买房是 30 年决策，租房是 3 年决策——容错率完全不同。', 'Buying is a 30-year decision. Renting is 3-year. Very different room for error.'],
+  subtitle: ['稳定性、资金、家庭、心理——看你现在该不该把这件大事落地。', 'Stability, money, family, mindset — should you make this move now?'],
+  caveat: ['别被「再不买就晚了」裹挟做决定。', 'Don\'t let "you\'ll miss the window" rush you.'],
+  questions: [
+    { q: ['未来 5 年内的城市 / 工作稳定性？', 'City/job stability over the next 5 years?'],
+      opts: [[['可能搬城市', 'Might move city'], -2], [['可能换工作', 'Might change jobs'], -1], [['基本稳定', 'Mostly stable'], 0], [['很稳定', 'Very stable'], 1], [['已经扎根', 'Fully rooted'], 2]] },
+    { q: ['首付资金来源？', 'Source of down payment?'],
+      opts: [[['几乎没攒', 'Almost nothing saved'], -2], [['一半靠家里', 'Half from family'], -1], [['自己攒大部分', 'Mostly own savings'], 0], [['完全自有', 'Fully own funds'], 1], [['自有 + 储备金', 'Own funds + reserve'], 2]] },
+    { q: ['月供占家庭月收入的比例？', 'Mortgage as % of household income?'],
+      opts: [[['> 60%', '> 60%'], -2], [['50–60%', '50–60%'], -1], [['40–50%', '40–50%'], 0], [['30–40%', '30–40%'], 1], [['< 30%', '< 30%'], 2]] },
+    { q: ['对当地房价 3–5 年的判断？', 'Local home prices over 3–5 years?'],
+      opts: [[['可能下跌', 'Likely to fall'], -2], [['横盘', 'Flat'], -1], [['不确定', 'Unsure'], 0], [['可能小涨', 'Slight rise'], 1], [['强烈看涨', 'Strong upside'], 2]] },
+    { q: ['伴侣 / 家人态度？', 'Partner / family stance?'],
+      opts: [[['明确反对', 'Clearly opposed'], -2], [['保留意见', 'Reservations'], -1], [['没意见', 'Neutral'], 0], [['支持', 'Supportive'], 1], [['催促', 'Pushing for it'], 2]] },
+    { q: ['你对「有自己的家」的情感需求？', 'Emotional need for "a home of my own"?'],
+      opts: [[['无所谓', 'Indifferent'], -2], [['有但不强', 'Mild'], -1], [['一般', 'Moderate'], 0], [['较强', 'Strong'], 1], [['非常强烈', 'Very strong'], 2]] },
+    { q: ['是否有学区 / 落户 / 婚育等具体诉求？', 'Concrete needs (schools, residency, marriage)?'],
+      opts: [[['没有', 'None'], -2], [['未来可能有', 'Maybe later'], -1], [['一般', 'Some'], 0], [['有但不急', 'Yes but not urgent'], 1], [['很明确且紧迫', 'Very clear and urgent'], 2]] },
+    { q: ['你对生活灵活度的需求？', 'How much flexibility do you need?'],
+      opts: [[['想随时换城市', 'Want to move freely'], -2], [['想保留流动性', 'Prefer liquidity'], -1], [['一般', 'Average'], 0], [['倾向稳定', 'Lean stable'], 1], [['想长期定居', 'Want long-term roots'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['装修、月供、家庭账本进入新节奏', 'Renovation, mortgage, household finances enter a new rhythm.'],
+         y3: ['资产开始有沉淀，但流动性受限', 'Assets accumulate, but liquidity is constrained.'],
+         y5: ['如果城市选对，房子可能升值；选错则被锁住', 'If you chose the right city, value grows. If not, you\'re locked in.'] },
+    B: { y1: ['继续灵活，存款用于其他用途', 'Stay flexible. Savings go to other uses.'],
+         y3: ['可能换过 1–2 次房子，保留了选择权', 'May have moved 1–2 times. Optionality preserved.'],
+         y5: ['净资产可能不如买房，但人生路径更多可能', 'Net worth may trail, but life paths stay open.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该买', 'Buy'], headline: ['所有信号都指向「现在买是对的」', 'Every signal says "now is right"'],
+      desc: ['稳定性、资金、需求都到位。', 'Stability, funds, needs — all aligned.'],
+      steps: [['至少看 30 套再下手', 'View at least 30 properties before buying'], ['月供后还能存 20% 才考虑', 'Only consider if you can still save 20% after mortgage'], ['签合同前请第三方尽调', 'Get a third-party inspection before signing'], ['装修预算单独留', 'Keep renovation budget separate'], ['留 6 个月生活费', 'Keep 6 months living expenses in reserve']] },
+    { min: 3, tag: ['可以买，但条件要再优化', 'Lean buy, optimize first'], headline: ['方向对，但杠杆要谨慎', 'Right direction, be careful with leverage'],
+      desc: ['有些维度还没完全到位。', 'Some dimensions aren\'t fully ready.'],
+      steps: [['再攒 6–12 个月首付', 'Save another 6–12 months toward down payment'], ['观察目标小区半年价格', 'Watch target areas for 6 months'], ['锁定 2–3 个高优先级目标', 'Lock onto 2–3 high-priority targets'], ['和家人谈财务分担', 'Discuss financial sharing with family'], ['提前预审贷款额度', 'Get pre-approved for your mortgage']] },
+    { min: -2, tag: ['中间地带：继续租 + 攒', 'Middle path: rent + save'], headline: ['现在不是最优时机', 'Not the optimal moment'],
+      desc: ['稳定性或资金不够。', 'Stability or funds not sufficient.'],
+      steps: [['不被「再不买就晚了」裹挟', 'Don\'t buy out of fear of missing out'], ['资金用于其他增值', 'Channel funds to other growth'], ['租一个真正舒服的房子', 'Rent a place you actually love'], ['每年盘点一次可行性', 'Reassess feasibility yearly'], ['关注政策但不主动追', 'Watch policy but don\'t chase']] },
+    { min: -8, tag: ['更适合租', 'Rent fits better'], headline: ['租房是你现在的最优解', 'Renting is your optimal answer right now'],
+      desc: ['买房会限制你未来 5–10 年的选择。', 'Buying would constrain your next 5–10 years.'],
+      steps: [['认真挑一个舒服的租房', 'Carefully pick a rental you love'], ['省下的钱投入自己', 'Invest the savings in yourself'], ['保留换城市的可能', 'Keep the option to move cities'], ['不焦虑，租也是生活方式', 'No anxiety — renting is also a lifestyle'], ['5 年后再评估', 'Reassess in 5 years']] },
+    { min: -16, tag: ['坚定地租', 'Firmly rent'], headline: ['现在买房是负优化', 'Buying now would be a net loss'],
+      desc: ['你的人生还在变动期。', 'Your life is still in flux.'],
+      steps: [['把买房暂时移除', 'Take buying off the table for now'], ['资金用于教育 / 旅行', 'Funds go to education / travel / investing'], ['租一个让自己愉快的房子', 'Rent a place that makes you happy'], ['不和别人比', 'Don\'t compare with others'], ['人生不是买房就成功', 'Life isn\'t "own a home = success"']] }
+  ]
+},
+
+abroad: {
+  id: 'abroad',
+  title: ['出国还是留下', 'Move Abroad or Stay'],
+  pathA: ['出国', 'Abroad'], pathB: ['留下', 'Stay'], color: 'sky',
+  oneLiner: ['把「出国」和「换个国家工作」分开——前者是身份变化。', 'Separate "moving abroad" from "working in another country" — the first is an identity shift.'],
+  subtitle: ['动机、目标、适应力——不是逃离，是真的去那里生活。', 'Motivation, goals, adaptability — not escape, but actually living there.'],
+  caveat: ['想清楚你是要短期项目，还是长期重建生活。', 'Be clear: short-term project, or long-term life rebuild?'],
+  questions: [
+    { q: ['你想出国的核心动机？', 'Your core motivation for going abroad?'],
+      opts: [[['逃离当下', 'Escape the current situation'], -2], [['焦虑跟风', 'Anxious herd-following'], -1], [['不太确定', 'Unsure'], 0], [['有具体职业目标', 'Specific career goal'], 1], [['为了某段必要的人生经历', 'For a meaningful life chapter'], 2]] },
+    { q: ['对目标国家 / 项目的清晰度？', 'Clarity on target country / program?'],
+      opts: [[['模糊', 'Vague'], -2], [['几个候选', 'A few candidates'], -1], [['有倾向', 'A leaning'], 0], [['基本锁定', 'Mostly locked'], 1], [['已联系导师 / offer', 'Already in touch / have offer'], 2]] },
+    { q: ['语言和跨文化适应能力？', 'Language and cross-cultural adaptability?'],
+      opts: [[['弱且不想学', 'Weak and uninterested'], -2], [['基础', 'Basic'], -1], [['一般', 'Average'], 0], [['较好', 'Strong'], 1], [['流利', 'Fluent'], 2]] },
+    { q: ['资金和支持？', 'Funding and support?'],
+      opts: [[['几乎没有', 'Almost none'], -2], [['够过渡几个月', 'A few months of runway'], -1], [['1–2 年储备', '1–2 years\' savings'], 0], [['较稳定支持', 'Steady support'], 1], [['全奖 / 工作签证', 'Full funding / work visa'], 2]] },
+    { q: ['国内的牵挂？', 'Ties at home?'],
+      opts: [[['必须在国内的责任', 'Responsibilities that require I stay'], -2], [['较多', 'Many'], -1], [['一般', 'Some'], 0], [['较少', 'Few'], 1], [['几乎没有', 'Almost none'], 2]] },
+    { q: ['目标方向在海外的机会？', 'Opportunities for your path abroad?'],
+      opts: [[['国内更好', 'Better at home'], -2], [['一般', 'Comparable'], -1], [['持平', 'About the same'], 0], [['海外更优', 'Better abroad'], 1], [['海外是这个领域的中心', 'Abroad is the hub of this field'], 2]] },
+    { q: ['若决定长期留下，你能接受吗？', 'If you decide to stay long-term, can you accept it?'],
+      opts: [[['完全不能', 'Definitely not'], -2], [['可能不能', 'Probably not'], -1], [['不确定', 'Unsure'], 0], [['可以', 'Yes'], 1], [['非常想', 'Very much want to'], 2]] },
+    { q: ['不出国，国内路径的明确度？', 'If you stay, how clear is your domestic path?'],
+      opts: [[['非常明确', 'Very clear'], -2], [['较清晰', 'Mostly clear'], -1], [['一般', 'Somewhat'], 0], [['模糊', 'Vague'], 1], [['完全没头绪', 'No idea'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['语言、文化、孤独三重冲击', 'Triple shock: language, culture, loneliness.'],
+         y3: ['基本扎根，建立本地圈子', 'Largely rooted. Local network built.'],
+         y5: ['要么真正成为那里的人，要么计划回流', 'Either you truly become local, or you start planning to return.'] },
+    B: { y1: ['继续在熟悉的环境推进', 'Continue moving forward in familiar territory.'],
+         y3: ['事业有沉淀，但偶尔会想「如果出去了」', 'Career compounds. Occasional "what if I had left" thoughts.'],
+         y5: ['深度根植国内，可能反过来获得跨境机会', 'Deeply rooted at home. May get cross-border opportunities in reverse.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['该出去', 'Go'], headline: ['动机、能力、资源都到位', 'Motivation, skill, and resources all aligned'],
+      desc: ['不是逃避，是清晰的选择。', 'Not escape — a clear choice.'],
+      steps: [['尽快锁定具体项目', 'Lock onto a specific program/offer soon'], ['出发前 6 个月强化语言', 'Intensive language work 6 months before departure'], ['建立和国内的连接', 'Build steady ties back home'], ['主动建立本地关系', 'Actively build local relationships'], ['保留回流可能但不当退路', 'Keep the return option, but don\'t treat it as a fallback']] },
+    { min: 3, tag: ['可以走，但准备要更充分', 'Can go, but prepare more'], headline: ['方向对，但有薄弱环节', 'Right direction, weak spots remain'],
+      desc: ['准备 6–12 个月再出去。', 'Prep 6–12 months, then go.'],
+      steps: [['锁定最弱维度', 'Identify and fix the weakest dimension'], ['和已经在那的人聊', 'Talk to people already there'], ['准备 plan B', 'Have a plan B ready'], ['完成 1 次短期访问', 'Do at least one short visit first'], ['不被年龄推着走', 'Don\'t let age rush you']] },
+    { min: -2, tag: ['考虑短期项目 / 远程', 'Consider short-term / remote'], headline: ['不必非此即彼', 'It doesn\'t have to be either-or'],
+      desc: ['考虑访学、远程、跨国项目。', 'Visit fellowships, remote work, cross-border projects.'],
+      steps: [['寻找远程 / 国际项目', 'Find remote / international projects'], ['申请短期访学 / 数字游民签证', 'Apply for short visits / digital nomad visas'], ['用 3–6 个月在外住一段', 'Live abroad for 3–6 months as a trial'], ['保留国内本职', 'Keep your home base intact'], ['5 年后再正式评估', 'Reassess formally in 5 years']] },
+    { min: -8, tag: ['建议留下', 'Stay'], headline: ['当下出国大概率得不偿失', 'Going abroad now likely costs more than it gains'],
+      desc: ['动机模糊、牵挂多、国内路径不差。', 'Motivation unclear, many ties, domestic path is fine.'],
+      steps: [['先把当下事情做出成绩', 'Get results in your current situation first'], ['识别出国冲动背后的真问题', 'Identify the real issue behind the urge to leave'], ['保留短期机会', 'Keep short-term options open'], ['不因别人都润而润', 'Don\'t leave just because others are'], ['5 年后再考虑', 'Reconsider in 5 years']] },
+    { min: -16, tag: ['留下', 'Stay'], headline: ['现在出国是负优化', 'Going abroad now would be a net loss'],
+      desc: ['你的人生重心在国内。', 'Your life\'s center of gravity is at home.'],
+      steps: [['把出国从焦虑源移除', 'Take "going abroad" out of your anxiety list'], ['专注国内事业 / 家庭', 'Focus on career and family at home'], ['通过旅行满足国际化需求', 'Travel to satisfy international cravings'], ['不在脆弱时刻做出走决定', 'Don\'t make departure decisions in fragile moments'], ['5 年后再评估', 'Reassess in 5 years']] }
+  ]
+},
+
+marriage: {
+  id: 'marriage',
+  title: ['结婚还是再等等', 'Get Married or Wait'],
+  pathA: ['结婚', 'Marry'], pathB: ['再等等', 'Wait'], color: 'pink',
+  oneLiner: ['不被外界催，看你内心是不是准备好了。', 'Tune out outside pressure. Are you actually ready?'],
+  subtitle: ['兼容性、阶段对齐、自我准备——基于选择，不是基于压力。', 'Compatibility, stage alignment, self-readiness — based on choice, not pressure.'],
+  caveat: ['默认你正在和某个具体的人考虑结婚。', 'Assumes you\'re considering marriage with a specific person.'],
+  questions: [
+    { q: ['你和对方相处的稳定时长？', 'How long have you two been steady?'],
+      opts: [[['< 1 年', '< 1 year'], -2], [['1–2 年', '1–2 years'], -1], [['2–3 年', '2–3 years'], 0], [['3–5 年', '3–5 years'], 1], [['> 5 年且经历多种状况', '5+ years through many situations'], 2]] },
+    { q: ['在重大议题上的对齐？', 'Alignment on big issues (money, family, values)?'],
+      opts: [[['难调和的分歧', 'Irreconcilable differences'], -2], [['有分歧没深谈', 'Differences, no deep talks'], -1], [['基本一致', 'Mostly aligned'], 0], [['深聊过且一致', 'Discussed deeply and aligned'], 1], [['完全对齐有实证', 'Fully aligned with track record'], 2]] },
+    { q: ['你目前的个人发展状态？', 'Your personal development right now?'],
+      opts: [[['很迷茫，希望婚姻给方向', 'Lost, hoping marriage gives me direction'], -2], [['不太稳定', 'Unstable'], -1], [['平稳', 'Steady'], 0], [['较稳定', 'Quite stable'], 1], [['清晰且独立', 'Clear and independent'], 2]] },
+    { q: ['双方家庭的关系？', 'Relationship between your families?'],
+      opts: [[['有明显矛盾', 'Clear conflict'], -2], [['有顾虑', 'Concerns'], -1], [['一般', 'OK'], 0], [['基本融洽', 'Mostly cordial'], 1], [['相处自然', 'Natural and easy'], 2]] },
+    { q: ['经济基础？', 'Financial foundation?'],
+      opts: [[['两人加起来也紧', 'Tight even combined'], -2], [['够基本生活', 'Covers basics'], -1], [['可承担婚后开支', 'Can handle post-marriage costs'], 0], [['较从容', 'Comfortable'], 1], [['没问题且有储备', 'No issue, with reserves'], 2]] },
+    { q: ['你想结婚的紧迫感来自？', 'Where does your urgency to marry come from?'],
+      opts: [[['年龄 / 父母催', 'Age / parents pushing'], -2], [['朋友都在结', 'Friends are getting married'], -1], [['不太确定', 'Unsure'], 0], [['对未来的具体规划', 'Concrete future plans'], 1], [['内心由衷想和这个人共度', 'Genuinely want to share life with this person'], 2]] },
+    { q: ['哪些日常时刻你最确定？', 'In which everyday moments are you most certain?'],
+      opts: [[['几乎没有', 'Almost none'], -2], [['只在好的时候', 'Only in good times'], -1], [['一般', 'Some'], 0], [['连低谷也想', 'Even in low moments'], 1], [['日常琐碎里也舒服', 'Comfortable even in the mundane'], 2]] },
+    { q: ['如果再等 1 年会怎样？', 'What if you waited another year?'],
+      opts: [[['关系可能就散了', 'Relationship might end'], -2], [['会失去一些', 'Would lose something'], -1], [['可能更清楚', 'Might be clearer'], 0], [['对双方都更稳', 'More stable for both'], 1], [['现在结也行，等也好', 'Either works'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['生活合并的实操期', 'Practical phase of merging lives.'],
+         y3: ['可能进入育儿 / 买房等大决策', 'Likely facing big decisions: kids, housing.'],
+         y5: ['若兼容性真，关系成为最稳定支撑；若不真，矛盾会显形', 'If compatibility is real, the relationship becomes your bedrock. If not, fault lines surface.'] },
+    B: { y1: ['继续相处、继续看', 'Keep being together, keep observing.'],
+         y3: ['要么自然走向婚姻，要么发现根本问题', 'Either you naturally move toward marriage, or fundamental issues surface.'],
+         y5: ['可能错过最佳时机，也可能避开最大错误', 'May miss the ideal window, or may avoid the biggest mistake.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['可以结', 'Yes, marry'], headline: ['基础牢固，时机也到了', 'Foundation is solid, timing is right'],
+      desc: ['基于选择而不是压力。', 'Based on choice, not pressure.'],
+      steps: [['把钱 / 家庭 / 育儿摆上桌', 'Put money, family, and kids on the table'], ['不为完美婚礼牺牲精力', 'Don\'t sacrifice energy for a perfect wedding'], ['保留各自的朋友圈', 'Keep your separate friend groups'], ['建立冲突处理机制', 'Build a conflict-handling system'], ['婚姻是共同选择的开始', 'Marriage is the start, not the end, of choosing each other']] },
+    { min: 3, tag: ['可以结，但先做几次深谈', 'Lean yes, but have key conversations first'], headline: ['方向对，再补几次关键对话', 'Right direction, add key conversations'],
+      desc: ['有 1–2 个维度还没充分探索。', '1–2 dimensions not fully explored yet.'],
+      steps: [['锁定未谈透的议题', 'Identify the unfinished conversations'], ['考虑婚前咨询', 'Consider pre-marital counseling'], ['观察对方在压力下的反应', 'Observe how they handle stress'], ['设 3–6 个月决定时间', 'Set a 3–6 month decision window'], ['不要因为定了就跳过', 'Don\'t skip the deep talk just because plans are set']] },
+    { min: -2, tag: ['再等等', 'Wait'], headline: ['关系是好的，时机未必', 'Relationship is good, timing isn\'t certain'],
+      desc: ['你或时机还没准备好。', 'You or the timing isn\'t ready.'],
+      steps: [['和对方聊「我现在为什么犹豫」', 'Talk to them: "Why am I hesitating?"'], ['区分焦虑源和真实意愿', 'Separate anxiety from real desire'], ['继续深化但不为堵嘴而结', 'Keep deepening, but don\'t marry to shut people up'], ['观察未来 12 个月', 'Observe the next 12 months'], ['真心想结的那刻自然就知道', 'You\'ll just know when you genuinely want to']] },
+    { min: -8, tag: ['不建议现在结', 'Don\'t marry now'], headline: ['基础不够稳', 'Foundation isn\'t stable enough'],
+      desc: ['兼容性、对齐或个人状态有问题。', 'Compatibility, alignment, or personal state has issues.'],
+      steps: [['不被父母 / 社会压力推', 'Don\'t be pushed by parents or society'], ['谈清楚哪里不对齐', 'Get clarity on where you don\'t align'], ['考虑婚前咨询', 'Consider counseling'], ['半年内没改善想想关系本身', 'If no improvement in 6 months, reconsider the relationship'], ['不结不是失败', 'Not marrying isn\'t failure']] },
+    { min: -16, tag: ['别结', 'Don\'t marry'], headline: ['现在结婚是负优化', 'Marrying now would be a net loss'],
+      desc: ['这段关系还没到成熟度。', 'This relationship isn\'t mature enough.'],
+      steps: [['给自己不结的许可', 'Give yourself permission not to marry'], ['不要把分手和不结绑在一起', 'Don\'t conflate "not marry" with "break up"'], ['直面真实的问题', 'Face the real issues'], ['寻求咨询', 'Seek counseling'], ['对的人 + 对的时间 比赶上时间重要', 'Right person + right time > catching a deadline']] }
+  ]
+},
+
+secondkid: {
+  id: 'secondkid',
+  title: ['要不要二胎', 'Second Child or Not'],
+  pathA: ['要', 'Yes'], pathB: ['不要', 'No'], color: 'rose',
+  oneLiner: ['一个理性的人生决策辅助，不是道德判断。', 'A rational decision aid — not a moral judgment.'],
+  subtitle: ['经济、精力、伴侣对齐——没有「对的答案」，只有「对你的答案」。', 'Finances, energy, partner alignment — no "right answer," only the answer for you.'],
+  caveat: ['默认你已经有一个孩子。', 'Assumes you already have one child.'],
+  questions: [
+    { q: ['你和伴侣对二胎的意愿对齐度？', 'How aligned are you and your partner on a second child?'],
+      opts: [[['一方明显反对', 'One clearly opposed'], -2], [['一方犹豫', 'One hesitating'], -1], [['都在认真考虑', 'Both seriously considering'], 0], [['基本一致想要', 'Mostly aligned in favor'], 1], [['两人都明确想要', 'Both clearly want it'], 2]] },
+    { q: ['经济上承担二胎的能力？', 'Financial capacity for a second child?'],
+      opts: [[['压力很大', 'Heavy pressure'], -2], [['紧但能撑', 'Tight but doable'], -1], [['可承担', 'Manageable'], 0], [['较从容', 'Comfortable'], 1], [['完全没问题', 'No issue at all'], 2]] },
+    { q: ['你和伴侣的精力 / 睡眠？', 'Your and your partner\'s energy / sleep?'],
+      opts: [[['长期亚健康', 'Chronic exhaustion'], -2], [['疲惫但能撑', 'Tired but coping'], -1], [['一般', 'Average'], 0], [['基本恢复', 'Mostly recovered'], 1], [['精力充沛', 'Energetic'], 2]] },
+    { q: ['老大目前的状态？', 'How is your first child doing?'],
+      opts: [[['很小或非常黏人', 'Very young or very clingy'], -2], [['正经历敏感期', 'In a sensitive phase'], -1], [['一般', 'Average'], 0], [['相对独立', 'Relatively independent'], 1], [['足够大且明确想要弟妹', 'Old enough and explicitly wants a sibling'], 2]] },
+    { q: ['隔代支持情况？', 'Grandparent support?'],
+      opts: [[['完全没有', 'None'], -2], [['偶尔帮忙', 'Occasional'], -1], [['一方能帮', 'One side helps'], 0], [['较稳定', 'Steady support'], 1], [['专人长期帮带', 'Dedicated long-term help'], 2]] },
+    { q: ['对未来 10 年家庭生活的想象？', 'Your vision for the next 10 years of family life?'],
+      opts: [[['希望回归个人 / 事业', 'Want to return to self / career'], -2], [['想要更多自由', 'Want more freedom'], -1], [['没想清楚', 'Not yet clear'], 0], [['继续家庭中心', 'Family-centered'], 1], [['热闹的多孩家庭让我向往', 'A lively, multi-kid family appeals to me'], 2]] },
+    { q: ['妈妈这一方的生育窗口？', 'Mother\'s biological window?'],
+      opts: [[['35+ 备孕风险高', '35+ with elevated risk'], -1], [['35+ 但身体不错', '35+ in good health'], 0], [['30–35', '30–35'], 0], [['28–30', '28–30'], 1], [['< 28', '< 28'], 2]] },
+    { q: ['当下生活的整体满意度？', 'Overall life satisfaction right now?'],
+      opts: [[['很疲惫', 'Very tired'], -2], [['有压力但稳定', 'Stressed but stable'], -1], [['还行', 'OK'], 0], [['挺满意', 'Quite satisfied'], 1], [['很好', 'Great'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['生活重心再次回到育儿', 'Life recenters around childcare again.'],
+         y3: ['家庭节奏复杂化', 'Family rhythm becomes more complex.'],
+         y5: ['家庭更热闹，个人时间继续被压缩', 'Family is livelier, personal time stays compressed.'] },
+    B: { y1: ['家庭节奏保持稳定', 'Family rhythm stays stable.'],
+         y3: ['财务和精力重新积累', 'Finances and energy rebuild.'],
+         y5: ['父母有自己的中场休息', 'Parents get their own mid-life intermission.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['准备好了', 'Ready'], headline: ['你具备生二胎的基础', 'You have the foundation for a second child'],
+      desc: ['伴侣对齐、经济、精力、支持都到位。', 'Partner aligned, finances, energy, and support all in place.'],
+      steps: [['和伴侣明确分工', 'Define clear roles with your partner'], ['盘点未来 5 年财务', 'Map out the next 5 years of finances'], ['和老大坦诚沟通', 'Have an honest conversation with your first child'], ['建立妈妈休息日机制', 'Set up a "mom rest day" system'], ['保留各自的个人时间', 'Preserve individual personal time']] },
+    { min: 3, tag: ['基本可行，但有几个点要先解决', 'Mostly workable, fix a few things first'], headline: ['看你怎么补缺口', 'See how you fill the gaps'],
+      desc: ['有 1–2 个维度还需要明确。', '1–2 dimensions need more clarity.'],
+      steps: [['用 6 个月改善最薄弱维度', 'Spend 6 months strengthening the weakest dimension'], ['做角色分工深谈', 'Have a deep talk about role division'], ['咨询医生评估身体', 'Consult a doctor about physical readiness'], ['规划老大的过渡', 'Plan the older child\'s transition'], ['不被亲戚催裹挟', 'Don\'t be pushed by relatives']] },
+    { min: -2, tag: ['现在还不是时候', 'Not the right time yet'], headline: ['硬件没问题，节奏未必合适', 'The conditions are OK, but the timing may not be'],
+      desc: ['没有强烈意愿的情况下二胎会放大压力。', 'Without strong desire, a second child amplifies existing stress.'],
+      steps: [['专注当下', 'Focus on the present'], ['放在 1–2 年后再讨论', 'Revisit in 1–2 years'], ['改善睡眠 / 精力 / 财务', 'Improve sleep, energy, finances'], ['区分自己意愿和社会期待', 'Separate your desire from social expectation'], ['不要不是失败', 'Not having is not failure']] },
+    { min: -8, tag: ['不建议二胎', 'Don\'t recommend a second child'], headline: ['现在更需要的是修复', 'What you need now is repair, not expansion'],
+      desc: ['伴侣不一致或精力透支。', 'Partner misalignment or energy depletion.'],
+      steps: [['把不要作为明确选项', 'Put "not having" on the table as a real option'], ['和伴侣谈背后真正诉求', 'Discuss the real needs behind the question'], ['资源给老大和你们自己', 'Direct resources to your first child and yourselves'], ['不被「老大孤单」绑架', 'Don\'t be held hostage by "only child will be lonely"'], ['考虑其他扩展家庭方式', 'Consider other ways to expand the family']] },
+    { min: -16, tag: ['不要', 'No'], headline: ['现在生二胎是负优化', 'A second child now is a net loss'],
+      desc: ['硬件、软件、对齐都不到位。', 'Conditions, mindset, and alignment all not in place.'],
+      steps: [['一胎家庭不是不完整', 'A one-child family is not incomplete'], ['精力给已有家庭', 'Direct energy to your existing family'], ['伴侣坚持时做夫妻咨询', 'If partner insists, do couples counseling'], ['解决根本问题再回头', 'Solve the root issues before reconsidering'], ['5 年后情况变了再评估', 'Reassess in 5 years if things change']] }
+  ]
+},
+
+reunion: {
+  id: 'reunion',
+  title: ['和前任复合还是放手', 'Get Back with Ex or Move On'],
+  pathA: ['复合', 'Reunite'], pathB: ['放手', 'Move on'], color: 'violet',
+  oneLiner: ['是怀念过去，还是真的想重新建立？', 'Is it nostalgia, or do you really want to rebuild?'],
+  subtitle: ['分手原因、改变证据、当前状态——一个用来照见自己的工具。', 'Breakup reasons, evidence of change, current state — a mirror, not a verdict.'],
+  caveat: ['这个测评不会替你决定。它只是帮你看清自己。', 'This won\'t decide for you. It just helps you see yourself.'],
+  questions: [
+    { q: ['当初分手的核心原因，现在还存在吗？', 'The core reason for the breakup — does it still exist?'],
+      opts: [[['完全没解决', 'Completely unresolved'], -2], [['解决一点根源还在', 'Slightly improved, root remains'], -1], [['没好好谈过', 'Never properly discussed'], 0], [['有明显改善', 'Clear improvement'], 1], [['彻底改变', 'Fundamentally changed'], 2]] },
+    { q: ['双方有什么明确的改变证据？', 'What concrete evidence of change exists for both of you?'],
+      opts: [[['只是想念', 'Just missing each other'], -2], [['说了会变但没行动', 'Talked about it, no action'], -1], [['一方有些变化', 'One side has changed somewhat'], 0], [['双方都有行动', 'Both have taken action'], 1], [['有时间、有验证', 'Time has passed, change is verified'], 2]] },
+    { q: ['你想复合的动力？', 'Your motivation to get back together?'],
+      opts: [[['怕孤独', 'Fear of loneliness'], -2], [['后悔分手', 'Regret breaking up'], -1], [['不确定', 'Unsure'], 0], [['想给第二次机会', 'Want to give a second chance'], 1], [['基于成长后的重新选择', 'A reselection after growth'], 2]] },
+    { q: ['分手后你的整体状态？', 'Your overall state after the breakup?'],
+      opts: [[['持续低谷', 'Persistent low'], -2], [['时好时坏', 'Up and down'], -1], [['一般', 'Average'], 0], [['基本恢复', 'Mostly recovered'], 1], [['过得不错', 'Doing well'], 2]] },
+    { q: ['对方还会影响你的情绪 / 工作吗？', 'Do they still affect your emotions / work?'],
+      opts: [[['频繁严重影响', 'Frequently and seriously'], -2], [['偶尔', 'Occasionally'], -1], [['不太', 'Not really'], 0], [['基本没', 'Mostly no'], 1], [['完全独立', 'Fully independent'], 2]] },
+    { q: ['双方在核心目标上的对齐？', 'Alignment on core life goals?'],
+      opts: [[['难调和分歧', 'Irreconcilable differences'], -2], [['有分歧但能谈', 'Differences, but discussable'], -1], [['没谈过', 'Never discussed'], 0], [['基本一致', 'Mostly aligned'], 1], [['深聊过且一致', 'Discussed deeply, aligned'], 2]] },
+    { q: ['了解情况的朋友怎么看？', 'What do your close friends who know the situation think?'],
+      opts: [[['强烈反对', 'Strongly against'], -2], [['担心你', 'Worried about you'], -1], [['没意见', 'No opinion'], 0], [['表示理解', 'Understanding'], 1], [['支持你', 'Supportive'], 2]] },
+    { q: ['想象半年后，你最希望做了哪种选择？', 'Imagine 6 months from now — which choice would you most want to have made?'],
+      opts: [[['彻底放下', 'Fully moved on'], -2], [['给自己距离再判断', 'Took distance, then decided'], -1], [['不确定', 'Unsure'], 0], [['尝试过复合', 'Tried getting back together'], 1], [['一起重建', 'Rebuilding together'], 2]] },
+  ],
+  trajectory: {
+    A: { y1: ['前 3 个月回到熟悉感，但旧问题重新出现', 'First 3 months feel familiar, but old problems resurface.'],
+         y3: ['要么找到新的相处模式，要么二次分手且更痛', 'Either you find a new way of being together, or you break up again — more painfully.'],
+         y5: ['少数复合关系长期稳定，但需要持续修复', 'A small share of reunions last. They require continuous repair work.'] },
+    B: { y1: ['前 3–6 个月有反复、想念，但你逐渐找回自己', 'First 3–6 months: relapses and longing — but you slowly find yourself.'],
+         y3: ['认识新的人，关系标准更清晰', 'Meet new people. Your relationship standards become clearer.'],
+         y5: ['回头看，分手是当时最对的决定', 'In hindsight, the breakup was the right call at the time.'] }
+  },
+  profiles: [
+    { min: 9, tag: ['可以尝试复合', 'Worth trying to reunite'], headline: ['不是冲动，是有依据的重新选择', 'Not impulsive — an evidence-based reselection'],
+      desc: ['分手原因已变，双方都有成长证据。', 'The reason changed. Both of you have evidence of growth.'],
+      steps: [['建立 3 个月非情感的稳定相处', 'Build 3 months of non-romantic stable contact first'], ['坦诚聊上次分手根因', 'Honestly discuss the root cause of the breakup'], ['确认核心目标一致', 'Confirm core goals are aligned'], ['保留各自独立空间', 'Preserve individual space'], ['商量下次冲突的处理方式', 'Agree on how to handle the next conflict']] },
+    { min: 3, tag: ['复合可以谈，但条件要明确', 'Worth discussing — set clear conditions'], headline: ['需要先把丑话说前面', 'Tough conversations need to come first'],
+      desc: ['有些维度可以，但还有隐忧。', 'Some dimensions work, others have hidden concerns.'],
+      steps: [['列出必须先解决的事', 'List the must-resolve issues'], ['设置 3–6 个月观察期', 'Set a 3–6 month observation period'], ['双方拿出改变行动', 'Both side bring concrete actions of change'], ['当作重新认识', 'Treat it as meeting again, not resuming'], ['设明确回看时间点', 'Set a clear review checkpoint']] },
+    { min: -2, tag: ['更像是怀念', 'More nostalgia than desire'], headline: ['想要的可能是某段感觉，不是 ta', 'You may want a feeling, not the person'],
+      desc: ['在自我状态没稳定前复合会重复旧伤。', 'Before your own state stabilizes, reunion repeats old wounds.'],
+      steps: [['先把状态调到稳定', 'Stabilize yourself first'], ['主动建立物理距离 3 个月', 'Maintain physical distance for 3 months'], ['写下我究竟想要什么', 'Write down what you actually want'], ['试着遇见新的可能', 'Try meeting new people'], ['3 个月后再回看', 'Reflect again after 3 months']] },
+    { min: -8, tag: ['建议放手', 'Move on'], headline: ['这次分手有它的道理', 'This breakup has its reasons'],
+      desc: ['核心问题没变、改变证据缺失。', 'Core issues unchanged. No evidence of real change.'],
+      steps: [['至少 3 个月暂停联系', 'No-contact for at least 3 months'], ['清理触发回忆的物品', 'Clear out memory triggers'], ['注意力放在自己成长', 'Focus on your own growth'], ['允许难过但不美化过去', 'Allow grief, but don\'t romanticize the past'], ['相信时间', 'Trust time']] },
+    { min: -16, tag: ['放手', 'Let go'], headline: ['继续纠缠是消耗', 'Holding on is depletion now'],
+      desc: ['这段关系已经走完它该走的路。', 'This relationship has run its course.'],
+      steps: [['彻底断联', 'Cut contact completely'], ['寻求专业心理支持', 'Seek professional psychological support'], ['把经历当作未来关系的参照', 'Use the experience as reference for future relationships'], ['不在脆弱时刻打开对话框', 'Don\'t open the chat window in fragile moments'], ['5 年后你会感谢现在的告别', 'In 5 years you\'ll thank yourself for this goodbye']] }
+  ]
+},
+
+};
+
+const testOrder = ['startup', 'gradschool', 'jobhop', 'career', 'city', 'buyrent', 'abroad', 'marriage', 'secondkid', 'reunion'];
+
+const colorMap = {
+  amber:   { bg: '#fef3c7', border: '#fcd34d', text: '#92400e', main: '#b45309', soft: '#fef9e7' },
+  indigo:  { bg: '#e0e7ff', border: '#a5b4fc', text: '#3730a3', main: '#4f46e5', soft: '#eef2ff' },
+  rose:    { bg: '#ffe4e6', border: '#fda4af', text: '#9f1239', main: '#e11d48', soft: '#fff1f2' },
+  violet:  { bg: '#ede9fe', border: '#c4b5fd', text: '#5b21b6', main: '#7c3aed', soft: '#f5f3ff' },
+  emerald: { bg: '#d1fae5', border: '#6ee7b7', text: '#065f46', main: '#059669', soft: '#ecfdf5' },
+  cyan:    { bg: '#cffafe', border: '#67e8f9', text: '#155e75', main: '#0891b2', soft: '#ecfeff' },
+  orange:  { bg: '#ffedd5', border: '#fdba74', text: '#9a3412', main: '#ea580c', soft: '#fff7ed' },
+  sky:     { bg: '#e0f2fe', border: '#7dd3fc', text: '#075985', main: '#0284c7', soft: '#f0f9ff' },
+  pink:    { bg: '#fce7f3', border: '#f9a8d4', text: '#9d174d', main: '#db2777', soft: '#fdf2f8' },
+  teal:    { bg: '#ccfbf1', border: '#5eead4', text: '#115e59', main: '#0d9488', soft: '#f0fdfa' },
+};
+
+// ============================================================
+// STATE + ROUTING + LANGUAGE
+// ============================================================
+let state = { lang: 'zh', route: 'landing', testId: null, current: 0, answers: {} };
+
+// load saved language
+try { const saved = localStorage.getItem('crossroads-lang'); if (saved) state.lang = saved; } catch (e) {}
+
+const app = document.getElementById('app');
+
+function setLang(lang) {
+  state.lang = lang;
+  try { localStorage.setItem('crossroads-lang', lang); } catch (e) {}
+  document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+  updateNav();
+  render();
+}
+
+function updateNav() {
+  document.getElementById('brand-zh').style.display = state.lang === 'zh' ? '' : 'none';
+  document.getElementById('brand-en').style.display = state.lang === 'en' ? '' : 'none';
+  if (state.lang === 'en') {
+    document.getElementById('brand-en').classList.remove('text-xs', 'text-[var(--muted)]');
+    document.getElementById('brand-en').classList.add('font-display', 'text-lg');
+    document.getElementById('brand-en').style.display = '';
+  } else {
+    document.getElementById('brand-en').classList.add('text-xs', 'text-[var(--muted)]');
+    document.getElementById('brand-en').classList.remove('font-display', 'text-lg');
+  }
+  document.getElementById('nav-decisions').textContent = L(UI.navDecisions);
+  document.getElementById('nav-how').textContent = L(UI.navHow);
+  document.getElementById('nav-pricing').textContent = L(UI.navPricing);
+  document.getElementById('nav-cta').textContent = L(UI.navCta);
+  document.getElementById('lang-zh').classList.toggle('active', state.lang === 'zh');
+  document.getElementById('lang-en').classList.toggle('active', state.lang === 'en');
+}
+
+function go(route, testId) {
+  state.route = route;
+  if (testId !== undefined) state.testId = testId;
+  if (route === 'intro' || route === 'quiz') { state.current = 0; state.answers = {}; }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  render();
+}
+
+function scrollToId(id) {
+  if (state.route !== 'landing') {
+    go('landing');
+    setTimeout(() => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }, 300);
+  } else {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function render() {
+  updateNav();
+  if (state.route === 'landing') return renderLanding();
+  if (state.route === 'intro') return renderIntro();
+  if (state.route === 'quiz') return renderQuiz();
+  if (state.route === 'result') return renderResult();
+}
+
+// ============================================================
+// LANDING
+// ============================================================
+function renderLanding() {
+  const howSteps = state.lang === 'en' ? UI.howSteps[1] : UI.howSteps[0];
+  const faqs = state.lang === 'en' ? UI.faqs[1] : UI.faqs[0];
+  const diffLeftItems = state.lang === 'en' ? UI.diffLeftItems[1] : UI.diffLeftItems[0];
+  const diffRightItems = state.lang === 'en' ? UI.diffRightItems[1] : UI.diffRightItems[0];
+  const priceFreeFeatures = state.lang === 'en' ? UI.priceFreeFeatures[1] : UI.priceFreeFeatures[0];
+  const priceProFeatures = state.lang === 'en' ? UI.priceProFeatures[1] : UI.priceProFeatures[0];
+
+  app.innerHTML = `
+    <section class="hero-bg relative overflow-hidden">
+      <div class="grain"></div>
+      <div class="max-w-6xl mx-auto px-5 md:px-8 pt-16 md:pt-28 pb-20 md:pb-32 relative">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(180,83,9,0.15)] border border-[rgba(180,83,9,0.3)] mb-8">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#fbbf24] pulse-dot"></span>
+            <span class="text-xs text-[#fde68a] tracking-wider">${L(UI.heroBadge)}</span>
+          </div>
+          <h1 class="font-display-heavy text-5xl md:text-7xl text-[var(--cream)] leading-[1.05] mb-7">
+            ${L(UI.heroTitle1)}<br/>
+            <span style="background: linear-gradient(135deg, #fde68a 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${L(UI.heroTitle2)}</span>
+          </h1>
+          <p class="text-lg md:text-xl text-[rgba(250,247,242,0.75)] leading-relaxed mb-10 max-w-2xl">${L(UI.heroSub)}</p>
+          <div class="flex flex-wrap gap-3 mb-12">
+            <button onclick="scrollToId('decisions')" class="btn-primary" style="background: var(--cream); color: var(--ink);">${L(UI.heroCtaPrimary)}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <button onclick="scrollToId('how')" class="btn-secondary" style="border-color: rgba(250,247,242,0.4); color: var(--cream);">${L(UI.heroCtaSecondary)}</button>
+          </div>
+          <div class="grid grid-cols-3 gap-6 max-w-xl pt-8 border-t border-[rgba(250,247,242,0.15)]">
+            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">12,847</div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN1)}</div></div>
+            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">84<span class="text-xl text-[rgba(250,247,242,0.7)]">%</span></div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN2)}</div></div>
+            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">2.3</div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN3)}</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 right-0 h-12" style="background: linear-gradient(to bottom, transparent, var(--cream));"></div>
+    </section>
+
+    <section class="py-20 md:py-28">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.problemEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.problemTitle)}</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5">
+          ${problemQuotes.map(item => {
+            const arr = state.lang === 'en' ? item[1] : item[0];
+            return `<div class="card p-7"><div class="text-3xl text-[var(--accent)] font-serif mb-2">"</div><p class="text-lg leading-relaxed text-[var(--ink-soft)] mb-4">${arr[0]}</p><div class="text-xs text-[var(--muted)] tracking-wider">— ${arr[1]}</div></div>`;
+          }).join('')}
+        </div>
+        <p class="text-center mt-14 text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">${L(UI.problemFooter)}</p>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-28 bg-[var(--cream-2)]">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.diffEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight mb-5">${L(UI.diffTitle1)}<br/><span class="gradient-text">${L(UI.diffTitle2)}</span></h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5 mb-12">
+          <div class="card p-8 opacity-70">
+            <div class="text-xs tracking-wider text-[var(--muted)] mb-3">${L(UI.diffLeftHeader)}</div>
+            <div class="font-display text-xl mb-5 text-[var(--muted)]">${L(UI.diffLeftSub)}</div>
+            <ul class="space-y-3 text-[var(--muted)] text-sm">${diffLeftItems.map(i => `<li class="flex gap-2"><span>→</span><span>${i}</span></li>`).join('')}</ul>
+          </div>
+          <div class="card p-8" style="background: var(--ink); border-color: var(--ink);">
+            <div class="text-xs tracking-wider mb-3" style="color: var(--accent-soft);">${L(UI.diffRightHeader)}</div>
+            <div class="font-display text-xl mb-5 text-[var(--cream)]">${L(UI.diffRightSub)}</div>
+            <ul class="space-y-3 text-[var(--cream)] text-sm">${diffRightItems.map(i => `<li class="flex gap-2"><span class="check">✓</span><span>${i}</span></li>`).join('')}</ul>
+          </div>
+        </div>
+        <div class="text-center"><p class="text-[var(--muted)] italic">${L(UI.diffQuote)}</p></div>
+      </div>
+    </section>
+
+    <section id="how" class="py-20 md:py-28">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-16">
+          <div class="eyebrow mb-3">${L(UI.howEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.howTitle)}</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          ${howSteps.map(step => `<div class="card p-8"><div class="font-display text-5xl text-[var(--accent)] mb-4">${step[0]}</div><h3 class="font-display text-xl mb-3">${step[1]}</h3><p class="text-[var(--muted)] text-sm leading-relaxed">${step[2]}</p></div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section id="decisions" class="py-20 md:py-28 bg-[var(--cream-2)]">
+      <div class="max-w-6xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.decEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight mb-5">${L(UI.decTitle)}</h2>
+          <p class="text-[var(--muted)] text-lg max-w-2xl mx-auto">${L(UI.decSub)}</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mb-12">
+          ${testOrder.map((id, idx) => {
+            const t = tests[id];
+            const c = colorMap[t.color];
+            return `<button onclick="go('intro', '${id}')" class="card card-hoverable text-left p-6 flex gap-5 items-start">
+              <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-display text-lg" style="background: ${c.bg}; color: ${c.text};">${String(idx + 1).padStart(2, '0')}</div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-display text-lg mb-1.5">${L(t.title)}</h3>
+                <p class="text-sm text-[var(--ink-soft)] leading-snug mb-3">${L(t.oneLiner)}</p>
+                <div class="flex items-center gap-2 text-xs text-[var(--muted)]"><span>${L(UI.decCard)}</span><span class="divider-dot">·</span><span style="color: ${c.main};">${L(UI.decStart)}</span></div>
+              </div>
+            </button>`;
+          }).join('')}
+        </div>
+        <div class="text-center"><div class="inline-flex items-center gap-2 text-sm text-[var(--muted)]">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+          ${L(UI.decMore)}
+        </div></div>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-28">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.previewEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight mb-5">${L(UI.previewTitle)}</h2>
+        </div>
+        <div class="card p-7 md:p-10 max-w-3xl mx-auto" style="box-shadow: 0 30px 60px -25px rgba(26,22,18,0.25);">
+          <div class="text-xs tracking-wider text-[var(--accent)] mb-3">${L(UI.previewTag)}</div>
+          <h3 class="font-display text-2xl md:text-3xl mb-3">${L(UI.previewHead)}</h3>
+          <p class="text-[var(--muted)] mb-6">${L(UI.previewDesc)}</p>
+          <div class="mb-6">
+            <div class="flex justify-between text-xs text-[var(--muted)] mb-2"><span>${L(UI.previewLean)}</span><span>${L(UI.previewMid)}</span><span>${L(UI.previewHigh)}</span></div>
+            <div class="relative h-2.5 rounded-full" style="background: linear-gradient(to right, #e8e1d4, #fef3c7, #fbbf24);">
+              <div class="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full pulse-dot" style="background: var(--ink); border: 2px solid white; left: calc(52% - 8px);"></div>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <div class="rounded-xl p-4" style="background: var(--accent-soft); border: 1px solid #fcd34d;">
+              <div class="text-xs font-bold tracking-wider text-[var(--accent)] mb-3">${L(UI.previewPathA)}</div>
+              <div class="space-y-2 text-xs text-[var(--ink-soft)]">
+                <div><strong>${L(UI.previewA1)}</strong>${L(UI.previewA1d)}</div>
+                <div><strong>${L(UI.previewA2)}</strong>${L(UI.previewA2d)}</div>
+                <div><strong>${L(UI.previewA3)}</strong>${L(UI.previewA3d)}</div>
+              </div>
+            </div>
+            <div class="rounded-xl p-4 bg-stone-50 border border-stone-200">
+              <div class="text-xs font-bold tracking-wider text-stone-500 mb-3">${L(UI.previewPathB)}</div>
+              <div class="space-y-2 text-xs text-stone-600">
+                <div><strong>${L(UI.previewA1)}</strong>${L(UI.previewB1d)}</div>
+                <div><strong>${L(UI.previewA2)}</strong>${L(UI.previewB2d)}</div>
+                <div><strong>${L(UI.previewA3)}</strong>${L(UI.previewB3d)}</div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-xl p-5" style="background: var(--ink); color: var(--cream);">
+            <div class="text-xs tracking-wider mb-3" style="color: var(--accent-soft);">${L(UI.previewNext)}</div>
+            <ol class="space-y-2 text-sm">
+              <li class="flex gap-2"><span class="text-[#fde68a] font-display">1.</span><span>${L(UI.previewStep1)}</span></li>
+              <li class="flex gap-2"><span class="text-[#fde68a] font-display">2.</span><span>${L(UI.previewStep2)}</span></li>
+              <li class="flex gap-2"><span class="text-[#fde68a] font-display">3.</span><span>${L(UI.previewStep3)}</span></li>
+            </ol>
+          </div>
+        </div>
+        <p class="text-center text-[var(--muted)] mt-8 text-sm">${L(UI.previewCta)}<button onclick="scrollToId('decisions')" class="link-underline text-[var(--ink)] font-medium">${L(UI.previewCtaLink)}</button> →</p>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-28 bg-[var(--cream-2)]">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.testEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.testTitle)}</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-5">
+          ${testimonials.map(t => `
+            <div class="card p-7">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="avatar" style="background: ${t.color};">${L(t.n)}</div>
+                <div><div class="font-medium text-sm">${L(t.name)}<span class="text-[var(--muted)] font-normal">, ${t.age}</span></div><div class="text-xs text-[var(--muted)]">${L(UI.testTook)} · ${L(t.dec)}</div></div>
+              </div>
+              <p class="text-sm leading-relaxed text-[var(--ink-soft)]">"${L(t.q)}"</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 md:py-28">
+      <div class="max-w-5xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.priceEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.priceTitle)}</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+          <div class="card p-8">
+            <div class="text-xs tracking-wider text-[var(--muted)] mb-3">${L(UI.priceFreeTag)}</div>
+            <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceFreePrice)}</span><span class="text-[var(--muted)]">${L(UI.priceFreeUnit)}</span></div>
+            <p class="text-sm text-[var(--muted)] mb-7">${L(UI.priceFreeSub)}</p>
+            <ul class="space-y-3 text-sm mb-8">${priceFreeFeatures.map(f => `<li class="flex gap-2"><span class="check flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
+            <button onclick="scrollToId('decisions')" class="btn-secondary w-full justify-center">${L(UI.priceFreeCta)}</button>
+          </div>
+          <div class="card p-8 relative" style="background: var(--ink); border-color: var(--ink); color: var(--cream);">
+            <div class="absolute top-4 right-4 px-3 py-1 text-xs rounded-full" style="background: var(--accent); color: white;">${L(UI.pricePopular)}</div>
+            <div class="text-xs tracking-wider mb-3" style="color: var(--accent-soft);">${L(UI.priceProTag)}</div>
+            <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceProPrice)}</span><span style="color: rgba(250,247,242,0.6);">${L(UI.priceProUnit)}</span></div>
+            <p class="text-sm mb-7" style="color: rgba(250,247,242,0.7);">${L(UI.priceProSub)}</p>
+            <ul class="space-y-3 text-sm mb-8">${priceProFeatures.map(f => `<li class="flex gap-2"><span style="color: #fde68a;" class="flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
+            <button onclick="scrollToId('decisions')" class="btn-primary w-full justify-center" style="background: var(--cream); color: var(--ink);">${L(UI.priceProCta)}</button>
+          </div>
+        </div>
+        <p class="text-center text-[var(--muted)] text-sm mt-8">${L(UI.priceNote)}</p>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-28 bg-[var(--cream-2)]">
+      <div class="max-w-3xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-14">
+          <div class="eyebrow mb-3">${L(UI.faqEyebrow)}</div>
+          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.faqTitle)}</h2>
+        </div>
+        <div class="space-y-3">
+          ${faqs.map((item, i) => `<details class="card p-5 md:p-6 group" ${i === 0 ? 'open' : ''}>
+            <summary class="flex justify-between items-center gap-4"><span class="font-medium text-base md:text-lg">${item[0]}</span><span class="arrow flex-shrink-0 text-2xl text-[var(--muted)] font-light">+</span></summary>
+            <p class="mt-4 text-[var(--muted)] leading-relaxed text-sm md:text-base">${item[1]}</p>
+          </details>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 md:py-32 hero-bg relative overflow-hidden">
+      <div class="grain"></div>
+      <div class="max-w-3xl mx-auto px-5 md:px-8 text-center relative">
+        <h2 class="font-display-heavy text-4xl md:text-6xl text-[var(--cream)] leading-tight mb-6">${L(UI.finalTitle)}</h2>
+        <p class="text-lg text-[rgba(250,247,242,0.7)] mb-10 leading-relaxed">${L(UI.finalSub)}</p>
+        <button onclick="scrollToId('decisions')" class="btn-primary" style="background: var(--cream); color: var(--ink); padding: 18px 36px; font-size: 16px;">${L(UI.finalCta)}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="text-xs text-[rgba(250,247,242,0.5)] mt-8 tracking-wider">${L(UI.finalFoot)}</p>
+      </div>
+    </section>
+
+    <footer class="py-12 border-t border-[var(--line)]">
+      <div class="max-w-6xl mx-auto px-5 md:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+          <div>
+            <div class="flex items-center gap-2.5 mb-3">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 4 V14 M16 14 L8 28 M16 14 L24 28" stroke="#1a1612" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="14" r="2" fill="#b45309"/></svg>
+              <span class="font-display">${state.lang === 'en' ? 'Crossroads' : '岔路口 · Crossroads'}</span>
+            </div>
+            <p class="text-sm text-[var(--muted)] max-w-sm">${L(UI.footerTagline)}</p>
+          </div>
+          <div class="text-sm text-[var(--muted)] space-y-2">
+            <div>${L(UI.footerAbout)}</div><div>${L(UI.footerBlog)}</div><div>${L(UI.footerPrivacy)}</div><div>${L(UI.footerContact)}</div>
+          </div>
+        </div>
+        <div class="mt-10 pt-6 border-t border-[var(--line)] text-xs text-[var(--muted)] flex justify-between"><div>${L(UI.footerCopy)}</div><div>${L(UI.footerSlogan)}</div></div>
+      </div>
+    </footer>
+  `;
+}
+
+// ============================================================
+// INTRO
+// ============================================================
+function renderIntro() {
+  const t = tests[state.testId];
+  const c = colorMap[t.color];
+  app.innerHTML = `
+    <div class="max-w-2xl mx-auto px-5 md:px-8 py-12 md:py-20 fade-in">
+      <button onclick="go('landing')" class="mb-8 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>${L(UI.back)}
+      </button>
+      <div class="inline-block px-3 py-1.5 rounded-full mb-6 text-xs tracking-wider" style="background: ${c.bg}; color: ${c.text};">${L(t.pathA)} vs ${L(t.pathB)}</div>
+      <h1 class="font-display-heavy text-4xl md:text-5xl leading-tight mb-5">${L(t.title)}</h1>
+      <p class="text-xl text-[var(--muted)] leading-relaxed mb-8">${L(t.subtitle)}</p>
+      <div class="card p-5 mb-8 text-sm leading-relaxed" style="background: ${c.soft}; border-color: ${c.border}; color: ${c.text};">
+        <strong>${L(UI.introHeadsUp)}</strong> ${L(t.caveat)}
+      </div>
+      <div class="card p-6 mb-10">
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div><div class="font-display text-3xl">${t.questions.length}</div><div class="text-xs text-[var(--muted)] mt-1 tracking-wider">${L(UI.introQ)}</div></div>
+          <div class="border-x border-[var(--line)]"><div class="font-display text-3xl">5</div><div class="text-xs text-[var(--muted)] mt-1 tracking-wider">${L(UI.introMin)}</div></div>
+          <div><div class="font-display text-3xl">2</div><div class="text-xs text-[var(--muted)] mt-1 tracking-wider">${L(UI.introPaths)}</div></div>
+        </div>
+      </div>
+      <button onclick="go('quiz', '${t.id}')" class="btn-primary">${L(UI.introStart)}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  `;
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+function renderQuiz() {
+  const t = tests[state.testId];
+  const c = colorMap[t.color];
+  const q = t.questions[state.current];
+  const total = t.questions.length;
+  const progress = (state.current / total) * 100;
+  const selected = state.answers[state.current];
+
+  app.innerHTML = `
+    <div class="max-w-2xl mx-auto px-5 md:px-8 py-10 md:py-16 fade-in">
+      <button onclick="go('landing')" class="mb-8 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>${L(UI.back)}
+      </button>
+      <div class="mb-10">
+        <div class="flex justify-between items-center text-xs text-[var(--muted)] mb-3">
+          <span class="tracking-wider">${L(t.title)} · ${L(UI.quizQ)} ${state.current + 1} ${L(UI.quizOf)} ${total}</span>
+          <span class="font-display">${Math.round(progress)}%</span>
+        </div>
+        <div class="h-1 bg-[var(--line)] rounded-full overflow-hidden"><div class="progress-bar h-full rounded-full" style="width: ${progress}%; background: ${c.main};"></div></div>
+      </div>
+      <h2 class="font-display text-2xl md:text-3xl leading-snug mb-8">${L(q.q)}</h2>
+      <div class="space-y-3 mb-10">
+        ${q.opts.map((opt) => `<button onclick="pickOption(${opt[1]})" class="option-btn ${selected !== undefined && selected === opt[1] ? 'selected' : ''}"><span class="dot"></span><span>${L(opt[0])}</span></button>`).join('')}
+      </div>
+      <div class="flex justify-between items-center">
+        <button onclick="prevQ()" class="inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition ${state.current === 0 ? 'invisible' : ''}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 18l-6-6 6-6M5 12h14"/></svg>${L(UI.quizPrev)}
+        </button>
+        ${selected !== undefined ? `<button onclick="nextQ()" class="btn-primary">${state.current === total - 1 ? L(UI.quizFinish) : L(UI.quizNext)}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>` : '<div></div>'}
+      </div>
+    </div>
+  `;
+}
+
+function pickOption(score) { state.answers[state.current] = score; render(); }
+function nextQ() { const t = tests[state.testId]; if (state.current < t.questions.length - 1) { state.current++; render(); } else { state.route = 'result'; window.scrollTo({ top: 0, behavior: 'smooth' }); render(); } }
+function prevQ() { if (state.current > 0) { state.current--; render(); } }
+
+// ============================================================
+// RESULT
+// ============================================================
+function renderResult() {
+  const t = tests[state.testId];
+  const c = colorMap[t.color];
+  const total = Object.values(state.answers).reduce((a, b) => a + b, 0);
+  const profile = t.profiles.find(p => total >= p.min) || t.profiles[t.profiles.length - 1];
+  const maxScore = t.questions.length * 2;
+  const overallPct = ((total + maxScore) / (maxScore * 2)) * 100;
+  const leanA = total > 2; const leanB = total < -2;
+  const ranked = Object.entries(state.answers).map(([idx, score]) => ({ idx: parseInt(idx), score, abs: Math.abs(score) })).sort((a, b) => b.abs - a.abs);
+  const topTilts = ranked.filter(r => r.abs >= 1).slice(0, 3);
+
+  app.innerHTML = `
+    <div class="max-w-3xl mx-auto px-5 md:px-8 py-10 md:py-16 fade-in">
+      <button onclick="go('landing')" class="mb-8 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>${L(UI.back)}
+      </button>
+      <div class="inline-block px-3 py-1.5 rounded-full mb-4 text-xs tracking-wider" style="background: ${c.bg}; color: ${c.text};">${L(profile.tag)}</div>
+      <h1 class="font-display-heavy text-3xl md:text-5xl leading-tight mb-4">${L(profile.headline)}</h1>
+      <p class="text-lg text-[var(--muted)] leading-relaxed mb-10">${L(profile.desc)}</p>
+
+      <div class="card p-6 md:p-7 mb-5">
+        <div class="flex justify-between text-xs text-[var(--muted)] mb-3 tracking-wider">
+          <span>${L(UI.resLeanLow)} ${L(t.pathB)}</span><span>${L(UI.resLeanMid)}</span><span>${L(UI.resLeanLow)} ${L(t.pathA)}</span>
+        </div>
+        <div class="relative h-3 rounded-full" style="background: linear-gradient(to right, #e8e1d4 0%, #f5f1e8 50%, ${c.bg} 100%);">
+          <div class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full pulse-dot" style="background: var(--ink); border: 2.5px solid white; left: calc(${overallPct}% - 10px);"></div>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+          <div class="text-xs text-[var(--muted)]">${L(UI.resYourScore)}</div>
+          <div class="font-display text-2xl" style="color: ${c.main};">${total > 0 ? '+' : ''}${total} <span class="text-sm text-[var(--muted)] font-normal">/ ±${maxScore}</span></div>
+        </div>
+      </div>
+
+      <div class="card p-6 md:p-7 mb-5">
+        <div class="mb-5"><h3 class="font-display text-xl mb-1">${L(UI.resTrajTitle)}</h3><p class="text-xs text-[var(--muted)]">${L(UI.resTrajSub)}</p></div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="rounded-2xl p-5" style="background: ${leanA ? c.bg : '#f8f5ef'}; border: 1px solid ${leanA ? c.border : 'var(--line)'};">
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-sm font-bold tracking-wider" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(t.pathA)}</div>
+              ${leanA ? `<div class="text-xs px-2 py-0.5 rounded-full" style="background: ${c.main}; color: white;">${L(UI.resYourDir)}</div>` : ''}
+            </div>
+            <div class="space-y-3 text-sm leading-relaxed">
+              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr1)}</span><br/>${L(t.trajectory.A.y1)}</div>
+              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr3)}</span><br/>${L(t.trajectory.A.y3)}</div>
+              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr5)}</span><br/>${L(t.trajectory.A.y5)}</div>
+            </div>
+          </div>
+          <div class="rounded-2xl p-5" style="background: ${leanB ? c.bg : '#f8f5ef'}; border: 1px solid ${leanB ? c.border : 'var(--line)'};">
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-sm font-bold tracking-wider" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(t.pathB)}</div>
+              ${leanB ? `<div class="text-xs px-2 py-0.5 rounded-full" style="background: ${c.main}; color: white;">${L(UI.resYourDir)}</div>` : ''}
+            </div>
+            <div class="space-y-3 text-sm leading-relaxed">
+              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr1)}</span><br/>${L(t.trajectory.B.y1)}</div>
+              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr3)}</span><br/>${L(t.trajectory.B.y3)}</div>
+              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr5)}</span><br/>${L(t.trajectory.B.y5)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      ${topTilts.length > 0 ? `
+      <div class="card p-6 md:p-7 mb-5">
+        <h3 class="font-display text-xl mb-5">${L(UI.resTopTilts)}</h3>
+        <ol class="space-y-4">
+          ${topTilts.map((r) => {
+            const q = t.questions[r.idx];
+            const opt = q.opts.find(o => o[1] === r.score);
+            const direction = r.score > 0 ? `${L(UI.resTilt)} ${L(t.pathA)}` : `${L(UI.resTilt)} ${L(t.pathB)}`;
+            return `<li class="border-l-2 pl-4" style="border-color: ${c.main};">
+              <div class="text-xs text-[var(--muted)] mb-1.5">${L(q.q)}</div>
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <span class="font-medium text-sm">${L(opt[0])}</span>
+                <span class="text-xs px-2 py-1 rounded-full" style="background: ${c.bg}; color: ${c.text};">${direction}</span>
+              </div>
+            </li>`;
+          }).join('')}
+        </ol>
+      </div>` : ''}
+
+      <div class="rounded-3xl p-6 md:p-8 mb-5" style="background: var(--ink); color: var(--cream);">
+        <div class="text-xs tracking-wider mb-4" style="color: ${c.soft};">${L(UI.resNextTitle)}</div>
+        <ol class="space-y-4">
+          ${profile.steps.map((s, i) => `<li class="flex gap-4">
+            <span class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-display" style="background: ${c.main}; color: white;">${i + 1}</span>
+            <span class="text-sm leading-relaxed pt-1">${L(s)}</span>
+          </li>`).join('')}
+        </ol>
+      </div>
+
+      <div class="card p-6 md:p-7 mb-5" style="background: linear-gradient(135deg, ${c.soft} 0%, var(--cream) 100%); border-color: ${c.border};">
+        <div class="text-xs tracking-wider mb-3" style="color: ${c.text};">${L(UI.resUpsellEyebrow)}</div>
+        <h3 class="font-display text-xl mb-2">${L(UI.resUpsellTitle)}</h3>
+        <p class="text-sm text-[var(--muted)] leading-relaxed mb-5">${L(UI.resUpsellDesc)}</p>
+        <button class="btn-primary">${L(UI.resUpsellCta)}</button>
+      </div>
+
+      <!-- Feedback ask: route to Tally form -->
+      <div class="card p-6 md:p-7 mb-5" style="background: #fef9e7; border-color: #fcd34d;">
+        <div class="flex items-start gap-4">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="font-display text-lg mb-2">${state.lang === 'en' ? 'Got 30 minutes to help shape this?' : '愿意花 30 分钟帮我把这个工具做得更好吗？'}</h3>
+            <p class="text-sm text-[var(--muted)] leading-relaxed mb-4">${state.lang === 'en' ? 'We\'re talking to early users right now. Your feedback directly shapes the next version. Quick Zoom or WeChat call.' : '我们正在和早期用户聊。你的反馈直接决定下一版长什么样。约个 Zoom 或微信视频，半小时就好。'}</p>
+            <a href="https://tally.so/r/YOUR_TALLY_FORM_ID" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 10px 20px;">${state.lang === 'en' ? 'Book a chat →' : '填表预约 →'}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <button onclick="go('quiz', '${t.id}')" class="btn-secondary">${L(UI.resRetake)}</button>
+        <button onclick="go('landing')" class="btn-secondary">${L(UI.resOther)}</button>
+        <button onclick="window.print()" class="btn-secondary">${L(UI.resPrint)}</button>
+      </div>
+
+      <div class="card p-5 mt-8 text-sm text-[var(--muted)] leading-relaxed" style="background: #faf7f2; border-style: dashed;">
+        <strong class="text-[var(--ink)]">${L(UI.resRemindersTitle)}</strong> ${L(UI.resReminders)}
+      </div>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>
