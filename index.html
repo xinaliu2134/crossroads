@@ -1336,40 +1336,76 @@ function renderLanding() {
     </section>
 
     <!-- ========== FOUNDER NOTE ========== -->
-    <section class="py-16 md:py-20">
-      <div class="max-w-2xl mx-auto px-5 md:px-8">
-        <div class="text-center mb-8">
+    <section class="py-20 md:py-28 relative overflow-hidden">
+      <!-- Decorative background quote mark -->
+      <div aria-hidden="true" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-family: 'Source Serif Pro', serif; font-size: 280px; line-height: 1; color: rgba(180,83,9,0.06); pointer-events: none; user-select: none; font-weight: 900;">"</div>
+
+      <div class="max-w-2xl mx-auto px-5 md:px-8 relative">
+        <div class="text-center mb-10">
           <div class="eyebrow mb-3">${state.lang === 'en' ? 'WHY I BUILT THIS' : '为什么我做了这个'}</div>
+          <div style="width: 36px; height: 2px; background: var(--accent); margin: 0 auto; opacity: 0.4;"></div>
         </div>
-        <div class="card p-7 md:p-9" style="background: white;">
-          <div class="flex items-start gap-4 mb-5">
-            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-display text-lg" style="background: var(--ink); color: var(--cream);">N</div>
+
+        <div class="card p-8 md:p-12" style="background: linear-gradient(180deg, #ffffff 0%, #fdfaf6 100%); border-color: var(--line); box-shadow: 0 30px 60px -25px rgba(26,22,18,0.12);">
+
+          <!-- Author block -->
+          <div class="flex items-center gap-4 mb-8 pb-7" style="border-bottom: 1px dashed var(--line);">
+            <div style="position: relative; flex-shrink: 0;">
+              <div style="position: absolute; inset: -3px; border-radius: 50%; background: linear-gradient(135deg, #fde68a 0%, #b45309 100%); opacity: 0.4;"></div>
+              <div class="relative flex items-center justify-center font-display" style="width: 56px; height: 56px; border-radius: 50%; background: var(--ink); color: var(--cream); font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">N</div>
+            </div>
             <div>
-              <div class="font-medium text-base">Nana Liu</div>
-              <div class="text-xs text-[var(--muted)]">${state.lang === 'en' ? 'Chief Scientist · PhD, Behavioral Public Health · Rotterdam' : '首席科学家 · 行为公共卫生博士 · 鹿特丹'}</div>
+              <div class="font-display" style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2;">Nana Liu</div>
+              <div class="text-xs text-[var(--muted)] mt-1" style="letter-spacing: 0.02em;">${state.lang === 'en' ? 'Chief Scientist · PhD, Behavioral Public Health' : '首席科学家 · 行为公共卫生博士'}</div>
+              <div class="text-xs text-[var(--muted)]" style="opacity: 0.7;">${state.lang === 'en' ? 'Rotterdam, the Netherlands' : '荷兰 · 鹿特丹'}</div>
             </div>
           </div>
-          <div class="text-[var(--ink-soft)] leading-relaxed space-y-4" style="font-size: 15px;">
+
+          <!-- Body -->
+          <div class="text-[var(--ink-soft)] leading-[1.75]" style="font-size: 16px;">
             ${state.lang === 'en' ? `
-              <p>I'm Nana. Medical degree from Peking University, PhD in behavioral public health from Erasmus MC in Rotterdam, 22+ peer-reviewed papers across 14 years of research. Almost all my work has been about one thing — using structured assessment to understand why people make the choices they do.</p>
-              <p>But what made me build this tool wasn't the methodology. It was my own life.</p>
-              <p>Fifteen years ago I left Beijing with a one-way ticket to the Netherlands. Years later I moved back to Shenzhen for work, then returned to the Netherlands for family. I live near Rotterdam now with my Dutch husband and our four-year-old son — a joyful mix of East and West. Every one of those moves was a "choose this path, let go of the other" moment. I've made calls in the heat of emotion. I've also waited too long and watched the right window close.</p>
-              <p>What I'm certain about: people aren't usually trapped by the wrong choice. They're trapped by two extremes — rushing in on impulse, or hesitating until the moment is gone.</p>
-              <p>This tool won't decide for you. It does four things: helps you face a choice you've been avoiding, untangles what's in your head, shows what both paths actually cost and offer, and hands you something you can start this week.</p>
-              <p>It's not "accurate." It tries to be honest.</p>
-              <p class="text-sm text-[var(--muted)]">— Nana<br/><span style="opacity:0.7;">P.S. If you want feedback to reach me directly, the yellow box on the result page goes straight to me.</span></p>
+              <p class="mb-5"><span style="font-family: 'Source Serif Pro', serif; font-size: 42px; font-weight: 900; float: left; line-height: 0.85; margin-right: 10px; margin-top: 6px; color: var(--ink);">I</span>'m Nana. Medical degree from Peking University, PhD in behavioral public health from Erasmus MC in Rotterdam, 22+ peer-reviewed papers across 14 years of research. Almost all my work has been about one thing — using structured assessment to understand <em>why people choose what they choose</em>.</p>
+
+              <p class="mb-5">But what made me build this tool wasn't the methodology. It was my own life.</p>
+
+              <p class="mb-5">Fifteen years ago I left Beijing with a one-way ticket to the Netherlands. Years later I moved back to Shenzhen for work, then returned to the Netherlands for family. I live near Rotterdam now with my Dutch husband and our four-year-old son — a joyful mix of East and West. Every one of those moves was a "choose this path, let go of the other" moment. I've made calls in the heat of emotion. I've also waited too long and watched the right window close.</p>
+
+              <!-- Pull quote -->
+              <blockquote style="margin: 32px 0; padding: 0 0 0 22px; border-left: 3px solid var(--accent); font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-style: italic; font-size: 19px; line-height: 1.55; color: var(--ink);">
+                What I'm certain about: people aren't usually trapped by the <em>wrong</em> choice. They're trapped by two extremes — rushing in on impulse, or hesitating until the moment is gone.
+              </blockquote>
+
+              <p class="mb-5">This tool won't decide for you. It does four things: helps you face a choice you've been avoiding, untangles what's in your head, shows what both paths actually cost and offer, and hands you something you can start this week.</p>
+
+              <p class="mb-0">It's not "accurate." It tries to be <em>honest</em>.</p>
             ` : `
-              <p>我是 Nana。北京大学医学部出身，在荷兰 Erasmus MC 拿了行为公共卫生博士，14 年研究生涯里发了 22+ 篇同行评议论文——做的几乎都是同一件事："用结构化问卷和量表，去理解人为什么这样选"。</p>
-              <p>但促使我做这个工具的，不是论文里的方法论，是我自己的人生。</p>
-              <p>15 年前我从北京出发，单程机票到荷兰。后来又因为工作回深圳，再因为家庭回到荷兰。现在我和荷兰丈夫定居在鹿特丹附近，有一个 4 岁的混血儿子。每一次跨洲迁徙，都是一次"选这条路就放下另一条"的重大决择。我有过情绪上头匆忙下决定的时刻，也有过犹豫太久、最佳时机就这样溜走的时刻。</p>
-              <p>我越来越确信：困住人的从来不是"做错了选择"——而是两个极端。要么冲动拍板，要么反复纠结直到机会窗口关上。</p>
-              <p>这个工具不替你做决定。它只做四件事：让你直面那个一直回避的选择、梳理脑子里的乱麻、看清两条路真实的代价和收获、给你一份立刻能开始的行动建议。</p>
-              <p>它不"准"。它只是认真。</p>
-              <p class="text-sm text-[var(--muted)]">—— Nana<br/><span style="opacity:0.7;">附：如果反馈想直接到我，结果页那个黄色框就是。</span></p>
+              <p class="mb-5"><span style="font-family: 'Source Serif Pro', serif; font-size: 42px; font-weight: 900; float: left; line-height: 0.85; margin-right: 10px; margin-top: 6px; color: var(--ink);">我</span>是 Nana。北京大学医学部出身，在荷兰 Erasmus MC 拿了行为公共卫生博士，14 年研究生涯里发了 22+ 篇同行评议论文——做的几乎都是同一件事：<em>用结构化问卷和量表，去理解人为什么这样选</em>。</p>
+
+              <p class="mb-5">但促使我做这个工具的，不是论文里的方法论，是我自己的人生。</p>
+
+              <p class="mb-5">15 年前我从北京出发，单程机票到荷兰。后来因为工作回深圳，又因为家庭回到荷兰。现在我和荷兰丈夫定居在鹿特丹附近，有一个 4 岁的混血儿子。每一次跨洲迁徙，都是一次"选这条路就放下另一条"的重大决择。我有过情绪上头匆忙下决定的时刻，也有过犹豫太久、最佳时机就这样溜走的时刻。</p>
+
+              <!-- Pull quote -->
+              <blockquote style="margin: 32px 0; padding: 0 0 0 22px; border-left: 3px solid var(--accent); font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-style: italic; font-size: 19px; line-height: 1.65; color: var(--ink);">
+                困住人的从来不是"做错了选择"——而是两个极端。要么冲动拍板，要么反复纠结直到机会窗口关上。
+              </blockquote>
+
+              <p class="mb-5">这个工具不替你做决定。它只做四件事：让你直面那个一直回避的选择、梳理脑子里的乱麻、看清两条路真实的代价和收获、给你一份立刻能开始的行动建议。</p>
+
+              <p class="mb-0">它不"准"。它只是<em>认真</em>。</p>
             `}
           </div>
+
+          <!-- Signature -->
+          <div class="mt-10 pt-6" style="border-top: 1px dashed var(--line); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div style="font-family: 'Source Serif Pro', serif; font-size: 26px; font-weight: 700; font-style: italic; color: var(--ink); letter-spacing: -0.01em;">
+              — Nana
+            </div>
+            <div class="text-xs text-[var(--muted)]" style="letter-spacing: 0.05em;">${state.lang === 'en' ? '荷兰 · Rotterdam, 2026' : '鹿特丹 · 2026'}</div>
+          </div>
         </div>
-        <p class="text-center text-xs text-[var(--muted)] mt-5">${state.lang === 'en' ? 'P.S. This is a research preview. Things will change.' : 'P.S. 这是研究预览版，会一直在变。'}</p>
+
+        <p class="text-center text-xs text-[var(--muted)] mt-6" style="letter-spacing: 0.04em;">${state.lang === 'en' ? 'A research preview. Things will keep changing.' : '研究预览版 · 一切都在持续打磨'}</p>
       </div>
     </section>
 
