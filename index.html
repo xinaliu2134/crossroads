@@ -1513,7 +1513,7 @@ function renderResult() {
         <div class="text-xs tracking-wider mb-3" style="color: ${c.text};">${L(UI.resUpsellEyebrow)}</div>
         <h3 class="font-display text-xl mb-2">${L(UI.resUpsellTitle)}</h3>
         <p class="text-sm text-[var(--muted)] leading-relaxed mb-5">${L(UI.resUpsellDesc)}</p>
-        <button class="btn-primary">${L(UI.resUpsellCta)}</button>
+        <button onclick="scrollToId('pricing')" class="btn-primary">${L(UI.resUpsellCta)}</button>
       </div>
 
       <!-- Feedback ask: route to Tally form -->
@@ -1523,9 +1523,9 @@ function renderResult() {
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
           <div class="flex-1">
-            <h3 class="font-display text-lg mb-2">${state.lang === 'en' ? 'Got 30 minutes to help shape this?' : '愿意花 30 分钟帮我把这个工具做得更好吗？'}</h3>
-            <p class="text-sm text-[var(--muted)] leading-relaxed mb-4">${state.lang === 'en' ? 'We\'re talking to early users right now. Your feedback directly shapes the next version. Quick Zoom or WeChat call.' : '我们正在和早期用户聊。你的反馈直接决定下一版长什么样。约个 Zoom 或微信视频，半小时就好。'}</p>
-            <a href="https://tally.so/r/yPoAOx" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 10px 20px;">${state.lang === 'en' ? 'Book a chat →' : '填表预约 →'}</a>
+            <h3 class="font-display text-lg mb-2">${state.lang === 'en' ? 'Got 5 minutes? Help make this better.' : '花 5 分钟，帮我把这个工具做得更好'}</h3>
+            <p class="text-sm text-[var(--muted)] leading-relaxed mb-4">${state.lang === 'en' ? 'A 9-question multi-choice survey, fully anonymous. Your answers directly shape the next version — no calls, no follow-ups, just click and submit.' : '一份 9 道选择题的匿名问卷，5 分钟就能填完。你的答案直接决定下一版怎么改——不约视频、不打扰你，点完提交就行。'}</p>
+            <a href="https://tally.so/r/yPoAOx" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 10px 20px;">${state.lang === 'en' ? 'Take the 5-min survey →' : '填 5 分钟问卷 →'}</a>
           </div>
         </div>
       </div>
