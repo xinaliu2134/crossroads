@@ -92,8 +92,21 @@
 </head>
 <body class="locked">
 <script>
-  // Immediate auth check to prevent flash of locked content
+  // Immediate auth check + URL invite param bypass
   try {
+    // Any ?invite=<value> in URL bypasses the login gate (zero-friction sharing)
+    // The value is stored for analytics (which channel brought the user)
+    const urlParams = new URLSearchParams(window.location.search);
+    const invite = urlParams.get('invite');
+    if (invite && invite.length > 0 && invite.length < 64) {
+      sessionStorage.setItem('cr-auth', '1');
+      localStorage.setItem('cr-auth', '1');
+      localStorage.setItem('cr-invite-source', invite);
+      // Tag the source in Clarity if loaded
+      if (window.clarity) {
+        window.clarity('set', 'invite_source', invite);
+      }
+    }
     if (localStorage.getItem('cr-auth') === '1' || sessionStorage.getItem('cr-auth') === '1') {
       document.body.classList.remove('locked');
     }
@@ -297,12 +310,13 @@ const UI = {
   priceProTag: ['专业版', 'Pro'],
   priceProPrice: ['¥39', '$6'],
   priceProUnit: ['/ 月，年付 ¥299', '/ month · $49 / yr'],
-  priceProSub: ['为认真做选择的人准备', 'For serious decision-makers'],
+  priceProSub: ['为认真做选择的人准备 · 正在打磨中', 'For serious decision-makers · In development'],
+  priceProBadge: ['内测开发中', 'Currently in beta'],
   priceProFeatures: [
     ['免费版全部功能', 'AI 个性化深度分析（自由输入你的具体情况）', '决策日记 + 6 个月回访提醒', '邀请伴侣 / 朋友一起测同一决策', '专业版每年赠送 1 次 1 对 1 决策导师', '解锁未来所有新增决策专题'],
     ['Everything in Free', 'AI-personalized deep analysis (input your real situation)', 'Decision journal + 6-month follow-up', 'Invite partner / friend to take the same one', '1 free 1-on-1 with a decision coach per year', 'All future assessments unlocked']
   ],
-  priceProCta: ['先免费试用 14 天', 'Try free for 14 days'],
+  priceProCta: ['加入 Pro 等待名单 →', 'Join the Pro waitlist →'],
   priceNote: ['不满意 14 天内无理由退款 · 数据加密 · 不向第三方分享', '14-day money-back · Encrypted · Never shared'],
 
   // faq
@@ -365,10 +379,10 @@ const UI = {
   resTopTilts: ['最影响你结果的 3 个回答', 'Top 3 answers that shaped your result'],
   resTilt: ['偏', 'Toward'],
   resNextTitle: ['下一步建议 · 30 天行动清单', 'Next steps · Your 30-day plan'],
-  resUpsellEyebrow: ['想更深一步？', 'Want to go deeper?'],
-  resUpsellTitle: ['用 AI 个性化分析你的具体处境', 'Personalize this with AI'],
-  resUpsellDesc: ['告诉我们你的具体情况（金额、人名、时间），让 AI 给你一份真正针对你的决策报告。专业版每月 ¥39，14 天免费试用。', 'Tell us the specifics — amounts, names, timing — and AI tailors the report to you. Pro is $6/month with a 14-day free trial.'],
-  resUpsellCta: ['解锁专业版 →', 'Unlock Pro →'],
+  resUpsellEyebrow: ['Pro 内测开发中', 'Pro · Currently in beta'],
+  resUpsellTitle: ['想用 AI 给你做个性化分析？', 'Want AI-powered personalization?'],
+  resUpsellDesc: ['专业版会接收你的具体处境（金额、人名、时间），用 AI 给一份真正针对你的报告 + 6 个月后回访你。目前内测开发中——加入等待名单，上线第一时间通知你。', 'Pro will take your specifics (amounts, names, timing) and use AI to write a report tailored to you, plus check in with you 6 months later. We\'re building it now — join the waitlist and we\'ll notify you when it ships.'],
+  resUpsellCta: ['加入 Pro 等待名单 →', 'Join the Pro waitlist →'],
   resRetake: ['重新测一次', 'Retake'],
   resOther: ['去测其他岔路口', 'Try another'],
   resPrint: ['打印结果', 'Print'],
@@ -1097,6 +1111,54 @@ function renderLanding() {
   const priceFreeFeatures = state.lang === 'en' ? UI.priceFreeFeatures[1] : UI.priceFreeFeatures[0];
   const priceProFeatures = state.lang === 'en' ? UI.priceProFeatures[1] : UI.priceProFeatures[0];
 
+  // ===== Personal history (from localStorage) =====
+  let historyHtml = '';
+  try {
+    const history = JSON.parse(localStorage.getItem('cr-history') || '[]');
+    if (history.length > 0) {
+      const labelEyebrow = state.lang === 'en' ? 'YOUR PAST RESULTS' : '你之前测过的';
+      const labelTitle = state.lang === 'en' ? 'Pick up where you left off' : '从你上次停下的地方继续';
+      const labelRetake = state.lang === 'en' ? 'View / Retake →' : '查看 / 重测 →';
+      const labelClear = state.lang === 'en' ? 'Clear history' : '清除历史';
+      const labelAt = state.lang === 'en' ? 'You leaned' : '你倾向';
+      const cards = history.slice(0, 6).map(h => {
+        const t = tests[h.testId];
+        if (!t) return '';
+        const c = colorMap[h.color] || colorMap.amber;
+        const title = state.lang === 'en' ? h.testTitleEn : h.testTitleZh;
+        const tag = state.lang === 'en' ? h.profileTagEn : h.profileTagZh;
+        const days = Math.floor((Date.now() - h.timestamp) / 86400000);
+        const ago = days === 0 ? (state.lang === 'en' ? 'Today' : '今天') : (state.lang === 'en' ? days + 'd ago' : days + ' 天前');
+        return `
+          <button onclick="go('intro', '${h.testId}')" class="card card-hoverable text-left p-4 flex items-center gap-3" style="width: 100%;">
+            <div class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center" style="background: ${c.bg};">
+              <span class="font-display text-sm" style="color: ${c.text};">${h.score > 0 ? '+' : ''}${h.score}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-medium text-sm truncate">${title}</div>
+              <div class="text-xs text-[var(--muted)] truncate">${labelAt}: ${tag} · ${ago}</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--muted); flex-shrink: 0;"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        `;
+      }).join('');
+      historyHtml = `
+        <section class="py-10 md:py-14 bg-[var(--cream-2)]">
+          <div class="max-w-3xl mx-auto px-5 md:px-8">
+            <div class="flex items-end justify-between mb-5 flex-wrap gap-2">
+              <div>
+                <div class="eyebrow mb-2">${labelEyebrow}</div>
+                <h2 class="font-display text-2xl md:text-3xl leading-tight">${labelTitle}</h2>
+              </div>
+              <button onclick="if(confirm('${state.lang === 'en' ? 'Clear all local history?' : '清除所有本地历史？'}')){localStorage.removeItem('cr-history');render();}" class="text-xs text-[var(--muted)] hover:text-[var(--ink)] transition">${labelClear}</button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-3">${cards}</div>
+          </div>
+        </section>
+      `;
+    }
+  } catch (e) {}
+
   app.innerHTML = `
     <section class="hero-bg relative overflow-hidden">
       <div class="grain"></div>
@@ -1125,6 +1187,8 @@ function renderLanding() {
       </div>
       <div class="absolute bottom-0 left-0 right-0 h-12" style="background: linear-gradient(to bottom, transparent, var(--cream));"></div>
     </section>
+
+    ${historyHtml}
 
     <section class="py-20 md:py-28">
       <div class="max-w-5xl mx-auto px-5 md:px-8">
@@ -1271,6 +1335,38 @@ function renderLanding() {
       </div>
     </section>
 
+    <!-- ========== FOUNDER NOTE ========== -->
+    <section class="py-16 md:py-20">
+      <div class="max-w-2xl mx-auto px-5 md:px-8">
+        <div class="text-center mb-8">
+          <div class="eyebrow mb-3">${state.lang === 'en' ? 'WHY I BUILT THIS' : '为什么我做了这个'}</div>
+        </div>
+        <div class="card p-7 md:p-9" style="background: white;">
+          <div class="flex items-start gap-4 mb-5">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-display text-lg" style="background: var(--ink); color: var(--cream);">N</div>
+            <div>
+              <div class="font-medium text-base">Nana</div>
+              <div class="text-xs text-[var(--muted)]">${state.lang === 'en' ? 'Founder, Crossroads · Shanghai' : '岔路口 · 创始人 · 上海'}</div>
+            </div>
+          </div>
+          <div class="text-[var(--ink-soft)] leading-relaxed space-y-4" style="font-size: 15px;">
+            ${state.lang === 'en' ? `
+              <p>I built this because I spent two years stuck between leaving my job and not knowing what came next. I took MBTI three times. I read career books. I asked everyone. None of it helped me actually choose.</p>
+              <p>What I needed wasn\\'t another label — it was a clearer view of what each path would actually look like. So I started writing it down for friends. Then turned it into this.</p>
+              <p>It\\'s not finished. It\\'s probably not "accurate." But for some people it cracks open the conversation they\\'ve been avoiding with themselves. That\\'s enough for now.</p>
+              <p class="text-sm text-[var(--muted)]">If you have feedback, the yellow box after each assessment goes straight to me.</p>
+            ` : `
+              <p>做这个工具是因为我自己花了两年时间，在"要不要离职"这件事上反复纠结。我测过三次 MBTI，读过职业类的书，问过身边所有人。没有一个真正帮我做出选择。</p>
+              <p>我后来发现，我需要的不是又一个标签，而是一份清晰的"如果选 A 大概是什么样、选 B 大概是什么样"。我开始把这种思考写下来给朋友看。然后做成了现在这个东西。</p>
+              <p>它没有做完。它大概率也不"准"。但对一些人来说，它打开了那个一直回避的、和自己的对话。这就够了。</p>
+              <p class="text-sm text-[var(--muted)]">如果你有反馈，结果页那个黄色框直达我邮箱。</p>
+            `}
+          </div>
+        </div>
+        <p class="text-center text-xs text-[var(--muted)] mt-5">${state.lang === 'en' ? 'P.S. This is a research preview. Things will change.' : 'P.S. 这是研究预览版，会一直在变。'}</p>
+      </div>
+    </section>
+
     <section id="pricing" class="py-20 md:py-28">
       <div class="max-w-5xl mx-auto px-5 md:px-8">
         <div class="text-center mb-14">
@@ -1286,12 +1382,12 @@ function renderLanding() {
             <button onclick="scrollToId('decisions')" class="btn-secondary w-full justify-center">${L(UI.priceFreeCta)}</button>
           </div>
           <div class="card p-8 relative" style="background: var(--ink); border-color: var(--ink); color: var(--cream);">
-            <div class="absolute top-4 right-4 px-3 py-1 text-xs rounded-full" style="background: var(--accent); color: white;">${L(UI.pricePopular)}</div>
+            <div class="absolute top-4 right-4 px-3 py-1 text-xs rounded-full" style="background: var(--accent); color: white;">${L(UI.priceProBadge)}</div>
             <div class="text-xs tracking-wider mb-3" style="color: var(--accent-soft);">${L(UI.priceProTag)}</div>
             <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceProPrice)}</span><span style="color: rgba(250,247,242,0.6);">${L(UI.priceProUnit)}</span></div>
             <p class="text-sm mb-7" style="color: rgba(250,247,242,0.7);">${L(UI.priceProSub)}</p>
             <ul class="space-y-3 text-sm mb-8">${priceProFeatures.map(f => `<li class="flex gap-2"><span style="color: #fde68a;" class="flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
-            <button onclick="scrollToId('decisions')" class="btn-primary w-full justify-center" style="background: var(--cream); color: var(--ink);">${L(UI.priceProCta)}</button>
+            <a href="https://tally.so/r/yPoAOx?source=pro-waitlist" target="_blank" rel="noopener" class="btn-primary w-full justify-center" style="background: var(--cream); color: var(--ink); text-decoration: none;">${L(UI.priceProCta)}</a>
           </div>
         </div>
         <p class="text-center text-[var(--muted)] text-sm mt-8">${L(UI.priceNote)}</p>
@@ -1430,6 +1526,25 @@ function renderResult() {
   const ranked = Object.entries(state.answers).map(([idx, score]) => ({ idx: parseInt(idx), score, abs: Math.abs(score) })).sort((a, b) => b.abs - a.abs);
   const topTilts = ranked.filter(r => r.abs >= 1).slice(0, 3);
 
+  // Save this result to local history (last 20)
+  try {
+    const history = JSON.parse(localStorage.getItem('cr-history') || '[]');
+    // Remove any previous entry for this same test (so each test shows once with latest result)
+    const filtered = history.filter(h => h.testId !== t.id);
+    filtered.unshift({
+      testId: t.id,
+      testTitleZh: Array.isArray(t.title) ? t.title[0] : t.title,
+      testTitleEn: Array.isArray(t.title) ? t.title[1] : t.title,
+      profileTagZh: Array.isArray(profile.tag) ? profile.tag[0] : profile.tag,
+      profileTagEn: Array.isArray(profile.tag) ? profile.tag[1] : profile.tag,
+      score: total,
+      maxScore: maxScore,
+      color: t.color,
+      timestamp: Date.now()
+    });
+    localStorage.setItem('cr-history', JSON.stringify(filtered.slice(0, 20)));
+  } catch (e) {}
+
   app.innerHTML = `
     <div class="max-w-3xl mx-auto px-5 md:px-8 py-10 md:py-16 fade-in">
       <button onclick="go('landing')" class="mb-8 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition">
@@ -1513,7 +1628,7 @@ function renderResult() {
         <div class="text-xs tracking-wider mb-3" style="color: ${c.text};">${L(UI.resUpsellEyebrow)}</div>
         <h3 class="font-display text-xl mb-2">${L(UI.resUpsellTitle)}</h3>
         <p class="text-sm text-[var(--muted)] leading-relaxed mb-5">${L(UI.resUpsellDesc)}</p>
-        <button onclick="scrollToId('pricing')" class="btn-primary">${L(UI.resUpsellCta)}</button>
+        <a href="https://tally.so/r/yPoAOx?source=pro-waitlist" target="_blank" rel="noopener" class="btn-primary" style="text-decoration: none;">${L(UI.resUpsellCta)}</a>
       </div>
 
       <!-- Feedback ask: route to Tally form -->
