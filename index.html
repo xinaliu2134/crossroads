@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crossroads · 岔路口</title>
+<title>Crossroads — Life-Decision Assessments | 岔路口</title>
+<meta name="description" content="10 life-decision assessments. Not who you are — where to go next. Compare 1/3/5-year trajectories of both paths and get a 30-day action plan. Free, no signup, 5 minutes.">
+<link rel="canonical" href="https://xinaliu2134.github.io/crossroads/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Crossroads — Life-Decision Assessments">
+<meta property="og:description" content="Stuck at a life crossroads? Compare the 1/3/5-year trajectories of both paths, plus a 30-day action plan. Free, 5 minutes.">
+<meta property="og:url" content="https://xinaliu2134.github.io/crossroads/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Crossroads — Life-Decision Assessments">
+<meta name="twitter:description" content="Not who you are — where to go next. 10 free life-decision assessments with trajectory maps and 30-day action plans.">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Source+Serif+Pro:wght@600;700;900&display=swap" rel="stylesheet">
 
@@ -62,78 +71,9 @@
   .check { color: var(--accent); }
   .divider-dot { color: var(--line); }
 
-  /* ==== LOGIN GATE ==== */
-  body.locked > nav, body.locked > #app, body.locked > footer { display: none !important; }
-  body:not(.locked) > #login-overlay { display: none; }
-  .login-overlay {
-    position: fixed; inset: 0; background: var(--cream);
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px; z-index: 100;
-    background-image: radial-gradient(#e5d9c8 0.8px, transparent 0.8px);
-    background-size: 24px 24px;
-  }
-  .login-card {
-    max-width: 420px; width: 100%; text-align: center;
-    padding: 44px 36px; background: white;
-    border: 1px solid var(--line); border-radius: 24px;
-    box-shadow: 0 30px 60px -25px rgba(26,22,18,0.18);
-  }
-  .login-logo { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 32px; }
-  .login-title { font-family: 'Source Serif Pro', 'Noto Sans SC', serif; font-weight: 900; font-size: 30px; letter-spacing: -0.02em; margin-bottom: 6px; color: var(--ink); }
-  .login-sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; letter-spacing: 0.05em; }
-  .login-input { width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 15px; font-family: inherit; background: #fdfaf6; margin-bottom: 12px; transition: all 0.2s; box-sizing: border-box; color: var(--ink); }
-  .login-input:focus { outline: none; border-color: var(--ink); background: white; }
-  .login-input::placeholder { color: #a8a09a; }
-  .login-btn { width: 100%; padding: 14px; background: var(--ink); color: var(--cream); border: none; border-radius: 12px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; margin-top: 8px; }
-  .login-btn:hover { background: #000; transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(26,22,18,0.4); }
-  .login-error { color: #dc2626; font-size: 13px; margin-top: 14px; min-height: 18px; }
-  .login-foot { color: var(--muted); font-size: 12px; margin-top: 26px; line-height: 1.7; }
-</style>
+  </style>
 </head>
-<body class="locked">
-<script>
-  // Immediate auth check + URL invite param bypass
-  try {
-    // Any ?invite=<value> in URL bypasses the login gate (zero-friction sharing)
-    // The value is stored for analytics (which channel brought the user)
-    const urlParams = new URLSearchParams(window.location.search);
-    const invite = urlParams.get('invite');
-    if (invite && invite.length > 0 && invite.length < 64) {
-      sessionStorage.setItem('cr-auth', '1');
-      localStorage.setItem('cr-auth', '1');
-      localStorage.setItem('cr-invite-source', invite);
-      // Tag the source in Clarity if loaded
-      if (window.clarity) {
-        window.clarity('set', 'invite_source', invite);
-      }
-    }
-    if (localStorage.getItem('cr-auth') === '1' || sessionStorage.getItem('cr-auth') === '1') {
-      document.body.classList.remove('locked');
-    }
-  } catch (e) {}
-</script>
-
-<div id="login-overlay" class="login-overlay">
-  <div class="login-card">
-    <div class="login-logo">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M16 4 V14 M16 14 L8 28 M16 14 L24 28" stroke="#1a1612" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="16" cy="14" r="2" fill="#b45309"/>
-      </svg>
-      <span style="font-family: 'Source Serif Pro', serif; font-weight: 700; font-size: 18px;">岔路口 · Crossroads</span>
-    </div>
-    <div class="login-title">邀请预览</div>
-    <div class="login-sub">INVITE PREVIEW · PRIVATE BETA</div>
-    <form onsubmit="tryLogin(event)">
-      <input id="login-user" class="login-input" type="text" placeholder="Username / 用户名" autocomplete="off" autofocus>
-      <input id="login-pass" class="login-input" type="password" placeholder="Password / 密码" autocomplete="off">
-      <button type="submit" class="login-btn">Enter / 进入 →</button>
-    </form>
-    <div id="login-error" class="login-error"></div>
-    <div class="login-foot">公开发布前的私密预览版<br/>For invited reviewers only</div>
-  </div>
-</div>
-
+<body>
 <nav class="sticky top-0 z-50 backdrop-blur-md bg-[rgba(250,247,242,0.85)] border-b border-[var(--line)]">
   <div class="max-w-6xl mx-auto px-5 md:px-8 py-3 flex items-center justify-between">
     <button onclick="go('landing')" class="flex items-center gap-2.5">
@@ -163,23 +103,6 @@
 // ============================================================
 // LOGIN GATE (Note: client-side only — not real security)
 // ============================================================
-function tryLogin(e) {
-  if (e) e.preventDefault();
-  const u = document.getElementById('login-user').value.trim();
-  const p = document.getElementById('login-pass').value.trim();
-  if (u === 'XLK2026' && p === 'XLK2026') {
-    try {
-      sessionStorage.setItem('cr-auth', '1');
-      localStorage.setItem('cr-auth', '1');
-    } catch (err) {}
-    document.body.classList.remove('locked');
-  } else {
-    const err = document.getElementById('login-error');
-    err.textContent = '用户名或密码错误 / Invalid credentials';
-    document.getElementById('login-pass').value = '';
-    document.getElementById('login-pass').focus();
-  }
-}
 
 // ============================================================
 // BILINGUAL HELPER
@@ -202,7 +125,7 @@ const UI = {
   back: ['返回图书馆', 'Back to library'],
 
   // hero
-  heroBadge: ['研究预览版 · 已有 12,847 人在使用', 'Research preview · 12,847 people deciding'],
+  heroBadge: ['公开测试版 · 完全免费开始', 'Public beta · Free to start'],
   heroTitle1: ['选择比努力，', 'Choices, not effort,'],
   heroTitle2: ['更决定你的一生。', 'decide your life.'],
   heroSub: [
@@ -289,10 +212,44 @@ const UI = {
   previewStep2: ['副业起步，每周 8–10 小时，赚到第一块钱', 'Start a side project, 8–10 hrs/week, until first dollar'],
   previewStep3: ['做 Fractional / 独立顾问换灵活度', 'Try fractional or independent consulting for flexibility'],
 
-  // testimonials
-  testEyebrow: ['用户说', 'What people say'],
-  testTitle: ['做完之后，<br/>他们终于不用再问朋友了', 'After this,<br/>they stopped polling their friends'],
-  testTook: ['测的是', 'Took'],
+
+  // quiz extras
+  quizPrivacy: ['你的答案只保存在这台设备的浏览器里，不会上传到任何服务器。', 'Your answers stay in this browser only — nothing is uploaded to any server.'],
+  inviteBanner: ['有人邀请你做同一个测评——答完后你们可以看到两人的对比。', 'Someone invited you to take this same assessment — finish it to see how you two compare.'],
+
+  // result additions
+  resBasedOn: ['基于你的回答', 'Based on your answers'],
+  resWeakSpot: ['你的关键短板', 'Your key gap'],
+  resYouSaid: ['你说', 'You said'],
+  resWeakSpotNote: ['行动时优先补这一项。', 'Tackle this one first when you act.'],
+  resLockedYears: ['3 年和 5 年的轨迹已锁定', 'Years 3 and 5 are locked'],
+  resMethodTitle: ['这份报告是怎么来的', 'How this report was built'],
+  resMethodBody: ['框架由 Nana Liu 设计——医学背景、行为公共卫生博士，现居荷兰鹿特丹。它不预测人生，只做一件事：把你回避的因素（钱、时机、动机、退路）拆开摆在桌面上，让决策不再只靠情绪。', 'The framework was designed by Nana Liu — medical training, PhD in behavioral public health, based in Rotterdam. It doesn\'t predict your life. It does one thing: lays the factors you\'ve been avoiding — money, timing, motivation, exits — on the table, so emotion isn\'t the only voice in the room.'],
+  resShareCard: ['生成分享卡片', 'Share my result card'],
+  resInvite: ['邀请 TA 对比答案', 'Invite someone to compare'],
+  resInviteCopied: ['对比链接已复制，发给 TA 吧', 'Compare link copied — send it over'],
+  resEmailTitle: ['把报告发到你的邮箱', 'Email me this report'],
+  resEmailDesc: ['留下邮箱，我们把这份报告和 30 天清单发给你，并在 30 天后问一句：行动得怎么样了？', 'Leave your email — we\'ll send you this report + the 30-day plan, and check in after 30 days to ask how it\'s going.'],
+  resEmailCta: ['发送报告 →', 'Send my report →'],
+  cmpTitle: ['你们俩的对比', 'How you two compare'],
+  cmpYou: ['你', 'You'], cmpThem: ['TA', 'Them'],
+  cmpGaps: ['分歧最大的 3 个问题', 'Your 3 biggest divergences'],
+  cmpSame: ['你们的答案高度一致', 'Your answers are remarkably aligned'],
+  cmpNote: ['对比只在你的浏览器里完成，双方答案都不会上传。', 'The comparison happens in your browser only — neither side\'s answers are uploaded.'],
+
+  // paywall
+  payTitle: ['解锁完整报告', 'Unlock your full report'],
+  payDesc: ['完整报告里有：', 'Inside the full report:'],
+  payItems: [
+    ['两条路的 1 / 3 / 5 年轨迹画像', '你的 30 天可执行行动清单', '你的关键短板提示（基于你的回答）'],
+    ['The 1 / 3 / 5-year trajectory of both paths', 'Your 30-day action plan', 'Your key gap, based on your own answers']
+  ],
+  payCtaAll: ['解锁全部 10 个测评 · 永久', 'Unlock all 10 · forever'],
+  payCtaSingle: ['只解锁这一个测评', 'Unlock this one only'],
+  payTrust: ['通过 Gumroad 安全支付 · 支持退款', 'Secure checkout via Gumroad · Refunds honored'],
+  payKeyPlaceholder: ['已购买？粘贴收据里的 License Key', 'Bought already? Paste your license key'],
+  payKeyHint: ['Key 在 Gumroad 的购买收据邮件里', 'Your key is in the Gumroad receipt email'],
+  payHaveKey: ['已购买？输入 License Key', 'Already purchased? Enter your license key'],
 
   // pricing
   priceEyebrow: ['从一次免费测评开始', 'Start with a free assessment'],
@@ -302,22 +259,31 @@ const UI = {
   priceFreeUnit: ['/ 永久', '/ forever'],
   priceFreeSub: ['先用着，喜欢再升级', 'Use it free. Upgrade if you love it.'],
   priceFreeFeatures: [
-    ['10 个核心人生决策测评', '两条路的 1/3/5 年轨迹画像', '5 步行动建议清单', '本地浏览器结果保存'],
-    ['10 core life-decision assessments', '1/3/5-year trajectory of both paths', '5-step action plan', 'Local browser save']
+    ['10 个核心人生决策测评', '方向判定 + 倾向强度评分', '最影响你结果的 3 个回答', '本地浏览器结果保存'],
+    ['10 core life-decision assessments', 'Direction call + lean score', 'The 3 answers that shaped your result', 'Local browser save']
   ],
   priceFreeCta: ['免费开始', 'Start free'],
   pricePopular: ['最受欢迎', 'Most popular'],
-  priceProTag: ['专业版', 'Pro'],
-  priceProPrice: ['¥39', '$6'],
-  priceProUnit: ['/ 月，年付 ¥299', '/ month · $49 / yr'],
-  priceProSub: ['为认真做选择的人准备 · 正在打磨中', 'For serious decision-makers · In development'],
-  priceProBadge: ['内测开发中', 'Currently in beta'],
-  priceProFeatures: [
-    ['免费版全部功能', 'AI 个性化深度分析（自由输入你的具体情况）', '决策日记 + 6 个月回访提醒', '邀请伴侣 / 朋友一起测同一决策', '专业版每年赠送 1 次 1 对 1 决策导师', '解锁未来所有新增决策专题'],
-    ['Everything in Free', 'AI-personalized deep analysis (input your real situation)', 'Decision journal + 6-month follow-up', 'Invite partner / friend to take the same one', '1 free 1-on-1 with a decision coach per year', 'All future assessments unlocked']
+  priceSingleTag: ['单个测评', 'Single report'],
+  priceSinglePrice: ['$2.99', '$2.99'],
+  priceSingleUnit: ['一次付费', 'one-time'],
+  priceSingleSub: ['只解锁你正在纠结的这一个', 'Unlock just the one you\'re stuck on'],
+  priceSingleFeatures: [
+    ['该测评的完整报告', '两条路的 1/3/5 年轨迹画像', '30 天可执行行动清单', '永久访问'],
+    ['Full report for that assessment', '1/3/5-year trajectory of both paths', 'Your 30-day action plan', 'Yours forever']
   ],
-  priceProCta: ['加入 Pro 等待名单 →', 'Join the Pro waitlist →'],
-  priceNote: ['不满意 14 天内无理由退款 · 数据加密 · 不向第三方分享', '14-day money-back · Encrypted · Never shared'],
+  priceSingleCta: ['解锁单个 →', 'Unlock one →'],
+  priceProTag: ['完整报告', 'Full Reports'],
+  priceProPrice: ['$4.99', '$4.99'],
+  priceProUnit: ['一次付费 · 全部 10 个 · 永久', 'one-time · all 10 · forever'],
+  priceProSub: ['比单个只多 $2，覆盖全部 10 个 + 未来新增', 'Just $2 more than a single — all 10 + every future one'],
+  priceProBadge: ['最受欢迎', 'Most popular'],
+  priceProFeatures: [
+    ['免费版全部功能', '两条路的 1/3/5 年轨迹画像', '30 天可执行行动清单', '覆盖全部 10 个测评 + 未来新增专题', '支持打印 / 保存 PDF 与伴侣分享'],
+    ['Everything in Free', '1/3/5-year trajectory of both paths', 'Your 30-day action plan', 'All 10 assessments + every future one', 'Print / save as PDF to share with a partner']
+  ],
+  priceProCta: ['解锁全部报告 →', 'Unlock all reports →'],
+  priceNote: ['免费版数据只存在你的浏览器本地，不上传不分享 · 想要 AI 深度分析和决策日记？<a href="https://tally.so/r/yPoAOx?source=pro-waitlist" target="_blank" rel="noopener" class="link-underline">加入 Pro 等待名单</a>', 'Free-tier data stays in your browser, never uploaded or shared · Want AI deep analysis &amp; a decision journal? <a href="https://tally.so/r/yPoAOx?source=pro-waitlist" target="_blank" rel="noopener" class="link-underline">Join the Pro waitlist</a>'],
 
   // faq
   faqEyebrow: ['FAQ', 'FAQ'],
@@ -325,16 +291,16 @@ const UI = {
   faqs: [
     [['这个测评准吗？', '我们不卖「准」——我们卖「视角」。一个静态测评无法预测你的人生。但它能帮你把脑子里反复打转的几个因素拆开看，让你的决策不再只靠情绪。这是它最大的价值。'],
      ['和 MBTI / 16P 有什么本质不同？', 'MBTI 输出的是「你是什么类型的人」（一个标签），我们输出的是「你下一步应该往哪走」（一个决策依据）。前者是关于过去和身份，后者是关于未来和行动。'],
-     ['我的数据安全吗？', '免费版的答题数据只存在你的浏览器本地，我们不上传不存储。专业版加密存储，仅用于你的个人回看，不向任何第三方分享。'],
-     ['一定要付费吗？', '不需要。10 个核心测评全部永久免费，已经能解决 90% 的需求。专业版是为那些想做更深入分析、需要长期决策追踪的用户准备的。'],
+     ['我的数据安全吗？', '免费版的答题数据只存在你的浏览器本地，我们不上传不存储。专业版（开发中）上线后将采用加密存储，仅用于你的个人回看，不向任何第三方分享。'],
+     ['一定要付费吗？', '不需要。所有测评免费做，免费就能看到你的方向判定和最影响结果的回答。完整报告（两条路的 1/3/5 年轨迹 + 30 天行动清单）需要一次性付费 $4.99，解锁后全部 10 个测评永久可用。'],
      ['反复测会得到不同结果吗？', '会，而且这是个特性不是 bug。你今天和半年后是不一样的人，你的处境也变了。我们鼓励你每 6 个月回来重测一次。'],
-     ['我能把结果分享给伴侣 / 朋友吗？', '可以。免费版支持打印结果。专业版支持邀请伴侣同步答题（比如一起测「要不要二胎」），看看你们的画像差异在哪。']],
+     ['我能把结果分享给伴侣 / 朋友吗？', '可以。免费版支持打印结果。专业版（开发中）将支持邀请伴侣同步答题（比如一起测「要不要二胎」），看看你们的画像差异在哪。']],
     [['Is this accurate?', 'We don\'t sell "accuracy" — we sell "perspective." No static assessment can predict your life. But it can untangle the factors swirling in your head so your decisions are not driven by emotion alone. That\'s the real value.'],
      ['How is this different from MBTI / 16Personalities?', 'MBTI tells you what type of person you are (a label). We tell you where to go next (decision intelligence). The first is about identity. The second is about action.'],
-     ['Is my data safe?', 'Free-tier answers stay in your browser locally — we don\'t upload or store them. Pro is encrypted, used only for your personal review, never shared with third parties.'],
-     ['Do I have to pay?', 'No. All 10 core assessments are permanently free, and they solve 90% of needs. Pro is for users who want deeper AI analysis and long-term decision tracking.'],
+     ['Is my data safe?', 'Free-tier answers stay in your browser locally — we don\'t upload or store them. Pro (in development) will use encrypted storage, only for your personal review, never shared with third parties.'],
+     ['Do I have to pay?', 'No. Every assessment is free to take, and you\'ll see your direction call and the answers that shaped it at no cost. The full report — 1/3/5-year trajectories of both paths plus a 30-day action plan — is a one-time $4.99 unlock covering all 10 assessments, forever.'],
      ['Will retaking give different results?', 'Yes — and that\'s a feature, not a bug. You today and you in 6 months are different people in different situations. We encourage retaking every 6 months.'],
-     ['Can I share results with a partner / friend?', 'Yes. Free supports printing. Pro lets you invite a partner to take the same assessment in sync (e.g., "Second child") so you can see where your profiles diverge.']],
+     ['Can I share results with a partner / friend?', 'Yes. Free supports printing. Pro (in development) will let you invite a partner to take the same assessment in sync (e.g., "Second child") so you can see where your profiles diverge.']],
   ],
 
   // final cta
@@ -348,7 +314,7 @@ const UI = {
   footerAbout: ['关于我们', 'About'],
   footerBlog: ['博客 · 决策研究', 'Blog · Decision research'],
   footerPrivacy: ['隐私政策', 'Privacy'],
-  footerContact: ['联系：hello@crossroads.app', 'Contact: hello@crossroads.app'],
+  footerContact: ['<a href="https://tally.so/r/yPoAOx?source=footer" target="_blank" rel="noopener" class="link-underline">联系与反馈</a>', '<a href="https://tally.so/r/yPoAOx?source=footer" target="_blank" rel="noopener" class="link-underline">Contact &amp; feedback</a>'],
   footerCopy: ['© 2026 岔路口 Crossroads · 研究预览版', '© 2026 Crossroads · Research preview'],
   footerSlogan: ['用心做选择 · 不被选择推着走', 'Choose deliberately. Don\'t drift.'],
 
@@ -393,14 +359,6 @@ const UI = {
 // ============================================================
 // TESTIMONIALS
 // ============================================================
-const testimonials = [
-  { n: ['林', 'L'], name: ['林女士', 'Linda'], age: '34', dec: ['要不要二胎', 'Second child'], q: ['看完两条 5 年后的轨迹画像，我和先生第一次心平气和地谈完了这件事。最后我们选择了不要。', 'Reading the 5-year trajectories of both paths, my husband and I had our first calm conversation about it. We decided no.'], color: '#e11d48' },
-  { n: ['J', 'J'], name: ['阿杰', 'Jay'], age: '28', dec: ['跳槽 vs 留下', 'Change jobs'], q: ['最影响你结果的 3 个回答——这一栏一下让我看清自己一直回避的真问题：不是公司不好，是我没准备好承担更多。', 'The "top 3 answers that shaped your result" section made me see what I was avoiding: it\'s not the company — I wasn\'t ready for more.'], color: '#0891b2' },
-  { n: ['M', 'M'], name: ['M', 'M'], age: '31', dec: ['留京 vs 回家', 'Big city vs home'], q: ['我以为我在做工作选择，做完才发现我在逃避一段关系。这是我做过最戳的"测评"。', 'I thought I was making a career choice. Turned out I was avoiding a relationship. Most piercing assessment I\'ve taken.'], color: '#059669' },
-  { n: ['W', 'W'], name: ['Wendy', 'Wendy'], age: '26', dec: ['读研 vs 工作', 'Grad school vs job'], q: ['本来打算读研。做完意识到我只是怕找工作。决定先工作 2 年再说。', 'I planned to go to grad school. After this I realized I was just scared of job hunting. Going to work first.'], color: '#4f46e5' },
-  { n: ['陈', 'D'], name: ['陈先生', 'David'], age: '37', dec: ['创业 vs 找工作', 'Startup vs job'], q: ['38 岁，我以为该 all in 创业。这个测评说我应该先打地基。后来确实是这样。', 'At 38 I thought I should go all-in on a startup. This said: lay the groundwork first. Turned out to be right.'], color: '#b45309' },
-  { n: ['S', 'S'], name: ['Sara', 'Sara'], age: '29', dec: ['和前任复合', 'Get back with ex'], q: ['它没替我决定，但它让我看清了：我想要的是熟悉感，不是 ta。', 'It didn\'t decide for me. But it made me see clearly: I wanted the familiarity, not him.'], color: '#7c3aed' },
-];
 
 const problemQuotes = [
   [['凌晨 3 点了，我还在反复刷招聘软件。', '32 岁 · 产品经理'], ['It\'s 3am and I\'m still refreshing job listings.', '32 · Product Manager']],
@@ -1041,12 +999,123 @@ const colorMap = {
 // ============================================================
 // STATE + ROUTING + LANGUAGE
 // ============================================================
-let state = { lang: 'zh', route: 'landing', testId: null, current: 0, answers: {} };
-
-// load saved language
-try { const saved = localStorage.getItem('crossroads-lang'); if (saved) state.lang = saved; } catch (e) {}
+let state = { lang: 'en', route: 'landing', testId: null, current: 0, answers: {} };
+try {
+  const savedLang = localStorage.getItem('crossroads-lang');
+  if (savedLang === 'zh' || savedLang === 'en') state.lang = savedLang;
+  else if ((navigator.language || '').toLowerCase().startsWith('zh')) state.lang = 'zh';
+} catch (e) {}
 
 const app = document.getElementById('app');
+
+// ============================================================
+// FUNNEL TRACKING (Microsoft Clarity custom events)
+// ============================================================
+function track(name) { try { if (window.clarity) window.clarity('event', name); } catch (e) {} }
+
+// ============================================================
+// PAYWALL — pay-per-unlock via Gumroad (single $2.99 / all-10 $4.99)
+// Setup: create TWO Gumroad products, enable "Generate license keys" on both,
+// then replace the url + id placeholders below.
+// Optional: set each product's "Redirect after purchase" to this site to enable auto-unlock.
+// ============================================================
+const PAYWALL = {
+  enabled: true,
+  products: {
+    all:    { url: 'https://xinaliu.gumroad.com/l/crossroads-all',    id: 'pwboqk',    price: ['$4.99', '$4.99'] },
+    single: { url: 'https://xinaliu.gumroad.com/l/crossroads-one', id: 'fyklsu', price: ['$2.99', '$2.99'] },
+  },
+};
+
+function isUnlocked(testId) {
+  if (!PAYWALL.enabled) return true;
+  try {
+    if (localStorage.getItem('cr-unlocked')) return true;
+    const tid = testId || state.testId;
+    if (tid && localStorage.getItem('cr-unlocked-' + tid)) return true;
+  } catch (e) {}
+  return false;
+}
+
+const GUMROAD_KEY_RE = /^[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}$/i;
+
+async function verifyKey(key) {
+  // Returns 'all' | 'single' | null. Tries the all-10 product first, then single.
+  for (const scope of ['all', 'single']) {
+    try {
+      const body = new URLSearchParams({ product_id: PAYWALL.products[scope].id, license_key: key, increment_uses_count: 'true' });
+      const res = await fetch('https://api.gumroad.com/v2/licenses/verify', { method: 'POST', body });
+      const data = await res.json();
+      if (data.success && !(data.purchase && data.purchase.refunded)) return scope;
+    } catch (e) {
+      // Network/CORS fallback: accept Gumroad-format keys as all-access
+      return GUMROAD_KEY_RE.test(key) ? 'all' : null;
+    }
+  }
+  return null;
+}
+
+function applyUnlock(scope, key, testId) {
+  try {
+    if (scope === 'all') localStorage.setItem('cr-unlocked', key);
+    else localStorage.setItem('cr-unlocked-' + (testId || state.testId), key);
+  } catch (e) {}
+  track('unlock_success');
+}
+
+async function submitKey(inputId) {
+  const el = document.getElementById(inputId);
+  const key = (el && el.value || '').trim();
+  if (!key) return;
+  const btn = document.getElementById(inputId + '-btn');
+  if (btn) btn.textContent = '…';
+  const scope = await verifyKey(key);
+  if (scope) { applyUnlock(scope, key); render(); }
+  else {
+    if (btn) btn.textContent = state.lang === 'en' ? 'Unlock' : '解锁';
+    alert(state.lang === 'en' ? 'Key not valid. Check your Gumroad receipt email, or contact us via the feedback form.' : 'Key 无效。请检查 Gumroad 收据邮件，或通过反馈表单联系我们。');
+  }
+}
+
+// kept for the pricing section "already purchased" entry point
+async function enterLicenseKey() {
+  const msg = state.lang === 'en' ? 'Paste the license key from your Gumroad receipt email:' : '请粘贴 Gumroad 收据邮件里的 License Key：';
+  const key = (window.prompt(msg) || '').trim();
+  if (!key) return;
+  const scope = await verifyKey(key);
+  if (scope) { applyUnlock(scope, key); render(); }
+  else alert(state.lang === 'en' ? 'Key not valid.' : 'Key 无效。');
+}
+
+let gateSeq = 0;
+function gate(html, c) {
+  if (isUnlocked()) return html;
+  const kid = 'key-input-' + (++gateSeq);
+  return `
+    <div class="relative mb-5" style="border-radius: 18px; overflow: hidden;">
+      <div style="filter: blur(7px); opacity: 0.5; pointer-events: none; user-select: none;" aria-hidden="true">${html}</div>
+      <div class="absolute inset-0 flex items-center justify-center p-6" style="background: linear-gradient(180deg, rgba(250,247,242,0.6) 0%, rgba(250,247,242,0.94) 65%);">
+        <div class="text-center" style="max-width: 380px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="${c.main}" stroke-width="2" style="margin: 0 auto 8px;"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <div class="font-display text-lg mb-1">${L(UI.payTitle)}</div>
+          <p class="text-xs text-[var(--muted)] leading-relaxed mb-2">${L(UI.payDesc)}</p>
+          <ul class="text-left text-xs space-y-1.5 mb-4" style="display: inline-block;">
+            ${L(UI.payItems).map(it => `<li class="flex gap-2"><span class="flex-shrink-0" style="color: ${c.main};">✓</span><span>${it}</span></li>`).join('')}
+          </ul>
+          <div class="flex flex-col gap-2 items-stretch">
+            <a href="${PAYWALL.products.all.url}" target="_blank" rel="noopener" onclick="track('unlock_click_all')" class="btn-primary justify-center" style="text-decoration: none; font-size: 14px; padding: 11px 22px;">${L(UI.payCtaAll)} · ${L(PAYWALL.products.all.price)}</a>
+            <a href="${PAYWALL.products.single.url}" target="_blank" rel="noopener" onclick="track('unlock_click_single')" class="btn-secondary justify-center" style="text-decoration: none; font-size: 13px; padding: 9px 18px;">${L(UI.payCtaSingle)} · ${L(PAYWALL.products.single.price)}</a>
+          </div>
+          <div class="text-xs text-[var(--muted)] mt-3">${L(UI.payTrust)}</div>
+          <div class="flex gap-2 mt-4">
+            <input id="${kid}" type="text" placeholder="${L(UI.payKeyPlaceholder)}" class="flex-1 text-xs px-3 py-2 rounded-full" style="border: 1px solid var(--line); background: white; min-width: 0;" onkeydown="if(event.key==='Enter')submitKey('${kid}')">
+            <button id="${kid}-btn" onclick="submitKey('${kid}')" class="text-xs px-4 py-2 rounded-full" style="background: var(--ink); color: var(--cream);">${state.lang === 'en' ? 'Unlock' : '解锁'}</button>
+          </div>
+          <div class="text-xs text-[var(--muted)] mt-2" style="opacity: 0.75;">${L(UI.payKeyHint)}</div>
+        </div>
+      </div>
+    </div>`;
+}
 
 function setLang(lang) {
   state.lang = lang;
@@ -1079,6 +1148,12 @@ function go(route, testId) {
   state.route = route;
   if (testId !== undefined) state.testId = testId;
   if (route === 'intro' || route === 'quiz') { state.current = 0; state.answers = {}; }
+  if (route === 'quiz') track('quiz_start');
+  // keep URL shareable / SEO-friendly
+  try {
+    if ((route === 'quiz' || route === 'intro') && state.testId) history.replaceState(null, '', '#t=' + state.testId);
+    else if (route === 'landing') history.replaceState(null, '', location.pathname + location.search);
+  } catch (e) {}
   window.scrollTo({ top: 0, behavior: 'smooth' });
   render();
 }
@@ -1177,11 +1252,6 @@ function renderLanding() {
             <button onclick="scrollToId('decisions')" class="btn-primary" style="background: var(--cream); color: var(--ink);">${L(UI.heroCtaPrimary)}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
             <button onclick="scrollToId('how')" class="btn-secondary" style="border-color: rgba(250,247,242,0.4); color: var(--cream);">${L(UI.heroCtaSecondary)}</button>
-          </div>
-          <div class="grid grid-cols-3 gap-6 max-w-xl pt-8 border-t border-[rgba(250,247,242,0.15)]">
-            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">12,847</div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN1)}</div></div>
-            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">84<span class="text-xl text-[rgba(250,247,242,0.7)]">%</span></div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN2)}</div></div>
-            <div><div class="font-display text-3xl md:text-4xl text-[var(--cream)] stat-num">2.3</div><div class="text-xs text-[rgba(250,247,242,0.55)] mt-1 tracking-wider">${L(UI.statN3)}</div></div>
           </div>
         </div>
       </div>
@@ -1315,26 +1385,6 @@ function renderLanding() {
       </div>
     </section>
 
-    <section class="py-20 md:py-28 bg-[var(--cream-2)]">
-      <div class="max-w-5xl mx-auto px-5 md:px-8">
-        <div class="text-center mb-14">
-          <div class="eyebrow mb-3">${L(UI.testEyebrow)}</div>
-          <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.testTitle)}</h2>
-        </div>
-        <div class="grid md:grid-cols-3 gap-5">
-          ${testimonials.map(t => `
-            <div class="card p-7">
-              <div class="flex items-center gap-3 mb-5">
-                <div class="avatar" style="background: ${t.color};">${L(t.n)}</div>
-                <div><div class="font-medium text-sm">${L(t.name)}<span class="text-[var(--muted)] font-normal">, ${t.age}</span></div><div class="text-xs text-[var(--muted)]">${L(UI.testTook)} · ${L(t.dec)}</div></div>
-              </div>
-              <p class="text-sm leading-relaxed text-[var(--ink-soft)]">"${L(t.q)}"</p>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </section>
-
     <!-- ========== FOUNDER NOTE ========== -->
     <section class="py-20 md:py-28 relative overflow-hidden">
       <!-- Decorative background quote mark -->
@@ -1415,7 +1465,7 @@ function renderLanding() {
           <div class="eyebrow mb-3">${L(UI.priceEyebrow)}</div>
           <h2 class="font-display text-3xl md:text-5xl leading-tight">${L(UI.priceTitle)}</h2>
         </div>
-        <div class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
           <div class="card p-8">
             <div class="text-xs tracking-wider text-[var(--muted)] mb-3">${L(UI.priceFreeTag)}</div>
             <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceFreePrice)}</span><span class="text-[var(--muted)]">${L(UI.priceFreeUnit)}</span></div>
@@ -1423,13 +1473,21 @@ function renderLanding() {
             <ul class="space-y-3 text-sm mb-8">${priceFreeFeatures.map(f => `<li class="flex gap-2"><span class="check flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
             <button onclick="scrollToId('decisions')" class="btn-secondary w-full justify-center">${L(UI.priceFreeCta)}</button>
           </div>
+          <div class="card p-8">
+            <div class="text-xs tracking-wider text-[var(--muted)] mb-3">${L(UI.priceSingleTag)}</div>
+            <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceSinglePrice)}</span><span class="text-[var(--muted)]">${L(UI.priceSingleUnit)}</span></div>
+            <p class="text-sm text-[var(--muted)] mb-7">${L(UI.priceSingleSub)}</p>
+            <ul class="space-y-3 text-sm mb-8">${L(UI.priceSingleFeatures).map(f => `<li class="flex gap-2"><span class="check flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
+            <a href="${PAYWALL.products.single.url}" target="_blank" rel="noopener" onclick="track('unlock_click_single')" class="btn-secondary w-full justify-center" style="text-decoration: none;">${L(UI.priceSingleCta)}</a>
+          </div>
           <div class="card p-8 relative" style="background: var(--ink); border-color: var(--ink); color: var(--cream);">
             <div class="absolute top-4 right-4 px-3 py-1 text-xs rounded-full" style="background: var(--accent); color: white;">${L(UI.priceProBadge)}</div>
             <div class="text-xs tracking-wider mb-3" style="color: var(--accent-soft);">${L(UI.priceProTag)}</div>
             <div class="flex items-baseline gap-2 mb-2"><span class="font-display text-4xl">${L(UI.priceProPrice)}</span><span style="color: rgba(250,247,242,0.6);">${L(UI.priceProUnit)}</span></div>
             <p class="text-sm mb-7" style="color: rgba(250,247,242,0.7);">${L(UI.priceProSub)}</p>
             <ul class="space-y-3 text-sm mb-8">${priceProFeatures.map(f => `<li class="flex gap-2"><span style="color: #fde68a;" class="flex-shrink-0">✓</span><span>${f}</span></li>`).join('')}</ul>
-            <a href="https://tally.so/r/yPoAOx?source=pro-waitlist" target="_blank" rel="noopener" class="btn-primary w-full justify-center" style="background: var(--cream); color: var(--ink); text-decoration: none;">${L(UI.priceProCta)}</a>
+            <a href="${PAYWALL.products.all.url}" target="_blank" rel="noopener" onclick="track('unlock_click_all')" class="btn-primary w-full justify-center" style="background: var(--cream); color: var(--ink); text-decoration: none;">${L(UI.priceProCta)}</a>
+            <div class="text-center mt-3"><button onclick="enterLicenseKey()" class="link-underline text-xs" style="color: rgba(250,247,242,0.6);">${L(UI.payHaveKey)}</button></div>
           </div>
         </div>
         <p class="text-center text-[var(--muted)] text-sm mt-8">${L(UI.priceNote)}</p>
@@ -1535,6 +1593,7 @@ function renderQuiz() {
         </div>
         <div class="h-1 bg-[var(--line)] rounded-full overflow-hidden"><div class="progress-bar h-full rounded-full" style="width: ${progress}%; background: ${c.main};"></div></div>
       </div>
+      ${(getPendingInvite() && getPendingInvite().testId === t.id) ? `<div class="card p-4 mb-8 text-sm flex gap-3 items-start" style="background: ${c.bg}; border-color: ${c.border};"><span style="font-size: 16px;">👋</span><span style="color: ${c.text};">${L(UI.inviteBanner)}</span></div>` : ''}
       <h2 class="font-display text-2xl md:text-3xl leading-snug mb-8">${L(q.q)}</h2>
       <div class="space-y-3 mb-10">
         ${q.opts.map((opt) => `<button onclick="pickOption(${opt[1]})" class="option-btn ${selected !== undefined && selected === opt[1] ? 'selected' : ''}"><span class="dot"></span><span>${L(opt[0])}</span></button>`).join('')}
@@ -1546,13 +1605,127 @@ function renderQuiz() {
         ${selected !== undefined ? `<button onclick="nextQ()" class="btn-primary">${state.current === total - 1 ? L(UI.quizFinish) : L(UI.quizNext)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>` : '<div></div>'}
       </div>
+      <div class="flex items-center gap-2 mt-12 text-xs text-[var(--muted)]" style="opacity: 0.85;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span>${L(UI.quizPrivacy)}</span>
+      </div>
     </div>
   `;
 }
 
 function pickOption(score) { state.answers[state.current] = score; render(); }
-function nextQ() { const t = tests[state.testId]; if (state.current < t.questions.length - 1) { state.current++; render(); } else { state.route = 'result'; window.scrollTo({ top: 0, behavior: 'smooth' }); render(); } }
+function nextQ() { const t = tests[state.testId]; if (state.current < t.questions.length - 1) { state.current++; render(); } else { track('quiz_complete'); state.route = 'result'; window.scrollTo({ top: 0, behavior: 'smooth' }); render(); } }
 function prevQ() { if (state.current > 0) { state.current--; render(); } }
+
+// ============================================================
+// ACTION PLAN CHECKLIST (persisted locally)
+// ============================================================
+function toggleStep(tid, i, checked) {
+  try {
+    const arr = JSON.parse(localStorage.getItem('cr-steps-' + tid) || '[]');
+    arr[i] = !!checked;
+    localStorage.setItem('cr-steps-' + tid, JSON.stringify(arr));
+  } catch (e) {}
+  track('step_checked');
+  render();
+}
+
+// ============================================================
+// PARTNER INVITE LINK (answers encoded in URL — no backend)
+// ============================================================
+function copyInviteLink(btn) {
+  const t = tests[state.testId];
+  if (!t) return;
+  const digits = t.questions.map((q, i) => (state.answers[i] === undefined ? 2 : state.answers[i] + 2)).join('');
+  const url = location.origin + location.pathname + '?invite=' + t.id + '.' + digits;
+  const done = () => {
+    track('invite_sent');
+    if (btn) { const old = btn.textContent; btn.textContent = L(UI.resInviteCopied); setTimeout(() => { btn.textContent = old; }, 2500); }
+  };
+  const manual = () => { window.prompt(state.lang === 'en' ? 'Copy this link and send it:' : '复制这个链接发给 TA：', url); done(); };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, manual);
+    else manual();
+  } catch (e) { manual(); }
+}
+
+// ============================================================
+// SHARE CARD (canvas-rendered PNG, no private details)
+// ============================================================
+function cardWrapText(x, text, px, py, maxW, lineH, maxLines) {
+  const chars = String(text).split('');
+  let line = '', lines = 0;
+  for (let i = 0; i < chars.length; i++) {
+    const test = line + chars[i];
+    if (x.measureText(test).width > maxW && line) {
+      x.fillText(line, px, py); py += lineH; lines++;
+      if (maxLines && lines >= maxLines - 1) { line = chars.slice(i).join(''); break; }
+      line = chars[i] === ' ' ? '' : chars[i];
+    } else line = test;
+  }
+  if (line) {
+    while (x.measureText(line).width > maxW && line.length > 1) line = line.slice(0, -1);
+    x.fillText(line, px, py); py += lineH;
+  }
+  return py;
+}
+
+async function shareResultCard() {
+  track('share_click');
+  const t = tests[state.testId];
+  if (!t) return;
+  const c = colorMap[t.color];
+  const total = Object.values(state.answers).reduce((a, b) => a + b, 0);
+  const profile = t.profiles.find(p => total >= p.min) || t.profiles[t.profiles.length - 1];
+  const maxScore = t.questions.length * 2;
+  const pct = (total + maxScore) / (maxScore * 2);
+
+  const W = 1080, H = 1080;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const x = cv.getContext('2d');
+  const serif = '"Source Serif Pro", "Noto Sans SC", serif';
+  const sans = 'Inter, "Noto Sans SC", sans-serif';
+
+  x.fillStyle = '#faf7f2'; x.fillRect(0, 0, W, H);
+  x.fillStyle = c.main; x.fillRect(0, 0, W, 16);
+  x.fillStyle = '#78706a'; x.font = '500 30px ' + sans;
+  x.fillText('CROSSROADS · 岔路口', 80, 120);
+
+  x.fillStyle = '#78706a'; x.font = '400 34px ' + sans;
+  x.fillText((state.lang === 'en' ? 'I took: ' : '我测了：') + L(t.title), 80, 230);
+
+  x.fillStyle = '#1a1612'; x.font = '900 76px ' + serif;
+  let y = cardWrapText(x, L(profile.tag), 80, 340, W - 160, 92, 3);
+
+  x.fillStyle = '#2a2520'; x.font = '400 38px ' + sans;
+  y = cardWrapText(x, L(profile.headline), 80, y + 60, W - 160, 54, 3);
+
+  // lean bar
+  const by = Math.max(y + 90, 700);
+  x.fillStyle = '#e8e1d4'; x.beginPath(); x.roundRect(80, by, W - 160, 18, 9); x.fill();
+  x.fillStyle = c.main; x.beginPath();
+  x.arc(80 + (W - 160) * pct, by + 9, 26, 0, Math.PI * 2); x.fill();
+  x.fillStyle = '#ffffff'; x.beginPath();
+  x.arc(80 + (W - 160) * pct, by + 9, 12, 0, Math.PI * 2); x.fill();
+  x.fillStyle = '#78706a'; x.font = '500 28px ' + sans;
+  x.fillText(L(t.pathB), 80, by + 70);
+  x.textAlign = 'right'; x.fillText(L(t.pathA), W - 80, by + 70); x.textAlign = 'left';
+
+  x.fillStyle = '#1a1612'; x.font = '600 32px ' + sans;
+  x.fillText(state.lang === 'en' ? 'What would yours say?' : '你的会是什么结果？', 80, H - 120);
+  x.fillStyle = c.main; x.font = '500 30px ' + sans;
+  x.fillText('xinaliu2134.github.io/crossroads', 80, H - 70);
+
+  const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+  if (!blob) return;
+  const file = new File([blob], 'crossroads-result.png', { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: 'Crossroads' }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'crossroads-result.png'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
 
 // ============================================================
 // RESULT
@@ -1587,6 +1760,96 @@ function renderResult() {
     localStorage.setItem('cr-history', JSON.stringify(filtered.slice(0, 20)));
   } catch (e) {}
 
+  if (!isUnlocked()) track('paywall_view');
+
+  // Weakest link: the answer pulling hardest against the user's direction
+  const weakest = (() => {
+    const entries = Object.entries(state.answers).map(([idx, score]) => ({ idx: parseInt(idx), score }));
+    if (!entries.length) return null;
+    entries.sort((a, b) => total >= 0 ? a.score - b.score : b.score - a.score);
+    const w = entries[0];
+    if ((total >= 0 && w.score >= 1) || (total < 0 && w.score <= -1)) return null;
+    return w;
+  })();
+
+  // Partner comparison (free): invite answers decoded from the URL earlier
+  const cmpInv = (() => { const inv = getPendingInvite(); return (inv && inv.testId === t.id) ? inv : null; })();
+
+  // Action-plan progress (persisted locally)
+  const stepsDone = (() => { try { return JSON.parse(localStorage.getItem('cr-steps-' + t.id) || '[]'); } catch (e) { return []; } })();
+
+  const pathCol = (path, lean, rows) => `
+          <div class="rounded-2xl p-5" style="background: ${lean ? c.bg : '#f8f5ef'}; border: 1px solid ${lean ? c.border : 'var(--line)'};">
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-sm font-bold tracking-wider" style="color: ${lean ? c.text : 'var(--muted)'};">${L(path)}</div>
+              ${lean ? `<div class="text-xs px-2 py-0.5 rounded-full" style="background: ${c.main}; color: white;">${L(UI.resYourDir)}</div>` : ''}
+            </div>
+            <div class="space-y-3 text-sm leading-relaxed">
+              ${rows.map(r => `<div><span class="font-display text-xs" style="color: ${lean ? c.text : 'var(--muted)'};">${L(r[0])}</span><br/>${L(r[1])}</div>`).join('')}
+            </div>
+          </div>`;
+
+  const trajCard = `
+      <div class="card p-6 md:p-7 mb-5">
+        <div class="mb-5"><h3 class="font-display text-xl mb-1">${L(UI.resTrajTitle)}</h3><p class="text-xs text-[var(--muted)]">${L(UI.resTrajSub)}</p></div>
+        <div class="grid md:grid-cols-2 gap-4">
+          ${pathCol(t.pathA, leanA, [[UI.resYr1, t.trajectory.A.y1], [UI.resYr3, t.trajectory.A.y3], [UI.resYr5, t.trajectory.A.y5]])}
+          ${pathCol(t.pathB, leanB, [[UI.resYr1, t.trajectory.B.y1], [UI.resYr3, t.trajectory.B.y3], [UI.resYr5, t.trajectory.B.y5]])}
+        </div>
+      </div>`;
+
+  const weakestEcho = weakest ? (() => {
+    const q = t.questions[weakest.idx];
+    const opt = q.opts.find(o => o[1] === weakest.score);
+    return `<div class="rounded-xl p-4 mb-5 text-sm" style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);">
+      <div class="text-xs tracking-wider mb-1.5" style="color: ${c.soft};">${L(UI.resWeakSpot)}</div>
+      ${L(UI.resYouSaid)}「${opt ? L(opt[0]) : ''}」— ${L(UI.resWeakSpotNote)}</div>`;
+  })() : '';
+
+  const stepsCard = `
+      <div class="rounded-3xl p-6 md:p-8 mb-5" style="background: var(--ink); color: var(--cream);">
+        <div class="text-xs tracking-wider mb-4" style="color: ${c.soft};">${L(UI.resNextTitle)}</div>
+        ${weakestEcho}
+        <ol class="space-y-4">
+          ${profile.steps.map((s, i) => `<li class="flex gap-4 items-start">
+            <input type="checkbox" id="step-${i}" ${stepsDone[i] ? 'checked' : ''} onchange="toggleStep('${t.id}', ${i}, this.checked)" style="width: 18px; height: 18px; margin-top: 2px; accent-color: ${c.main}; flex-shrink: 0; cursor: pointer;">
+            <label for="step-${i}" class="text-sm leading-relaxed cursor-pointer" style="${stepsDone[i] ? 'opacity: 0.5; text-decoration: line-through;' : ''}">${L(s)}</label>
+          </li>`).join('')}
+        </ol>
+      </div>`;
+
+  const cmpCard = cmpInv ? (() => {
+    track('compare_view');
+    const theirTotal = cmpInv.answers.reduce((a, b) => a + b, 0);
+    const theirPct = ((theirTotal + maxScore) / (maxScore * 2)) * 100;
+    const gaps = cmpInv.answers.map((sc, i) => ({ i, mine: state.answers[i] === undefined ? 0 : state.answers[i], theirs: sc }))
+      .map(g => ({ ...g, gap: Math.abs(g.mine - g.theirs) }))
+      .sort((a, b) => b.gap - a.gap).filter(g => g.gap >= 2).slice(0, 3);
+    return `
+      <div class="card p-6 md:p-7 mb-5" style="border-color: ${c.border};">
+        <h3 class="font-display text-xl mb-1">${L(UI.cmpTitle)}</h3>
+        <p class="text-xs text-[var(--muted)] mb-5">${L(UI.cmpNote)}</p>
+        <div class="flex justify-between text-xs text-[var(--muted)] mb-3 tracking-wider"><span>${L(t.pathB)}</span><span>${L(t.pathA)}</span></div>
+        <div class="relative h-3 rounded-full mb-3" style="background: linear-gradient(to right, #e8e1d4 0%, #f5f1e8 50%, ${c.bg} 100%);">
+          <div class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full" style="background: var(--ink); border: 2.5px solid white; left: calc(${overallPct}% - 10px);"></div>
+          <div class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full" style="background: ${c.main}; border: 2.5px solid white; left: calc(${theirPct}% - 10px);"></div>
+        </div>
+        <div class="flex gap-5 text-xs text-[var(--muted)] mb-5">
+          <span><span class="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style="background: var(--ink);"></span>${L(UI.cmpYou)} ${total > 0 ? '+' : ''}${total}</span>
+          <span><span class="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style="background: ${c.main};"></span>${L(UI.cmpThem)} ${theirTotal > 0 ? '+' : ''}${theirTotal}</span>
+        </div>
+        ${gaps.length ? `<div class="text-sm font-medium mb-3">${L(UI.cmpGaps)}</div><ol class="space-y-3">${gaps.map(g => {
+          const q = t.questions[g.i];
+          const mo = q.opts.find(o => o[1] === g.mine); const to = q.opts.find(o => o[1] === g.theirs);
+          return `<li class="border-l-2 pl-4 text-sm" style="border-color: ${c.main};">
+            <div class="text-xs text-[var(--muted)] mb-1">${L(q.q)}</div>
+            <div>${L(UI.cmpYou)}: ${mo ? L(mo[0]) : '—'}</div>
+            <div style="color: ${c.text};">${L(UI.cmpThem)}: ${to ? L(to[0]) : '—'}</div>
+          </li>`;
+        }).join('')}</ol>` : `<div class="text-sm text-[var(--muted)]">${L(UI.cmpSame)}</div>`}
+      </div>`;
+  })() : '';
+
   app.innerHTML = `
     <div class="max-w-3xl mx-auto px-5 md:px-8 py-10 md:py-16 fade-in">
       <button onclick="go('landing')" class="mb-8 inline-flex items-center gap-2 text-sm text-[var(--muted)] hover:text-[var(--ink)] transition">
@@ -1609,33 +1872,7 @@ function renderResult() {
         </div>
       </div>
 
-      <div class="card p-6 md:p-7 mb-5">
-        <div class="mb-5"><h3 class="font-display text-xl mb-1">${L(UI.resTrajTitle)}</h3><p class="text-xs text-[var(--muted)]">${L(UI.resTrajSub)}</p></div>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="rounded-2xl p-5" style="background: ${leanA ? c.bg : '#f8f5ef'}; border: 1px solid ${leanA ? c.border : 'var(--line)'};">
-            <div class="flex items-center justify-between mb-4">
-              <div class="text-sm font-bold tracking-wider" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(t.pathA)}</div>
-              ${leanA ? `<div class="text-xs px-2 py-0.5 rounded-full" style="background: ${c.main}; color: white;">${L(UI.resYourDir)}</div>` : ''}
-            </div>
-            <div class="space-y-3 text-sm leading-relaxed">
-              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr1)}</span><br/>${L(t.trajectory.A.y1)}</div>
-              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr3)}</span><br/>${L(t.trajectory.A.y3)}</div>
-              <div><span class="font-display text-xs" style="color: ${leanA ? c.text : 'var(--muted)'};">${L(UI.resYr5)}</span><br/>${L(t.trajectory.A.y5)}</div>
-            </div>
-          </div>
-          <div class="rounded-2xl p-5" style="background: ${leanB ? c.bg : '#f8f5ef'}; border: 1px solid ${leanB ? c.border : 'var(--line)'};">
-            <div class="flex items-center justify-between mb-4">
-              <div class="text-sm font-bold tracking-wider" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(t.pathB)}</div>
-              ${leanB ? `<div class="text-xs px-2 py-0.5 rounded-full" style="background: ${c.main}; color: white;">${L(UI.resYourDir)}</div>` : ''}
-            </div>
-            <div class="space-y-3 text-sm leading-relaxed">
-              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr1)}</span><br/>${L(t.trajectory.B.y1)}</div>
-              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr3)}</span><br/>${L(t.trajectory.B.y3)}</div>
-              <div><span class="font-display text-xs" style="color: ${leanB ? c.text : 'var(--muted)'};">${L(UI.resYr5)}</span><br/>${L(t.trajectory.B.y5)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      ${gate(trajCard, c)}
 
       ${topTilts.length > 0 ? `
       <div class="card p-6 md:p-7 mb-5">
@@ -1656,14 +1893,21 @@ function renderResult() {
         </ol>
       </div>` : ''}
 
-      <div class="rounded-3xl p-6 md:p-8 mb-5" style="background: var(--ink); color: var(--cream);">
-        <div class="text-xs tracking-wider mb-4" style="color: ${c.soft};">${L(UI.resNextTitle)}</div>
-        <ol class="space-y-4">
-          ${profile.steps.map((s, i) => `<li class="flex gap-4">
-            <span class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-display" style="background: ${c.main}; color: white;">${i + 1}</span>
-            <span class="text-sm leading-relaxed pt-1">${L(s)}</span>
-          </li>`).join('')}
-        </ol>
+      ${cmpCard}
+
+      ${gate(stepsCard, c)}
+
+      <div class="card p-6 md:p-7 mb-5" style="border-style: dashed;">
+        <div class="flex gap-4 items-start">
+          <div class="flex items-center justify-center font-display flex-shrink-0" style="width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--cream); font-size: 16px;">N</div>
+          <div><h3 class="font-display text-base mb-1">${L(UI.resMethodTitle)}</h3><p class="text-xs text-[var(--muted)] leading-relaxed">${L(UI.resMethodBody)}</p></div>
+        </div>
+      </div>
+
+      <div class="card p-6 md:p-7 mb-5">
+        <h3 class="font-display text-lg mb-2">${L(UI.resEmailTitle)}</h3>
+        <p class="text-sm text-[var(--muted)] leading-relaxed mb-4">${L(UI.resEmailDesc)}</p>
+        <a href="https://tally.so/r/VLxLgl?test=${t.id}&tag=${encodeURIComponent(Array.isArray(profile.tag) ? profile.tag[1] : profile.tag)}" target="_blank" rel="noopener" onclick="track('email_click')" class="btn-secondary" style="text-decoration: none; font-size: 14px; padding: 10px 20px;">${L(UI.resEmailCta)}</a>
       </div>
 
       <div class="card p-6 md:p-7 mb-5" style="background: linear-gradient(135deg, ${c.soft} 0%, var(--cream) 100%); border-color: ${c.border};">
@@ -1688,6 +1932,8 @@ function renderResult() {
       </div>
 
       <div class="flex flex-wrap gap-3">
+        <button onclick="shareResultCard()" class="btn-primary">${L(UI.resShareCard)}</button>
+        <button onclick="copyInviteLink(this)" class="btn-secondary">${L(UI.resInvite)}</button>
         <button onclick="go('quiz', '${t.id}')" class="btn-secondary">${L(UI.resRetake)}</button>
         <button onclick="go('landing')" class="btn-secondary">${L(UI.resOther)}</button>
         <button onclick="window.print()" class="btn-secondary">${L(UI.resPrint)}</button>
@@ -1700,7 +1946,58 @@ function renderResult() {
   `;
 }
 
-render();
+// ============================================================
+// INIT FROM URL — purchase auto-unlock, partner invites, deep links
+// ============================================================
+function getPendingInvite() {
+  try {
+    const inv = JSON.parse(localStorage.getItem('cr-invite') || 'null');
+    if (inv && inv.testId && tests[inv.testId] && Array.isArray(inv.answers)) return inv;
+  } catch (e) {}
+  return null;
+}
+
+(async function initFromUrl() {
+  let deferredRender = false;
+  try {
+    const params = new URLSearchParams(location.search);
+
+    // 1) Auto-unlock after Gumroad purchase redirect: ?key=LICENSE_KEY
+    const key = (params.get('key') || '').trim();
+    if (key) {
+      deferredRender = true;
+      const scope = await verifyKey(key);
+      if (scope) applyUnlock(scope, key);
+    }
+
+    // 2) Partner invite: ?invite=<testId>.<answer digits, score+2 each>
+    const inv = params.get('invite');
+    if (inv) {
+      const dot = inv.indexOf('.');
+      const tid = dot > 0 ? inv.slice(0, dot) : '';
+      const digits = dot > 0 ? inv.slice(dot + 1) : '';
+      if (tests[tid] && /^[0-4]+$/.test(digits) && digits.length === tests[tid].questions.length) {
+        const answers = digits.split('').map(d => parseInt(d, 10) - 2);
+        try { localStorage.setItem('cr-invite', JSON.stringify({ testId: tid, answers: answers, ts: Date.now() })); } catch (e) {}
+        track('invite_opened');
+        state.route = 'quiz'; state.testId = tid; state.current = 0; state.answers = {};
+      }
+    }
+
+    if (key || inv) history.replaceState(null, '', location.pathname + (state.testId ? '#t=' + state.testId : ''));
+  } catch (e) {}
+
+  // 3) Hash deep link from SEO pages / shares: #t=startup
+  try {
+    const m = (location.hash || '').match(/#t=([a-z]+)/i);
+    if (m && tests[m[1]] && state.route === 'landing') {
+      state.route = 'quiz'; state.testId = m[1]; state.current = 0; state.answers = {};
+      track('quiz_start');
+    }
+  } catch (e) {}
+
+  render();
+})();
 </script>
 </body>
 </html>
